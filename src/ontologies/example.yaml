@@ -1,0 +1,45 @@
+# inspired by https://github.com/geneontology/obographs
+nodes:
+- id: emotion
+  lbl: Emotion
+- id: pain
+  lbl: Pain
+- id: pleasure
+  lbl: Pleasure
+
+- id: action
+  lbl: Action
+- id: eat
+  lbl: Eat
+- id: nothing
+  lbl: Do nothing
+
+- id: event
+  lbl: Event
+- id: cactus
+  lbl: cactus
+- id: apple
+  lbl: Apple
+
+edges:
+- subj: pain
+  pred: is_a
+  obj: emotion
+- subj: pleasure
+  pred: is_a
+  obj: emotion
+
+- subj: eat
+  pred: is_a
+  obj: action
+- subj: nothing
+  pred: is_a
+  obj: action
+
+- subj: cactus
+  pred: is_a
+  obj: event
+
+- subj: apple
+  pred: is_a
+  obj: event
