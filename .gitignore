@@ -2,3 +2,5 @@ output/
 venv/
 lib/
 .idea/
+__pycache__/
+*.pyc
