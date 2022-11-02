@@ -1,0 +1,100 @@
+---
+events:
+- id: fruit
+  is_a:
+  - fruit
+  description: You encounter an {}.
+  probability: 10
+  actions:
+  - action_id: eat
+    consequences:
+    - description: Ugh.. the {} is rotten.
+      probability: 1
+      action_links: []
+      event_links: []
+      stats_changes: []
+      next: rotten_fruit
+      next_period: false
+    - description: The {} looks really delicious.
+      probability: 19
+      action_links:
+      - pleasure
+      event_links:
+      - pleasure
+      stats_changes:
+      - "+food"
+      next:
+      next_period: true
+  - action_id: nothing
+    consequences:
+    - description: Do nothing.
+      probability: 1
+      action_links: []
+      event_links: []
+      stats_changes: []
+      next:
+      next_period: true
+- id: rotten_fruit
+  is_a:
+  - fruit
+  description: Ugh.. the {} is rotten.
+  probability: 0
+  actions:
+  - action_id: eat
+    consequences:
+    - description: You ate it and it's really disgusting!
+      probability: 1
+      action_links:
+      - disgust
+      event_links:
+      - disgust
+      stats_changes:
+      - "+food"
+      next:
+      next_period: true
+  - action_id: nothing
+    consequences:
+    - description: Do nothing.
+      probability: 1
+      action_links: []
+      event_links: []
+      stats_changes: []
+      next:
+      next_period: true
+- id: cactus
+  is_a:
+  - cactus
+  description: Encounter {}.
+  probability: 1
+  actions:
+  - action_id: eat
+    consequences:
+    - description: The {} stings you
+      probability: 19
+      action_links:
+      - pain
+      event_links:
+      - pain
+      stats_changes:
+      - "-life"
+      next:
+      next_period: true
+    - description: You are lucky the {} didn't sting you
+      probability: 1
+      action_links:
+      - pleasure
+      event_links:
+      - pleasure
+      stats_changes:
+      - "+food"
+      next:
+      next_period: true
+  - action_id: nothing
+    consequences:
+    - description: Do nothing.
+      probability: 1
+      action_links: []
+      event_links: []
+      stats_changes: []
+      next:
+      next_period: true
