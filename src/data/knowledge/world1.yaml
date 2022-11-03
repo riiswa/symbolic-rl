@@ -1,75 +1,100 @@
 nodes:
-- id: world
-  lbl: World
+  - id: world
+    lbl: World
 
-- id: flora
-  lbl: Flora
-- id: fruit
-  lbl: Fruit
-- id: cactus
-  lbl: Cactus
-- id: apple
-  lbl: Apple
-- id: banana
-  lbl: Banana
+  - id: flora
+    lbl: Flora
+  - id: fruit
+    lbl: Fruit
+  - id: thorn
+    lbl: Thorny plant
+  - id: cactus
+    lbl: Cactus
+  - id: rose
+    lbl: Rose
+  - id: apple
+    lbl: Apple
+  - id: banana
+    lbl: Banana
+  - id: rock
+    lbl: Rock
+  - id: mineral
+    lbl: Mineral
+  - id: medicine
+    lbl: Medicinal plant
 
-- id: emotion
-  lbl: Emotion
-- id: pleasure
-  lbl: Pleasure
-- id: pain
-  lbl: Pain
-- id: disgust
-  lbl: Disgust
-- id: satiety
-  lbl: Satiety
+  - id: emotion
+    lbl: Emotion
+  - id: pleasure
+    lbl: Pleasure
+  - id: pain
+    lbl: Pain
+  - id: disgust
+    lbl: Disgust
+  - id: satiety
+    lbl: Satiety
 
-- id: action
-  lbl: Action
-- id: eat
-  lbl: Eat
-- id: nothing
-  lbl: Do nothing
+  - id: action
+    lbl: Action
+  - id: eat
+    lbl: Eat
+  - id: nothing
+    lbl: Do nothing
 
 edges:
-- subj: flora
-  pred: in
-  obj: world
-- subj: fruit
-  pred: is_a
-  obj: flora
-- subj: apple
-  pred: is_a
-  obj: fruit
-- subj: banana
-  pred: is_a
-  obj: fruit
-- subj: cactus
-  pred: is_a
-  obj: flora
+  - subj: mineral
+    pred: in
+    obj: world
+  - subj: flora
+    pred: in
+    obj: world
+  - subj: rock
+    pred: is_a
+    obj: mineral
+  - subj: fruit
+    pred: is_a
+    obj: flora
+  - subj: thorn
+    pred: is_a
+    obj: flora
+  - subj: medicine
+    pred: is_a
+    obj: flora
+  - subj: apple
+    pred: is_a
+    obj: fruit
+  - subj: banana
+    pred: is_a
+    obj: fruit
+  - subj: cactus
+    pred: is_a
+    obj: thorn
+  - subj: rose
+    pred: is_a
+    obj: thorn
 
-- subj: emotion
-  pred: in
-  obj: world
-- subj: pleasure
-  pred: is_a
-  obj: emotion
-- subj: pain
-  pred: is_a
-  obj: emotion
-- subj: disgust
-  pred: is_a
-  obj: emotion
-- subj: satiety
-  pred: is_a
-  obj: emotion
+  - subj: emotion
+    pred: in
+    obj: world
+  - subj: pleasure
+    pred: is_a
+    obj: emotion
+  - subj: pain
+    pred: is_a
+    obj: emotion
+  - subj: disgust
+    pred: is_a
+    obj: emotion
+  - subj: satiety
+    pred: is_a
+    obj: emotion
 
-- subj: action
-  pred: in
-  obj: world
-- subj: eat
-  pred: is_a
-  obj: action
-- subj: nothing
-  pred: is_a
-  obj: action
+  - subj: action
+    pred: in
+    obj: world
+  - subj: eat
+    pred: is_a
+    obj: action
+  - subj: nothing
+    pred: is_a
+    obj: action
