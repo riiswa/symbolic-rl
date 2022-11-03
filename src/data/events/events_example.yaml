@@ -19,8 +19,10 @@ events:
       probability: 19
       action_links:
       - pleasure
+      - satiety
       event_links:
       - pleasure
+      - satiety
       stats_changes:
       - "+food"
       next:
@@ -46,8 +48,10 @@ events:
       probability: 1
       action_links:
       - disgust
+      - satiety
       event_links:
       - disgust
+      - satiety
       stats_changes:
       - "+food"
       next:
@@ -73,8 +77,10 @@ events:
       probability: 19
       action_links:
       - pain
+      - satiety
       event_links:
       - pain
+      - satiety
       stats_changes:
       - "-life"
       next:

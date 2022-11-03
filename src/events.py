@@ -1,16 +1,15 @@
-# To use this code, make sure you
-#
-#     import json
-#
-# and then, to convert JSON from a string, do
-#
-#     result = welcome5_from_dict(json.loads(json_string))
-
 from typing import List, Optional, Any, TypeVar, Callable, Type, cast
 
+from knowledge import Knowledge, KnowledgeNode
 from utils import merge_yaml_data
+import itertools
+from random import choice
 
 T = TypeVar("T")
+
+
+def flatten(l: List[List[T]]) -> List[T]:
+    return list(itertools.chain(*l))
 
 
 def from_str(x: Any) -> str:
@@ -92,6 +91,14 @@ class Consequence:
                         "next_period": from_bool(self.next_period)}
         return result
 
+    def run(self, action: KnowledgeNode, events: List[KnowledgeNode], knowledge: Knowledge) -> Optional[str]:
+        for link in self.action_links:
+            action.link(knowledge[link], "gives")
+        for link in self.event_links:
+            for event in events:
+                event.link(knowledge[link], "gives")
+        return self.next
+
 
 class Action:
     action_id: str
@@ -144,6 +151,20 @@ class Event:
                         "actions": from_list(lambda x: to_class(Action, x), self.actions)}
         return result
 
+    def node_is_concerned(self, node: KnowledgeNode) -> bool:
+        link_to_check = [('is_a', is_a) for is_a in self.is_a]
+        node_links = [(link.link_name, link.to.id) for link in node.links]
+        return all(link in node_links for link in link_to_check)
+
+    def run(self, knowledge: Knowledge, policy: Callable[[List[Action]], Action]) -> Optional[str]:
+        action = policy(self.actions)
+        action_knowledge = knowledge[action.action_id]
+        concerned_nodes = [node for node in knowledge.nodes.values() if self.node_is_concerned(node)]
+        if not concerned_nodes and len(self.is_a) == 1:
+            concerned_nodes.append(knowledge[self.is_a[0]])
+        consequence = choice(flatten([[consequence] * consequence.probability for consequence in action.consequences]))
+        return consequence.run(action_knowledge, concerned_nodes, knowledge)
+
 
 class Events:
     events: List[Event]
@@ -161,13 +182,15 @@ class Events:
     def from_paths(filepaths: List[str]) -> 'Events':
         return Events.from_dict(merge_yaml_data(filepaths))
 
+    def get_random_event(self):
+        return choice(flatten([[event] * event.probability for event in self.events]))
+
     def to_dict(self) -> dict:
         result: dict = {"events": from_list(lambda x: to_class(Event, x), self.events)}
         return result
 
 
 if __name__ == "__main__":
-    import yaml
     from sys import argv
 
     if len(argv) > 1:

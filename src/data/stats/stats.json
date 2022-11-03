@@ -1,0 +1,30 @@
+{
+  "stats": [
+    {
+      "label": "food",
+      "base": 5,
+      "min": 0,
+      "max": 10,
+      "deadly": true,
+      "effects": [
+        {
+          "node": "satiety",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "label": "life",
+      "base": 5,
+      "min": 0,
+      "max": 10,
+      "deadly": true,
+      "effects": [
+        {
+          "node": "pain",
+          "value": -1
+        }
+      ]
+    }
+  ]
+}

@@ -5,6 +5,7 @@ from typing import Dict, List
 from urllib.parse import urljoin
 from urllib.request import pathname2url
 from pyvis.network import Network
+import numpy as np
 
 from utils import merge_yaml_data
 
@@ -49,11 +50,22 @@ class Knowledge:
             self[edge["subj"]].link(self[edge["obj"]], edge["pred"])
 
     def show(self):
+        def rescale(array, new_min, new_max):
+            if len(array) == 0:
+                return []
+            elif len(array) == 1:
+                return [1]
+            minimum, maximum = np.min(array), np.max(array)
+            m = (new_max - new_min) / (maximum - minimum)
+            b = new_min - m * minimum
+            return m * array + b
         net = Network(directed=True)
         for node in self.nodes.values():
             net.add_node(node.id, label=node.label, shape='box')
-            for link in node.links:
-                net.add_edge(node.id, link.to.id, label=link.link_name, weight=link.weight)
+        for node in self.nodes.values():
+            weights = rescale(np.array([link.weight for link in node.links]), 1, 5)
+            for link, w in zip(node.links, weights):
+                net.add_edge(node.id, link.to.id, label=link.link_name, width=w, title=str(link.weight), color='black' if link.link_name != 'gives' else 'blue')
 
         net.toggle_physics(True)
 

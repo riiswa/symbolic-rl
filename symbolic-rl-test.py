@@ -41,6 +41,7 @@ def increase_link_weight(_from, to, link_name):
 	else:
 		links.append(Link(_from, to, link_name, 1))
 
+
 def interact_with_env(event, action):
 	global hunger_rate, lives
 	if event == Cactus:
