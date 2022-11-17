@@ -54,8 +54,11 @@ class Consequence:
     def run(self, action: KnowledgeNode, events: List[KnowledgeNode], knowledge: Knowledge) -> Optional[str]:
         for link in self.action_links:
             l, w = extract_weight(link)
+
             if w is None:
                 w = 1
+            else:
+                w = int(w[1:-1])
             for _ in range(w):
                 action.link(knowledge[l], "gives")
 
@@ -64,7 +67,9 @@ class Consequence:
                 l, w = extract_weight(link)
                 if w is None:
                     w = 1
-                for _ in range(w):
+                else:
+                    w = int(w[1:-1])
+                for _ in range(int(w)):
                     event.link(knowledge[l], "gives")
         return self.next
 

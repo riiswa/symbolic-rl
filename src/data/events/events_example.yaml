@@ -137,7 +137,7 @@ events:
     is_a:
       - medicine
     description: Encounter {}.
-    probability: 1
+    probability: 3
     actions:
       - action_id: eat
         consequences:
