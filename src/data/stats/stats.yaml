@@ -1,9 +1,9 @@
 ---
 stats:
 - label: food
-  base: 5
+  base: 50
   min: 0
-  max: 10
+  max: 100
   deadly: true
   increase_period: 0
   decrease_period: 2
@@ -11,9 +11,9 @@ stats:
   - node: satiety
     value: 1
 - label: life
-  base: 5
+  base: 50
   min: 0
-  max: 10
+  max: 100
   deadly: true
   increase_period: 0
   decrease_period: 0

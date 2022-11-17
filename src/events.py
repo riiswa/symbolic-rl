@@ -4,6 +4,11 @@ from knowledge import Knowledge, KnowledgeNode
 from utils import *
 import itertools
 from random import choice
+import re
+
+
+def extract_weight(element: str):
+    return re.search(r"([a-zA-Z]*)(\(\d*\))?", element).groups()
 
 
 class Consequence:
@@ -48,10 +53,19 @@ class Consequence:
 
     def run(self, action: KnowledgeNode, events: List[KnowledgeNode], knowledge: Knowledge) -> Optional[str]:
         for link in self.action_links:
-            action.link(knowledge[link], "gives")
+            l, w = extract_weight(link)
+            if w is None:
+                w = 1
+            for _ in range(w):
+                action.link(knowledge[l], "gives")
+
         for link in self.event_links:
             for event in events:
-                event.link(knowledge[link], "gives")
+                l, w = extract_weight(link)
+                if w is None:
+                    w = 1
+                for _ in range(w):
+                    event.link(knowledge[l], "gives")
         return self.next
 
 
