@@ -144,13 +144,11 @@ events:
           - description: The {} heal you but is very sour
             probability: 1
             action_links:
-              - disgust
-              - disgust
-              - disgust
+              - disgust(3)
+              - relief(5)
             event_links:
-              - disgust
-              - disgust
-              - disgust
+              - disgust(3)
+              - relief(5)
             stats_changes:
               - "+life"
             next:

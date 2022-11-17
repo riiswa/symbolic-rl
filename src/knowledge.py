@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 from urllib.request import pathname2url
 from pyvis.network import Network
 import numpy as np
+
 from stats import Stat
 from utils import merge_yaml_data
 

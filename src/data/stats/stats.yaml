@@ -1,5 +1,6 @@
 ---
 stats:
+<<<<<<< HEAD
 - label: food
   base: 50
   min: 0
@@ -20,3 +21,45 @@ stats:
   effects:
   - node: pain
     value: -1
+=======
+  - label: food
+    base: 5
+    min: 0
+    max: 10
+    deadly: true
+    increase_period: 0
+    decrease_period: 2
+    effects:
+      - node: satiety
+        value: 1
+  - label: life
+    base: 5
+    min: 0
+    max: 10
+    deadly: true
+    increase_period: 0
+    decrease_period: 0
+    effects:
+      - node: pain
+        value: -1
+  - label: pleasure
+    base: 5
+    min: 0
+    max: 10
+    deadly: false
+    increase_period: 0
+    decrease_period: 2
+    effects:
+      - node: pleasure
+        value: 1
+  - label: disgust
+    base: 5
+    min: 0
+    max: 10
+    deadly: false
+    increase_period: 0
+    decrease_period: 1
+    effects:
+      - node: disgust
+        value: 1
+>>>>>>> 046f86b (Add sensation and stats)

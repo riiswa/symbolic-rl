@@ -27,12 +27,17 @@ nodes:
     lbl: Emotion
   - id: pleasure
     lbl: Pleasure
-  - id: pain
-    lbl: Pain
   - id: disgust
     lbl: Disgust
+
+  - id: sensation
+    lbl: Sensation
+  - id: pain
+    lbl: Pain
   - id: satiety
     lbl: Satiety
+  - id: relief
+    lbl: Relief
 
   - id: action
     lbl: Action
@@ -81,13 +86,16 @@ edges:
     obj: emotion
   - subj: pain
     pred: is_a
-    obj: emotion
+    obj: sensation
   - subj: disgust
     pred: is_a
     obj: emotion
   - subj: satiety
     pred: is_a
-    obj: emotion
+    obj: sensation
+  - subj: relief
+    pred: is_a
+    obj: sensation
 
   - subj: action
     pred: in
