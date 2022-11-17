@@ -1,3 +1,6 @@
+import math
+import numpy as np
+
 from typing import List
 
 from knowledge import Knowledge
@@ -14,8 +17,51 @@ stats = Stats.from_paths(['data/stats/stats.yaml'])
 knowledge = Knowledge(stats.stats)
 knowledge.from_paths(['data/knowledge/world1.yaml'])
 
-def reward():
-    return
+# Paramètres pour la fonction epsilon 
+A = 0.5
+B = 0.1 
+C =  0.1
+EPISODES =10000
+
+def reward(s,a): 
+    life = stats['life']
+    pleasure = stats['pleasure']
+    disgust = stats['disgust']
+    food = stats['food']
+    #Call event to retrieve all stats changes after interaction between event and actions
+    #change stats with the change retrieved
+    #Update reward with real function
+    reward = life + pleasure - disgust + food
+    return reward
+
+
+def epsilon(time):
+    standardized_time=(time-A*EPISODES)/(B*EPISODES)
+    cosh=np.cosh(math.exp(-standardized_time))
+    epsilon=1.1-(1/cosh+(time*C/EPISODES))
+    return epsilon    
+
+def action_choice(s, time):
+    eps = eps(time)
+    p = np.random()
+    if p < eps : 
+        a = random_policy()
+    else : 
+        a = best_policy()
+
+def random_policy(actions: List[Action]) -> Action:
+    return choice(actions)
+
+### pas encore complet
+#Call actual event
+def best_policy(actions: List[Action]) -> Action:
+    best_reward =  -math.inf
+    for action in actions:
+        reward = reward(s,action)
+        if reward > best_reward :
+            best_reward = reward
+    return choice(actions)
+
 
 def random_policy(actions: List[Action]) -> Action:
     return choice(actions)

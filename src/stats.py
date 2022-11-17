@@ -101,3 +101,6 @@ class Stats:
         result: dict = {}
         result["stats"] = from_list(lambda x: to_class(Stat, x), self.stats)
         return result
+
+    def __getitem__(self, label):
+        return  [s.current_value for s in self.stats if s.label==label][0]
