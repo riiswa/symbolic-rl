@@ -7,6 +7,7 @@ from urllib.request import pathname2url
 from pyvis.network import Network
 import numpy as np
 
+from src.stats import Stat
 from utils import merge_yaml_data
 
 
@@ -17,13 +18,18 @@ class KnowledgeNode:
         link_name: str
         weight: int
 
-    def __init__(self, id: str, label: str):
+    def __init__(self, id: str, label: str, knowledge: "Knowledge"):
         self.id = id
         self.label = label
         self.links: List[KnowledgeNode.Link] = []
         self.weight = 1
+        self.knowledge = knowledge
 
     def link(self, other: "KnowledgeNode", link_name: str):
+        for stat in self.knowledge.stats:
+            for effect in stat.effects:
+                if effect.node == other.id:
+                    stat.update(effect.value)
         may_link = list(filter(lambda link: link.to == other and link.link_name == link_name, self.links))
         if may_link:
             may_link[0].weight += 1
@@ -32,8 +38,9 @@ class KnowledgeNode:
 
 
 class Knowledge:
-    def __init__(self):
+    def __init__(self, stats: List[Stat]):
         self.nodes: Dict[str, KnowledgeNode] = {}
+        self.stats = stats
 
     def add(self, node: KnowledgeNode):
         self.nodes[node.id] = node
@@ -45,7 +52,7 @@ class Knowledge:
         knowledge = merge_yaml_data(filepaths)
 
         for node in knowledge["nodes"]:
-            self.add(KnowledgeNode(node["id"], node["lbl"]))
+            self.add(KnowledgeNode(node["id"], node["lbl"], self))
         for edge in knowledge["edges"]:
             self[edge["subj"]].link(self[edge["obj"]], edge["pred"])
 
@@ -59,13 +66,15 @@ class Knowledge:
             m = (new_max - new_min) / (maximum - minimum)
             b = new_min - m * minimum
             return m * array + b
+
         net = Network(directed=True)
         for node in self.nodes.values():
             net.add_node(node.id, label=node.label, shape='box')
         for node in self.nodes.values():
             weights = rescale(np.array([link.weight for link in node.links]), 1, 5)
             for link, w in zip(node.links, weights):
-                net.add_edge(node.id, link.to.id, label=link.link_name, width=w, title=str(link.weight), color='black' if link.link_name != 'gives' else 'blue')
+                net.add_edge(node.id, link.to.id, label=link.link_name, width=w, title=str(link.weight),
+                             color='black' if link.link_name != 'gives' else 'blue')
 
         net.toggle_physics(True)
 
