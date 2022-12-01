@@ -137,7 +137,6 @@ class Event:
         if not concerned_nodes and len(self.is_a) == 1:
             concerned_nodes.append(knowledge[self.is_a[0]])
         consequence = choice(flatten([[consequence] * consequence.probability for consequence in action.consequences]))
-        print(action.action_id)
         return consequence.run(action_knowledge, concerned_nodes, knowledge)
 
 

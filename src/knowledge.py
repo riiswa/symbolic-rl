@@ -29,6 +29,7 @@ class KnowledgeNode:
         for stat in self.knowledge.stats:
             for effect in stat.effects:
                 if effect.node == other.id:
+                    print("update", stat.label)
                     stat.update(effect.value)
         may_link = list(filter(lambda link: link.to == other and link.link_name == link_name, self.links))
         if may_link:
@@ -41,6 +42,11 @@ class Knowledge:
     def __init__(self, stats: List[Stat]):
         self.nodes: Dict[str, KnowledgeNode] = {}
         self.stats = stats
+
+    def change_stats(self, stats):
+        self.stats = stats
+        for node in self.nodes.values():
+            node.knowledge = self
 
     def add(self, node: KnowledgeNode):
         self.nodes[node.id] = node

@@ -1,5 +1,5 @@
 from utils import *
-
+from copy import deepcopy
 
 class Effect:
     node: str
@@ -86,6 +86,7 @@ class Stats:
 
     def __init__(self, stats: List[Stat]) -> None:
         self.stats = stats
+        self.default = deepcopy(stats)
 
     @staticmethod
     def from_dict(obj: Any) -> 'Stats':
@@ -104,3 +105,6 @@ class Stats:
 
     def __getitem__(self, label):
         return  [s.current_value for s in self.stats if s.label==label][0]
+
+    def reload(self):
+        self.stats = deepcopy(self.default)
