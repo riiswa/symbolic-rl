@@ -29,7 +29,6 @@ class KnowledgeNode:
         for stat in self.knowledge.stats:
             for effect in stat.effects:
                 if effect.node == other.id:
-                    print("update", stat.label)
                     stat.update(effect.value)
         may_link = list(filter(lambda link: link.to == other and link.link_name == link_name, self.links))
         if may_link:
