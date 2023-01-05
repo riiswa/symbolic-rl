@@ -8,10 +8,15 @@ nodes:
     lbl: Fruit
   - id: thorn
     lbl: Thorny plant
+  - id: flower
+    lbl: Flower
+
   - id: cactus
     lbl: Cactus
   - id: rose
     lbl: Rose
+  - id: daisy
+    lbl: Daisy
   - id: apple
     lbl: Apple
   - id: banana
@@ -46,6 +51,29 @@ nodes:
   - id: nothing
     lbl: Do nothing
 
+  - id: spiky
+    lbl: Spiky
+  - id: soft
+    lbl: Soft
+  - id: hard
+    lbl: Hard
+
+  - id: bland
+    lbl: Bland
+  - id: savory
+    lbl: Savory
+  - id: bitter
+    lbl: Bitter
+
+  - id: red
+    lbl: Red
+  - id: green
+    lbl: Green
+  - id: yellow
+    lbl: Yellow
+  - id: gray
+    lbl: Gray
+
 edges:
   - subj: mineral
     pred: in
@@ -62,23 +90,108 @@ edges:
   - subj: thorn
     pred: is_a
     obj: flora
+  - subj: flower
+    pred: is_a
+    obj: flora
+
+  - subj: rock
+    pred: is_a
+    obj: mineral
+  - subj: rock
+    pred: is
+    obj: gray
+  - subj: rock
+    pred: is
+    obj: bland
+  - subj: rock
+    pred: is
+    obj: hard
+
   - subj: medicine
     pred: is_a
     obj: flora
+  - subj: medicine
+    pred: is
+    obj: bitter
+  - subj: medicine
+    pred: is
+    obj: green
+  - subj: medicine
+    pred: is
+    obj: soft
+
   - subj: apple
     pred: is_a
     obj: fruit
+  - subj: apple
+    pred: is
+    obj: savory
+  - subj: apple
+    pred: is
+    obj: soft
+  - subj: apple
+    pred: is
+    obj: red
+
   - subj: banana
     pred: is_a
     obj: fruit
+  - subj: banana
+    pred: is
+    obj: savory
+  - subj: banana
+    pred: is
+    obj: soft
+  - subj: banana
+    pred: is
+    obj: yellow
+
   - subj: cactus
+    pred: is_a
+    obj: thorn
+  - subj: cactus
+    pred: is
+    obj: green
+  - subj: cactus
+    pred: is
+    obj: bland
+  - subj: cactus
+    pred: is
+    obj: spiky
+
+  - subj: rose
     pred: is_a
     obj: thorn
   - subj: rose
     pred: is_a
-    obj: thorn
+    obj: flower
+  - subj: rose
+    pred: is
+    obj: red
+  - subj: rose
+    pred: is
+    obj: bland
+  - subj: rose
+    pred: is
+    obj: spiky
+
+  - subj: daisy
+    pred: is_a
+    obj: flower
+  - subj: daisy
+    pred: is
+    obj: yellow
+  - subj: daisy
+    pred: is
+    obj: bland
+  - subj: daisy
+    pred: is
+    obj: soft
 
   - subj: emotion
+    pred: in
+    obj: world
+  - subj: sensation
     pred: in
     obj: world
   - subj: pleasure
