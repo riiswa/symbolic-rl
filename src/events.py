@@ -129,16 +129,24 @@ class Event:
         link_to_check = [('is_a', is_a) for is_a in self.is_a]
         node_links = [(link.link_name, link.to.id) for link in node.links]
         return all(link in node_links for link in link_to_check)
-
-    def run(self, knowledge: Knowledge, policy: Callable[[List[Action]], Action]) -> Optional[str]:
-        action = policy(self.actions)
-        action_knowledge = knowledge[action.action_id]
+    
+    def random_concerned_node(self, knowledge: Knowledge):
         concerned_nodes = [node for node in knowledge.nodes.values() if self.node_is_concerned(node)]
         if not concerned_nodes and len(self.is_a) == 1:
             concerned_nodes.append(knowledge[self.is_a[0]])
-        consequence = choice(flatten([[consequence] * consequence.probability for consequence in action.consequences]))
-        return consequence.run(action_knowledge, concerned_nodes, knowledge)
+        node = choice(concerned_nodes)
+        return node
 
+    def run(self, knowledge: Knowledge, policy: Callable[[List[Action]], Action], concerned_node: Optional[KnowledgeNode] = None) -> Optional[str]:
+        action = policy(self.actions)
+        action_knowledge = knowledge[action.action_id]
+        consequence = choice(flatten([[consequence] * consequence.probability for consequence in action.consequences]))
+        if concerned_node is None:
+            concerned_nodes = [node for node in knowledge.nodes.values() if self.node_is_concerned(node)]
+            if not concerned_nodes and len(self.is_a) == 1:
+                concerned_nodes.append(knowledge[self.is_a[0]])
+            concerned_node = choice(concerned_nodes)
+        return consequence.run(action_knowledge, [concerned_node], knowledge), action
 
 class Events:
     events: List[Event]
@@ -156,8 +164,10 @@ class Events:
     def from_paths(filepaths: List[str]) -> 'Events':
         return Events.from_dict(merge_yaml_data(filepaths))
 
-    def get_random_event(self):
-        return choice(flatten([[event] * event.probability for event in self.events]))
+    def get_random_event(self, knowledge: Knowledge):
+        event = choice(flatten([[event] * event.probability for event in self.events]))
+        node = event.random_concerned_node(knowledge)
+        return event, node
 
     def to_dict(self) -> dict:
         result: dict = {"events": from_list(lambda x: to_class(Event, x), self.events)}

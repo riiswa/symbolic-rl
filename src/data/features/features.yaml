@@ -1,0 +1,21 @@
+features:
+  - label: green
+    type: color
+  - label: gray
+    type: color
+  - label: yellow
+    type: color
+  - label: red
+    type: color
+  - label: bland
+    type: taste
+  - label: savory
+    type: taste
+  - label: bitter
+    type: taste
+  - label: hard
+    type: texture
+  - label: spiky
+    type: texture
+  - label: soft
+    type: texture

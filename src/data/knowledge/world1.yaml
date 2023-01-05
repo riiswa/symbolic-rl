@@ -2,6 +2,9 @@ nodes:
   - id: world
     lbl: World
 
+  - id: death
+    lbl: Death
+
   - id: flora
     lbl: Flora
   - id: fruit

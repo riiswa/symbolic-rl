@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 from knowledge import Knowledge
 from events import Events, Action
 from stats import Stats
+from features import Features, Feature
 
 from random import choice, random
 from copy import deepcopy
@@ -15,14 +16,17 @@ events = Events.from_paths(['data/events/events_example.yaml'])
 
 stats = Stats.from_paths(['data/stats/stats.yaml'])
 
+features = Features.from_paths(['data/features/features.yaml'])
+
 knowledge = Knowledge(stats.stats)
+
 knowledge.from_paths(['data/knowledge/world1.yaml'])
 
 # Paramètres pour la fonction epsilon 
 A = 0.5
 B = 0.1
 C = 0.1
-EPISODES = 50
+EPISODES = 200
 
 
 def transform_stat_value(value, A, B, C, cst):
@@ -65,12 +69,9 @@ def forecast_reward(event, action: Action):
     for stat in stats_copy.stats:
         stat.label = stat.label + '_copy'
     event.run(knowledge_copy, lambda _: action)
-    # print("for action : ", action.action_id)
     for stat in stats_copy.stats:
         stat.label = stat.label[:-len('_copy')]
     r = reward(stats_copy)
-    # print("reward : ", r)
-    # print("copy ",[stat.current_value for stat in stats_copy.stats])
     return r
 
 
@@ -83,18 +84,18 @@ def epsilon(time):
 
 def action_choice(event, time):
     def ff(actions: List[Action]) -> Action:
-        print("---")
-        print("Encounter with : ", event.id)
+        #print("---")
+        #print("Encounter with : ", event.id)
         eps = epsilon(time)
 
         p = random()
         if p < eps:
-            print("random : ", eps)
+            #print("random : ", eps)
             a = random_policy(actions)
         else:
-            print("best : ", eps)
+            #print("best : ", eps)
             a = best_policy(event, actions)
-        print("Chosen action : ", a.action_id)
+        #print("Chosen action : ", a.action_id)
         return a
 
     return ff
@@ -106,7 +107,6 @@ def best_policy(event, actions: List[Action]) -> Action:
 
 def random_policy(actions: List[Action]) -> Action:
     return choice(actions)
-
 
 knowledge.show()
 
@@ -167,22 +167,46 @@ number_of_death = 0
 reward_list = []
 
 while i < EPISODES:
-    event = \
-        events.get_random_event() if not next_event else list(filter(lambda e: e.id == next_event, events.events))[0]
-    next_event = event.run(knowledge, action_choice(event, i))
+    if not next_event:
+        event, node = events.get_random_event(knowledge)
+    else: 
+        event = list(filter(lambda e: e.id == next_event, events.events))[0]
+        node = event.random_concerned_node(knowledge)
+    next_event, action = event.run(knowledge, action_choice(event, i), node)
+    initial_reward = reward(stats)
+    is_dead = False
     for stat in stats.stats:
         if stat.decrease_period != 0 and i % stat.decrease_period == 0:
             stat.update(-1)
         if stat.increase_period != 0 and i % stat.increase_period == 0:
             stat.update(1)
-
         if stat.deadly and stat.current_value == stat.min:
             stats.reload()
+            is_dead = True
             number_of_death += 1
-    history.add(reward(stats))
+    final_reward = reward(stats)
+    if is_dead:
+        final_reward += 100
+        knowledge.nodes["death"]
+        #action.link(knowledge["death"], "gives")
+        #node.link(knowledge["death"], "gives")
+        is_dead = False
+    reward_change = final_reward - initial_reward
+    concerned_features : List[Feature] = []
+    for link in node.links:
+        if link.link_name == "is":
+            concerned_features.append(features[link.to.id])
+    for concerned_feature in concerned_features:
+        concerned_feature.add_occurence(action.action_id, reward_change)
+    history.add(final_reward)
     i += 1
 
 knowledge.show()
+
+# stats features
+for feature in features.features:
+    print("Label : ", feature.label )
+    print(feature.score)
 
 # stats number of deaths : 
 if number_of_death != 0:
