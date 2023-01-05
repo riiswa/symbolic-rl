@@ -2,6 +2,7 @@ import math
 import numpy as np
 
 from typing import List
+from matplotlib import pyplot as plt 
 
 from knowledge import Knowledge
 from events import Events, Action
@@ -22,7 +23,7 @@ knowledge.from_paths(['data/knowledge/world1.yaml'])
 A = 0.5
 B = 0.1 
 C =  0.1
-EPISODES =1000
+EPISODES =50
 
 def transform_stat_value(value, A , B ,C , cst):
     standardized_value=(value-A*10)/(B*10)
@@ -31,7 +32,7 @@ def transform_stat_value(value, A , B ,C , cst):
     return cst*transformed_value
 
 def real_value_life(stat_value) :
-    real_stat_value = transform_stat_value(stat_value,0.17,0.18,0.1, 10) #varie entre 0 et 10
+    real_stat_value = transform_stat_value(stat_value,0.17,0.18,0.1, 15) #varie entre 0 et 15
     return real_stat_value
 
 def real_value_pleasure(stat_value) :
@@ -43,11 +44,24 @@ def real_value_disgust(stat_value) :
     return real_stat_value
 
 def real_value_food(stat_value) :
-    real_stat_value = transform_stat_value(stat_value,0.17,0.18,0.1, 10) #varie entre 0 et 10
+    real_stat_value = transform_stat_value(stat_value,0.17,0.18,0.1, 18) #varie entre 0 et 18
     return real_stat_value
 
 def reward(stats):
     reward = real_value_life(stats['life']) + real_value_pleasure(stats['pleasure']) + real_value_disgust(stats['disgust']) + real_value_food(stats['food'])
+    print('stat life', stats['life'])
+    print(real_value_life(stats['life']))
+    print('stat pleasure', stats['pleasure'])
+
+    print(real_value_pleasure(stats['pleasure']))
+    print('stat disgust', stats['disgust'])
+
+    print(real_value_disgust(stats['disgust']))
+    print('stat food', stats['food'])
+
+    print(real_value_food(stats['food']))
+    print(reward)
+    print('...')
     return reward
 
 def forecast_reward(event,action:Action): 
@@ -100,7 +114,17 @@ next_event = None
 i = 0
 end = False
 
-while i <= EPISODES:
+
+stats_list = []
+for stat in stats.stats:
+        stats_list.append([])
+
+number_of_death = 0
+reward_list=[]
+
+while i < EPISODES:
+    
+    
     event = \
         events.get_random_event() if not next_event else list(filter(lambda e: e.id == next_event, events.events))[0]
     next_event = event.run(knowledge, action_choice(event, i))
@@ -112,8 +136,60 @@ while i <= EPISODES:
 
         if stat.deadly and stat.current_value == stat.min:
             stats.reload()
+            number_of_death+= 1
     print("stats finale : ", [stat.current_value for stat in stats.stats])
     print("reward finale : ", reward(stats))
+    reward_list.append(reward(stats))
+    for j in range(len(stats.stats)):
+        stats_list[j].append(stats.stats[j].current_value)
     i += 1
 
 knowledge.show()
+
+# stats number of deaths : 
+if number_of_death != 0 :
+    print(f"Number of deaths : {number_of_death}")
+    print(f"Mean survival time : {EPISODES/number_of_death} episodes")
+else : 
+    print('No deaths during the training')
+
+
+stats_names = ['Food', 'Life', 'Pleasure','Disgust']
+x = np.linspace(start=0, stop= EPISODES, num=EPISODES)
+fig = plt.figure()
+for i in range(len(stats.stats)):
+    plt.subplot(2, 2, i+1)
+    plt.ylim(0,10)
+    plt.plot(x, stats_list[i])
+    plt.title(stats_names[i])  
+#plt.show()
+'''
+plt.figure()
+for i in range(len(stats.stats)):
+    plt.plot(x, stats_list[i], label= stats_names[i])
+plt.legend()
+plt.title('Evolution of stats during the time')
+'''
+
+
+plt.figure()
+plt.plot(x,reward_list)
+plt.title("Reward (we try to minimize it)")
+#plt.show()
+
+# Evolution of reward for each stat
+possible_stats=list(range(0,10))
+ylife=[real_value_life(stat) for stat in possible_stats]
+yfood=[real_value_food(stat) for stat in possible_stats]
+ydisgust=[real_value_disgust(stat) for stat in possible_stats]
+ypleasure=[real_value_pleasure(stat) for stat in possible_stats]
+plt.figure()
+plt.plot(possible_stats,ylife, c = 'red', label = 'life', alpha = 0.8)
+plt.plot(possible_stats,yfood, c = 'blue', label = 'food', alpha = 0.8)
+plt.plot(possible_stats,ydisgust, c = 'green', label = 'disgust', alpha = 0.8)
+plt.plot(possible_stats,ypleasure, c = 'yellow', label = 'pleasure', alpha = 0.8)
+plt.legend()
+plt.xlabel('Stat value')
+plt.ylabel('Associated reward')
+plt.title('Reward for each stat according to its value')
+plt.show()
