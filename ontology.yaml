@@ -1,0 +1,398 @@
+- owl_class:
+      Entity:
+          SubClassOf: "owl:Thing"
+
+- owl_class:
+      Organism:
+          SubClassOf: Entity
+
+- multiple_owl_classes:
+  - Flora:
+      SubClassOf: Organism
+  - Fruit:
+      SubClassOf: Flora
+  - Nut:
+      SubClassOf: Fruit
+  - Plant:
+      SubClassOf: Flora
+  - FloweringPlant:
+      SubClassOf: Plant
+  - Fungus:
+      SubClassOf: Flora
+
+- owl_multiple_individuals:
+      names:
+        - cactus
+        - medicinalHerb
+        - grass
+      types:
+          - Plant
+
+- owl_multiple_individuals:
+      names:
+          - rose
+          - sunflower
+      types:
+          - FloweringPlant
+
+- owl_multiple_individuals:
+      names:
+          - apple
+          - banana
+          - citrus
+          - rottenApple
+      types:
+          - Fruit
+
+- owl_multiple_individuals:
+      names:
+          - almond
+          - peanut
+      types:
+          - Nut
+
+- owl_multiple_individuals:
+      names:
+          - truffle
+          - deadCap
+      types:
+          - Fungus
+
+- multiple_owl_classes:
+  - Sense:
+      SubClassOf: "owl:Thing"
+  - ExternalSense:
+      SubClassOf: Sense
+  - InternalSense:
+      SubClassOf: Sense
+
+
+- multiple_owl_classes:
+  - TouchSense:
+      SubClassOf: ExternalSense
+  - Thermal:
+      SubClassOf: TouchSense
+  - Texture:
+      SubClassOf: TouchSense
+  - Pressure:
+      SubClassOf: TouchSense
+  - Wetness:
+      SubClassOf: TouchSense
+
+
+- owl_multiple_individuals:
+      names:
+          - hot
+          - warm
+          - neutralTemperature
+          - cool
+          - cold
+      types:
+          - Thermal
+
+- owl_object_property:
+    has_temperature:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - Thermal
+
+- owl_multiple_individuals:
+      names:
+          - soft
+          - furry
+          - fuzzy
+          - scratchy
+          - rough
+          - sticky
+          - smooth
+          - waxy
+          - spiky
+      types:
+          - Texture
+
+- owl_object_property:
+    has_texture:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - Texture
+
+- owl_multiple_individuals:
+      names:
+          - heavy # Something that human can't lift
+          - light # Something that human can lift without effort
+          - neutralWeight # Something that human can lift with a moderate effort
+      types:
+          - Pressure
+
+- owl_object_property:
+    has_pressure:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - Pressure
+
+- owl_multiple_individuals:
+      names:
+          - dry
+          - neutralWetness
+          - wet
+      types:
+          - Wetness
+
+- owl_object_property:
+    has_wetness:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - Wetness
+
+- owl_class:
+      VisionSense:
+          SubClassOf: ExternalSense
+
+- owl_class:
+      Color:
+          SubClassOf: VisionSense
+
+- owl_multiple_individuals:
+      names:
+        - red
+        - orange
+        - yellow
+        - green
+        - blue
+        - purple
+        - pink
+        - brown
+        - black
+        - white
+        - gray
+        - silver
+        - gold
+      types:
+          - Color
+
+- owl_object_property:
+    has_color:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - Color
+
+- owl_class:
+    Shape:
+      SubClassOf: VisionSense
+
+- owl_multiple_individuals:
+      names:
+        - line
+        - cube
+        - sphere
+        - cylinder
+        - pyramid
+        - square
+        - circle
+        - triangle
+        - complexShape
+      types:
+          - Shape
+
+- owl_object_property:
+    has_shape:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - Shape
+
+- owl_class:
+    Lighting:
+      SubClassOf: VisionSense
+
+- owl_multiple_individuals:
+      names:
+        - noLight
+        - lighted
+      types:
+          - Lighting
+
+
+- owl_object_property:
+    has_light:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - Lighting
+
+- owl_class:
+    HearingSense:
+      SubClassOf: Sense
+
+- owl_multiple_individuals:
+      names:
+        - soundless
+        - quietSound
+        - loud
+        - painfulSound
+      types:
+          - HearingSense
+
+- owl_object_property:
+    has_sound:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - HearingSense
+
+- owl_class:
+    SmellSense:
+      SubClassOf: Sense
+
+- owl_multiple_individuals:
+      names:
+        - goodSmell
+        - odorless
+        - badSmell
+      types:
+          - SmellSense
+
+- owl_object_property:
+    has_smell:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - SmellSense
+
+- owl_class:
+    TasteSense:
+      SubClassOf: Sense
+
+- owl_multiple_individuals:
+      names:
+        - sweet
+        - sour
+        - salty
+        - bitter
+        - umami
+      types:
+          - TasteSense
+
+- owl_object_property:
+    has_taste:
+        Characteristics:
+            - Functional
+            #- InverseFunctional
+
+        Domain:
+            - Entity
+
+        Range:
+            - TasteSense
+
+- property_facts:
+      has_temperature:
+        Facts:
+          - Flora: neutralTemperature
+      has_texture:
+        Facts:
+          - cactus: spiky
+          - medicinalHerb: soft
+          - grass: soft
+          - rose: spiky
+          - sunflower: soft
+          - apple: smooth
+          - banana: waxy
+          - citrus: waxy
+          - rottenApple: soft
+          - Nut: rough
+          - Fungus: soft
+      has_pressure:
+        Facts:
+          - Flora: light
+      has_wetness:
+        Facts:
+          - Plant: neutralWetness
+          - apple: neutralWetness
+          - banana: neutralWetness
+          - citrus: neutralWetness
+          - rottenApple: wet
+          - Nut: dry
+          - Fungus: neutralWetness
+      has_color:
+        Facts:
+          - cactus: green
+          - medicinalHerb: green
+          - grass: green
+          - rose: red
+          - sunflower: yellow
+          - apple: green
+          - banana: yellow
+          - citrus: yellow
+          - rottenApple: green
+          - Nut: brown
+          - truffle: black
+          - deadCap: white
+      has_shape:
+        Facts:
+          - Japanese: Parliaments
+#      has_light:
+#        Facts:
+#          - Ukrainian: tea
+#      has_sound:
+#        Facts:
+#          - Norwegian: house_1
+#      has_smell:
+#        Facts:
+#          - Japanese: Parliaments
+#      has_taste:
+#        Facts:
+#          - Japanese: Parliaments
+
+- different_individuals:
+    - __all__
