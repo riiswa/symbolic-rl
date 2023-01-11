@@ -66,6 +66,25 @@
   - InternalSense:
       SubClassOf: Sense
 
+- owl_class:
+      Distance:
+        SubClassOf: "owl:Thing"
+
+- owl_object_property:
+    hasThing:
+      Domain: Distance
+      Range: "owl:Thing"
+
+- owl_data_property:
+    hasDistanceValue:
+      Domain: Distance
+      Range: float
+      Characteristics:
+        - Functional
+
+- owl_inverse_property:
+    hasDistance:
+        Inverse: hasThing
 
 - multiple_owl_classes:
   - TouchSense:
@@ -90,8 +109,44 @@
       types:
           - Thermal
 
+- owl_multiple_individuals:
+    names:
+        - distance(hot,warm)
+        - distance(hot,neutralTemperature)
+        - distance(hot,cool)
+        - distance(hot,cold)
+
+        - distance(warm,neutralTemperature)
+        - distance(warm,cool)
+        - distance(warm,cold)
+
+        - distance(neutralTemperature,cool)
+        - distance(neutralTemperature,cold)
+
+        - distance(cool,cold)
+    types:
+        - Distance
+
+- property_facts:
+    hasDistanceValue:
+      Facts:
+        - distance(hot,warm): 1
+        - distance(hot,neutralTemperature): 2
+        - distance(hot,cool): 3
+        - distance(hot,cold): 4
+
+        - distance(warm,neutralTemperature): 1
+        - distance(warm,cool): 2
+        - distance(warm,cold): 3
+
+        - distance(neutralTemperature,cool): 1
+        - distance(neutralTemperature,cold): 2
+
+        - distance(cool,cold): 1
+
+
 - owl_object_property:
-    has_temperature:
+    hasTemperature:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -117,7 +172,7 @@
           - Texture
 
 - owl_object_property:
-    has_texture:
+    hasTexture:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -137,7 +192,7 @@
           - Pressure
 
 - owl_object_property:
-    has_pressure:
+    hasPressure:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -157,7 +212,7 @@
           - Wetness
 
 - owl_object_property:
-    has_wetness:
+    hasWetness:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -195,7 +250,7 @@
           - Color
 
 - owl_object_property:
-    has_color:
+    hasColor:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -212,7 +267,6 @@
 
 - owl_multiple_individuals:
       names:
-        - line
         - cube
         - sphere
         - cylinder
@@ -225,7 +279,7 @@
           - Shape
 
 - owl_object_property:
-    has_shape:
+    hasShape:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -249,7 +303,7 @@
 
 
 - owl_object_property:
-    has_light:
+    hasLight:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -262,7 +316,7 @@
 
 - owl_class:
     HearingSense:
-      SubClassOf: Sense
+      SubClassOf: ExternalSense
 
 - owl_multiple_individuals:
       names:
@@ -274,7 +328,7 @@
           - HearingSense
 
 - owl_object_property:
-    has_sound:
+    hasSound:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -287,18 +341,19 @@
 
 - owl_class:
     SmellSense:
-      SubClassOf: Sense
+      SubClassOf: ExternalSense
 
 - owl_multiple_individuals:
       names:
         - goodSmell
+        - neutralSmell
         - odorless
         - badSmell
       types:
           - SmellSense
 
 - owl_object_property:
-    has_smell:
+    hasSmell:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -311,7 +366,7 @@
 
 - owl_class:
     TasteSense:
-      SubClassOf: Sense
+      SubClassOf: ExternalSense
 
 - owl_multiple_individuals:
       names:
@@ -324,7 +379,7 @@
           - TasteSense
 
 - owl_object_property:
-    has_taste:
+    hasTaste:
         Characteristics:
             - Functional
             #- InverseFunctional
@@ -336,10 +391,10 @@
             - TasteSense
 
 - property_facts:
-      has_temperature:
+      hasTemperature:
         Facts:
           - Flora: neutralTemperature
-      has_texture:
+      hasTexture:
         Facts:
           - cactus: spiky
           - medicinalHerb: soft
@@ -352,10 +407,10 @@
           - rottenApple: soft
           - Nut: rough
           - Fungus: soft
-      has_pressure:
+      hasPressure:
         Facts:
           - Flora: light
-      has_wetness:
+      hasWetness:
         Facts:
           - Plant: neutralWetness
           - apple: neutralWetness
@@ -364,7 +419,7 @@
           - rottenApple: wet
           - Nut: dry
           - Fungus: neutralWetness
-      has_color:
+      hasColor:
         Facts:
           - cactus: green
           - medicinalHerb: green
@@ -378,21 +433,38 @@
           - Nut: brown
           - truffle: black
           - deadCap: white
-      has_shape:
+      hasShape:
         Facts:
-          - Japanese: Parliaments
-#      has_light:
-#        Facts:
-#          - Ukrainian: tea
-#      has_sound:
-#        Facts:
-#          - Norwegian: house_1
-#      has_smell:
-#        Facts:
-#          - Japanese: Parliaments
-#      has_taste:
+          - Plant: complexShape
+          - apple: sphere
+          - banana: cylinder
+          - citrus: sphere
+          - rottenApple: sphere
+          - Nut: sphere
+          - Fungus: complexShape
+      hasLight:
+        Facts:
+          - Flora: noLight
+      hasSound:
+        Facts:
+          - Flora: soundless
+      hasSmell:
+        Facts:
+          - cactus: neutralSmell
+          - medicinalHerb: badSmell
+          - grass: neutralSmell
+          - rose: goodSmell
+          - sunflower: neutralSmell
+          - apple: neutralSmell
+          - banana: neutralSmell
+          - citrus: neutralSmell
+          - rottenApple: badSmell
+          - Nut: neutralSmell
+          - truffle: goodSmell
+          - deadCap: neutralSmell
+#      hasTaste:
 #        Facts:
 #          - Japanese: Parliaments
 
-- different_individuals:
-    - __all__
+#- different_individuals:
+#    - __all__

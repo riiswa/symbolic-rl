@@ -8,65 +8,83 @@
 
 <owl:Ontology rdf:about="https://w3id.org/yet/undefined/ontology"/>
 
-<owl:ObjectProperty rdf:about="#has_temperature">
+<owl:ObjectProperty rdf:about="#hasThing">
+  <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:domain rdf:resource="#Distance"/>
+  <owl:inverseOf rdf:resource="#hasDistance"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasDistance">
+  <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:range rdf:resource="#Distance"/>
+  <owl:inverseOf rdf:resource="#hasThing"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasTemperature">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#Thermal"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_texture">
+<owl:ObjectProperty rdf:about="#hasTexture">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#Texture"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_pressure">
+<owl:ObjectProperty rdf:about="#hasPressure">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#Pressure"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_wetness">
+<owl:ObjectProperty rdf:about="#hasWetness">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#Wetness"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_color">
+<owl:ObjectProperty rdf:about="#hasColor">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#Color"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_shape">
+<owl:ObjectProperty rdf:about="#hasShape">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#Shape"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_light">
+<owl:ObjectProperty rdf:about="#hasLight">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#Lighting"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_sound">
+<owl:ObjectProperty rdf:about="#hasSound">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#HearingSense"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_smell">
+<owl:ObjectProperty rdf:about="#hasSmell">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#SmellSense"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:about="#has_taste">
+<owl:ObjectProperty rdf:about="#hasTaste">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   <rdfs:domain rdf:resource="#Entity"/>
   <rdfs:range rdf:resource="#TasteSense"/>
 </owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="#hasDistanceValue">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+  <rdfs:domain rdf:resource="#Distance"/>
+</owl:DatatypeProperty>
 
 <owl:Class rdf:about="#Entity">
   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
@@ -79,14 +97,26 @@
 <owl:Class rdf:about="#Flora">
   <rdfs:subClassOf>
     <owl:Restriction>
+      <owl:hasValue rdf:resource="#soundless"/>
+      <owl:onProperty rdf:resource="#hasSound"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:hasValue rdf:resource="#noLight"/>
+      <owl:onProperty rdf:resource="#hasLight"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
       <owl:hasValue rdf:resource="#light"/>
-      <owl:onProperty rdf:resource="#has_pressure"/>
+      <owl:onProperty rdf:resource="#hasPressure"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:resource="#neutralTemperature"/>
-      <owl:onProperty rdf:resource="#has_temperature"/>
+      <owl:onProperty rdf:resource="#hasTemperature"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="#Organism"/>
@@ -99,20 +129,32 @@
 <owl:Class rdf:about="#Nut">
   <rdfs:subClassOf>
     <owl:Restriction>
+      <owl:hasValue rdf:resource="#neutralSmell"/>
+      <owl:onProperty rdf:resource="#hasSmell"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:hasValue rdf:resource="#sphere"/>
+      <owl:onProperty rdf:resource="#hasShape"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
       <owl:hasValue rdf:resource="#brown"/>
-      <owl:onProperty rdf:resource="#has_color"/>
+      <owl:onProperty rdf:resource="#hasColor"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:resource="#dry"/>
-      <owl:onProperty rdf:resource="#has_wetness"/>
+      <owl:onProperty rdf:resource="#hasWetness"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:resource="#rough"/>
-      <owl:onProperty rdf:resource="#has_texture"/>
+      <owl:onProperty rdf:resource="#hasTexture"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="#Fruit"/>
@@ -121,8 +163,14 @@
 <owl:Class rdf:about="#Plant">
   <rdfs:subClassOf>
     <owl:Restriction>
+      <owl:hasValue rdf:resource="#complexShape"/>
+      <owl:onProperty rdf:resource="#hasShape"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
       <owl:hasValue rdf:resource="#neutralWetness"/>
-      <owl:onProperty rdf:resource="#has_wetness"/>
+      <owl:onProperty rdf:resource="#hasWetness"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="#Flora"/>
@@ -135,14 +183,20 @@
 <owl:Class rdf:about="#Fungus">
   <rdfs:subClassOf>
     <owl:Restriction>
+      <owl:hasValue rdf:resource="#complexShape"/>
+      <owl:onProperty rdf:resource="#hasShape"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
       <owl:hasValue rdf:resource="#neutralWetness"/>
-      <owl:onProperty rdf:resource="#has_wetness"/>
+      <owl:onProperty rdf:resource="#hasWetness"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:resource="#soft"/>
-      <owl:onProperty rdf:resource="#has_texture"/>
+      <owl:onProperty rdf:resource="#hasTexture"/>
     </owl:Restriction>
   </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="#Flora"/>
@@ -158,6 +212,10 @@
 
 <owl:Class rdf:about="#InternalSense">
   <rdfs:subClassOf rdf:resource="#Sense"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Distance">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
 </owl:Class>
 
 <owl:Class rdf:about="#TouchSense">
@@ -197,73 +255,86 @@
 </owl:Class>
 
 <owl:Class rdf:about="#HearingSense">
-  <rdfs:subClassOf rdf:resource="#Sense"/>
+  <rdfs:subClassOf rdf:resource="#ExternalSense"/>
 </owl:Class>
 
 <owl:Class rdf:about="#SmellSense">
-  <rdfs:subClassOf rdf:resource="#Sense"/>
+  <rdfs:subClassOf rdf:resource="#ExternalSense"/>
 </owl:Class>
 
 <owl:Class rdf:about="#TasteSense">
-  <rdfs:subClassOf rdf:resource="#Sense"/>
+  <rdfs:subClassOf rdf:resource="#ExternalSense"/>
 </owl:Class>
 
 <Plant rdf:about="#cactus">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#spiky"/>
-  <has_color rdf:resource="#green"/>
+  <hasTexture rdf:resource="#spiky"/>
+  <hasColor rdf:resource="#green"/>
+  <hasSmell rdf:resource="#neutralSmell"/>
 </Plant>
 
 <Plant rdf:about="#medicinalHerb">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#soft"/>
-  <has_color rdf:resource="#green"/>
+  <hasTexture rdf:resource="#soft"/>
+  <hasColor rdf:resource="#green"/>
+  <hasSmell rdf:resource="#badSmell"/>
 </Plant>
 
 <Plant rdf:about="#grass">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#soft"/>
-  <has_color rdf:resource="#green"/>
+  <hasTexture rdf:resource="#soft"/>
+  <hasColor rdf:resource="#green"/>
+  <hasSmell rdf:resource="#neutralSmell"/>
 </Plant>
 
 <FloweringPlant rdf:about="#rose">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#spiky"/>
-  <has_color rdf:resource="#red"/>
+  <hasTexture rdf:resource="#spiky"/>
+  <hasColor rdf:resource="#red"/>
+  <hasSmell rdf:resource="#goodSmell"/>
 </FloweringPlant>
 
 <FloweringPlant rdf:about="#sunflower">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#soft"/>
-  <has_color rdf:resource="#yellow"/>
+  <hasTexture rdf:resource="#soft"/>
+  <hasColor rdf:resource="#yellow"/>
+  <hasSmell rdf:resource="#neutralSmell"/>
 </FloweringPlant>
 
 <Fruit rdf:about="#apple">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#smooth"/>
-  <has_wetness rdf:resource="#neutralWetness"/>
-  <has_color rdf:resource="#green"/>
+  <hasTexture rdf:resource="#smooth"/>
+  <hasWetness rdf:resource="#neutralWetness"/>
+  <hasColor rdf:resource="#green"/>
+  <hasShape rdf:resource="#sphere"/>
+  <hasSmell rdf:resource="#neutralSmell"/>
 </Fruit>
 
 <Fruit rdf:about="#banana">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#waxy"/>
-  <has_wetness rdf:resource="#neutralWetness"/>
-  <has_color rdf:resource="#yellow"/>
+  <hasTexture rdf:resource="#waxy"/>
+  <hasWetness rdf:resource="#neutralWetness"/>
+  <hasColor rdf:resource="#yellow"/>
+  <hasShape rdf:resource="#cylinder"/>
+  <hasSmell rdf:resource="#neutralSmell"/>
 </Fruit>
 
 <Fruit rdf:about="#citrus">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#waxy"/>
-  <has_wetness rdf:resource="#neutralWetness"/>
-  <has_color rdf:resource="#yellow"/>
+  <hasTexture rdf:resource="#waxy"/>
+  <hasWetness rdf:resource="#neutralWetness"/>
+  <hasColor rdf:resource="#yellow"/>
+  <hasShape rdf:resource="#sphere"/>
+  <hasSmell rdf:resource="#neutralSmell"/>
 </Fruit>
 
 <Fruit rdf:about="#rottenApple">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_texture rdf:resource="#soft"/>
-  <has_wetness rdf:resource="#wet"/>
-  <has_color rdf:resource="#green"/>
+  <hasTexture rdf:resource="#soft"/>
+  <hasWetness rdf:resource="#wet"/>
+  <hasColor rdf:resource="#green"/>
+  <hasShape rdf:resource="#sphere"/>
+  <hasSmell rdf:resource="#badSmell"/>
 </Fruit>
 
 <Nut rdf:about="#almond">
@@ -276,12 +347,14 @@
 
 <Fungus rdf:about="#truffle">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_color rdf:resource="#black"/>
+  <hasColor rdf:resource="#black"/>
+  <hasSmell rdf:resource="#goodSmell"/>
 </Fungus>
 
 <Fungus rdf:about="#deadCap">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <has_color rdf:resource="#white"/>
+  <hasColor rdf:resource="#white"/>
+  <hasSmell rdf:resource="#neutralSmell"/>
 </Fungus>
 
 <Thermal rdf:about="#hot">
@@ -297,7 +370,7 @@
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_temperature"/>
+          <owl:inverseOf rdf:resource="#hasTemperature"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Flora"/>
@@ -314,12 +387,82 @@
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
 </Thermal>
 
+<Distance rdf:about="#distance(hot,warm)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#hot"/>
+  <hasThing rdf:resource="#warm"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(hot,neutralTemperature)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#hot"/>
+  <hasThing rdf:resource="#neutralTemperature"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(hot,cool)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#hot"/>
+  <hasThing rdf:resource="#cool"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(hot,cold)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#hot"/>
+  <hasThing rdf:resource="#cold"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(warm,neutralTemperature)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#warm"/>
+  <hasThing rdf:resource="#neutralTemperature"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(warm,cool)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#warm"/>
+  <hasThing rdf:resource="#cool"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(warm,cold)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#warm"/>
+  <hasThing rdf:resource="#cold"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(neutralTemperature,cool)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#neutralTemperature"/>
+  <hasThing rdf:resource="#cool"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(neutralTemperature,cold)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#neutralTemperature"/>
+  <hasThing rdf:resource="#cold"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hasDistanceValue>
+</Distance>
+
+<Distance rdf:about="#distance(cool,cold)">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  <hasThing rdf:resource="#cool"/>
+  <hasThing rdf:resource="#cold"/>
+  <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hasDistanceValue>
+</Distance>
+
 <Texture rdf:about="#soft">
   <rdf:type>
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_texture"/>
+          <owl:inverseOf rdf:resource="#hasTexture"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Fungus"/>
@@ -345,7 +488,7 @@
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_texture"/>
+          <owl:inverseOf rdf:resource="#hasTexture"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Nut"/>
@@ -379,7 +522,7 @@
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_pressure"/>
+          <owl:inverseOf rdf:resource="#hasPressure"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Flora"/>
@@ -397,7 +540,7 @@
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_wetness"/>
+          <owl:inverseOf rdf:resource="#hasWetness"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Nut"/>
@@ -411,7 +554,7 @@
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_wetness"/>
+          <owl:inverseOf rdf:resource="#hasWetness"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Fungus"/>
@@ -421,7 +564,7 @@
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_wetness"/>
+          <owl:inverseOf rdf:resource="#hasWetness"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Plant"/>
@@ -467,7 +610,7 @@
     <owl:Restriction>
       <owl:onProperty>
         <rdf:Description>
-          <owl:inverseOf rdf:resource="#has_color"/>
+          <owl:inverseOf rdf:resource="#hasColor"/>
         </rdf:Description>
       </owl:onProperty>
       <owl:someValuesFrom rdf:resource="#Nut"/>
@@ -501,6 +644,16 @@
 </Shape>
 
 <Shape rdf:about="#sphere">
+  <rdf:type>
+    <owl:Restriction>
+      <owl:onProperty>
+        <rdf:Description>
+          <owl:inverseOf rdf:resource="#hasShape"/>
+        </rdf:Description>
+      </owl:onProperty>
+      <owl:someValuesFrom rdf:resource="#Nut"/>
+    </owl:Restriction>
+  </rdf:type>
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
 </Shape>
 
@@ -525,10 +678,40 @@
 </Shape>
 
 <Shape rdf:about="#complexShape">
+  <rdf:type>
+    <owl:Restriction>
+      <owl:onProperty>
+        <rdf:Description>
+          <owl:inverseOf rdf:resource="#hasShape"/>
+        </rdf:Description>
+      </owl:onProperty>
+      <owl:someValuesFrom rdf:resource="#Fungus"/>
+    </owl:Restriction>
+  </rdf:type>
+  <rdf:type>
+    <owl:Restriction>
+      <owl:onProperty>
+        <rdf:Description>
+          <owl:inverseOf rdf:resource="#hasShape"/>
+        </rdf:Description>
+      </owl:onProperty>
+      <owl:someValuesFrom rdf:resource="#Plant"/>
+    </owl:Restriction>
+  </rdf:type>
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
 </Shape>
 
 <Lighting rdf:about="#noLight">
+  <rdf:type>
+    <owl:Restriction>
+      <owl:onProperty>
+        <rdf:Description>
+          <owl:inverseOf rdf:resource="#hasLight"/>
+        </rdf:Description>
+      </owl:onProperty>
+      <owl:someValuesFrom rdf:resource="#Flora"/>
+    </owl:Restriction>
+  </rdf:type>
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
 </Lighting>
 
@@ -537,6 +720,16 @@
 </Lighting>
 
 <HearingSense rdf:about="#soundless">
+  <rdf:type>
+    <owl:Restriction>
+      <owl:onProperty>
+        <rdf:Description>
+          <owl:inverseOf rdf:resource="#hasSound"/>
+        </rdf:Description>
+      </owl:onProperty>
+      <owl:someValuesFrom rdf:resource="#Flora"/>
+    </owl:Restriction>
+  </rdf:type>
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
 </HearingSense>
 
@@ -553,6 +746,20 @@
 </HearingSense>
 
 <SmellSense rdf:about="#goodSmell">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+</SmellSense>
+
+<SmellSense rdf:about="#neutralSmell">
+  <rdf:type>
+    <owl:Restriction>
+      <owl:onProperty>
+        <rdf:Description>
+          <owl:inverseOf rdf:resource="#hasSmell"/>
+        </rdf:Description>
+      </owl:onProperty>
+      <owl:someValuesFrom rdf:resource="#Nut"/>
+    </owl:Restriction>
+  </rdf:type>
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
 </SmellSense>
 
@@ -583,79 +790,6 @@
 <TasteSense rdf:about="#umami">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
 </TasteSense>
-
-<owl:AllDifferent>
-  <owl:distinctMembers rdf:parseType="Collection">
-    <rdf:Description rdf:about="#cactus"/>
-    <rdf:Description rdf:about="#medicinalHerb"/>
-    <rdf:Description rdf:about="#grass"/>
-    <rdf:Description rdf:about="#rose"/>
-    <rdf:Description rdf:about="#sunflower"/>
-    <rdf:Description rdf:about="#apple"/>
-    <rdf:Description rdf:about="#banana"/>
-    <rdf:Description rdf:about="#citrus"/>
-    <rdf:Description rdf:about="#rottenApple"/>
-    <rdf:Description rdf:about="#almond"/>
-    <rdf:Description rdf:about="#peanut"/>
-    <rdf:Description rdf:about="#truffle"/>
-    <rdf:Description rdf:about="#deadCap"/>
-    <rdf:Description rdf:about="#hot"/>
-    <rdf:Description rdf:about="#warm"/>
-    <rdf:Description rdf:about="#neutralTemperature"/>
-    <rdf:Description rdf:about="#cool"/>
-    <rdf:Description rdf:about="#cold"/>
-    <rdf:Description rdf:about="#soft"/>
-    <rdf:Description rdf:about="#furry"/>
-    <rdf:Description rdf:about="#fuzzy"/>
-    <rdf:Description rdf:about="#scratchy"/>
-    <rdf:Description rdf:about="#rough"/>
-    <rdf:Description rdf:about="#sticky"/>
-    <rdf:Description rdf:about="#smooth"/>
-    <rdf:Description rdf:about="#waxy"/>
-    <rdf:Description rdf:about="#spiky"/>
-    <rdf:Description rdf:about="#heavy"/>
-    <rdf:Description rdf:about="#light"/>
-    <rdf:Description rdf:about="#neutralWeight"/>
-    <rdf:Description rdf:about="#dry"/>
-    <rdf:Description rdf:about="#neutralWetness"/>
-    <rdf:Description rdf:about="#wet"/>
-    <rdf:Description rdf:about="#red"/>
-    <rdf:Description rdf:about="#orange"/>
-    <rdf:Description rdf:about="#yellow"/>
-    <rdf:Description rdf:about="#green"/>
-    <rdf:Description rdf:about="#blue"/>
-    <rdf:Description rdf:about="#purple"/>
-    <rdf:Description rdf:about="#pink"/>
-    <rdf:Description rdf:about="#brown"/>
-    <rdf:Description rdf:about="#black"/>
-    <rdf:Description rdf:about="#white"/>
-    <rdf:Description rdf:about="#gray"/>
-    <rdf:Description rdf:about="#silver"/>
-    <rdf:Description rdf:about="#gold"/>
-    <rdf:Description rdf:about="#cube"/>
-    <rdf:Description rdf:about="#sphere"/>
-    <rdf:Description rdf:about="#cylinder"/>
-    <rdf:Description rdf:about="#pyramid"/>
-    <rdf:Description rdf:about="#square"/>
-    <rdf:Description rdf:about="#circle"/>
-    <rdf:Description rdf:about="#triangle"/>
-    <rdf:Description rdf:about="#complexShape"/>
-    <rdf:Description rdf:about="#noLight"/>
-    <rdf:Description rdf:about="#lighted"/>
-    <rdf:Description rdf:about="#soundless"/>
-    <rdf:Description rdf:about="#quietSound"/>
-    <rdf:Description rdf:about="#loud"/>
-    <rdf:Description rdf:about="#painfulSound"/>
-    <rdf:Description rdf:about="#goodSmell"/>
-    <rdf:Description rdf:about="#odorless"/>
-    <rdf:Description rdf:about="#badSmell"/>
-    <rdf:Description rdf:about="#sweet"/>
-    <rdf:Description rdf:about="#sour"/>
-    <rdf:Description rdf:about="#salty"/>
-    <rdf:Description rdf:about="#bitter"/>
-    <rdf:Description rdf:about="#umami"/>
-  </owl:distinctMembers>
-</owl:AllDifferent>
 
 
 </rdf:RDF>

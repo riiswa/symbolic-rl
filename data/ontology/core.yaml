@@ -1,0 +1,44 @@
+- owl_class:
+      Entity:
+          SubClassOf: "owl:Thing"
+
+- owl_class:
+      Organism:
+          SubClassOf: Entity
+
+- owl_object_property:
+    hasTemperature:
+        Characteristics:
+            - Functional
+        Domain:
+            - Entity
+        Range:
+            - Thermal
+
+- multiple_owl_classes:
+  - Sense:
+      SubClassOf: "owl:Thing"
+  - ExternalSense:
+      SubClassOf: Sense
+  - InternalSense:
+      SubClassOf: Sense
+
+- owl_class:
+      Distance:
+        SubClassOf: "owl:Thing"
+
+- owl_object_property:
+    hasThing:
+      Domain: Distance
+      Range: "owl:Thing"
+
+- owl_data_property:
+    hasDistanceValue:
+      Domain: Distance
+      Range: float
+      Characteristics:
+        - Functional
+
+- owl_inverse_property:
+    hasDistance:
+        Inverse: hasThing

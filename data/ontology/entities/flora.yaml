@@ -1,0 +1,51 @@
+- multiple_owl_classes:
+  - Flora:
+      SubClassOf: Organism
+  - Fruit:
+      SubClassOf: Flora
+  - Nut:
+      SubClassOf: Fruit
+  - Plant:
+      SubClassOf: Flora
+  - FloweringPlant:
+      SubClassOf: Plant
+  - Fungus:
+      SubClassOf: Flora
+
+- owl_multiple_individuals:
+      names:
+        - cactus
+        - medicinalHerb
+        - grass
+      types:
+          - Plant
+
+- owl_multiple_individuals:
+      names:
+          - rose
+          - sunflower
+      types:
+          - FloweringPlant
+
+- owl_multiple_individuals:
+      names:
+          - apple
+          - banana
+          - citrus
+          - rottenApple
+      types:
+          - Fruit
+
+- owl_multiple_individuals:
+      names:
+          - almond
+          - peanut
+      types:
+          - Nut
+
+- owl_multiple_individuals:
+      names:
+          - truffle
+          - deadCap
+      types:
+          - Fungus
