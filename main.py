@@ -4,6 +4,7 @@ import re
 import numpy as np
 import yamlpyowl as ypo
 from owlready2 import *
+import random
 
 
 def flatten(lst):
@@ -17,6 +18,26 @@ WHERE {
     ?ancestor a owl:Class .
 }
 """
+
+def encounter():
+    onto: Ontology = ypo.OntologyManager("ontology.yaml").onto
+    instances = list(onto.Organism.instances())
+    max_iter = 100
+    i = 0
+    while (i < max_iter):
+        print(i)
+        chosen_instance = random.choice(instances)
+        #print(chosen_instance)
+        print(chosen_instance.name)
+        #print(dir(chosen_instance))
+        #print(chosen_instance.is_a)
+        #print(chosen_instance.is_instance_of)
+        #print(chosen_instance.ancestors)
+        i += 1
+    return
+
+def chose_action():
+    return
 
 if __name__ == "__main__":
     onto: Ontology = ypo.OntologyManager("ontology.yaml").onto
@@ -44,7 +65,7 @@ WHERE {
 
     query = default_world.sparql(_ALL_ANCESTORS, [onto.hasThing, onto.warm, onto.cold, onto.hasDistanceValue])
 
-    print(list(query))
+    #print(list(query))
 
     def remove_common_ancestors(ancestor1, ancestor2):
         if not ancestor1 or not ancestor2:
@@ -71,9 +92,9 @@ WHERE {
             distance_matrix[i, j] = tree_distance
             distance_matrix[j, i] = tree_distance
 
-    print(distance_matrix)
+    #print(distance_matrix)
 
 
-
+    encounter()
 
     onto.save("ontology.owl")

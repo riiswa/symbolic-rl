@@ -1,0 +1,19 @@
+- owl_class:
+      Mood:
+          SubClassOf: InternalSense
+
+- owl_multiple_individuals:
+      names:
+          - joy
+          - anger
+          - fear
+          - sadness
+      types:
+          - Mood
+
+- owl_multiple_individuals:
+      names:
+          - energy
+          - health
+      types:
+          - InternalSense

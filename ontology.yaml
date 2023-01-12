@@ -466,5 +466,76 @@
 #        Facts:
 #          - Japanese: Parliaments
 
+- owl_class:
+      Mood:
+          SubClassOf: InternalSense
+
+- owl_multiple_individuals:
+      names:
+          - joy
+          - anger
+          - fear
+          - sadness
+      types:
+          - Mood
+
+- owl_multiple_individuals:
+      names:
+          - energy
+          - health
+      types:
+          - InternalSense
+
+
+- multiple_owl_classes:
+  - Action:
+      SubClassOf: "owl:Thing"
+  - AbstractEat:
+      SubClassOf: Action
+  - DoNothing:
+      SubClassOf: Action
+
+- owl_multiple_individuals:
+      names:
+          - eat
+          - eat_cooked
+          - eat_pressed
+      types:
+          - AbstractEat
+
+- owl_multiple_individuals:
+      names:
+          - do_nothing
+      types:
+          - DoNothing
+
+
+- owl_class:
+      Consequence:
+          SubClassOf: "owl:Thing"
+
+- owl_object_property:
+    hasConsequenceAction:
+      Domain: Consequence
+      Range: Action
+
+- owl_object_property:
+    gives:
+      Domain: Consequence
+      Range: InternalSense
+
+- owl_object_property:
+    hasConsequenceEntity:
+      Domain: Consequence
+      Range: Entity
+
+- owl_data_property:
+    hasConsequenceValue:
+      Domain: Consequence
+      Range: int
+      Characteristics:
+        - Functional
+
+
 #- different_individuals:
 #    - __all__

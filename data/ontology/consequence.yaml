@@ -1,0 +1,25 @@
+- owl_class:
+      Consequence:
+          SubClassOf: "owl:Thing"
+
+- owl_object_property:
+    hasConsequenceAction:
+      Domain: Consequence
+      Range: Action
+
+- owl_object_property:
+    gives:
+      Domain: Consequence
+      Range: InternalSense
+
+- owl_object_property:
+    hasConsequenceEntity:
+      Domain: Consequence
+      Range: Entity
+
+- owl_data_property:
+    hasConsequenceValue:
+      Domain: Consequence
+      Range: integer
+      Characteristics:
+        - Functional
