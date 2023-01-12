@@ -437,8 +437,8 @@
 
 <Distance rdf:about="#distance(hot,neutralTemperature)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#hot"/>
   <hasThing rdf:resource="#neutralTemperature"/>
+  <hasThing rdf:resource="#hot"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hasDistanceValue>
 </Distance>
 
@@ -451,8 +451,8 @@
 
 <Distance rdf:about="#distance(hot,cold)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#hot"/>
   <hasThing rdf:resource="#cold"/>
+  <hasThing rdf:resource="#hot"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</hasDistanceValue>
 </Distance>
 
@@ -465,8 +465,8 @@
 
 <Distance rdf:about="#distance(warm,cool)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cool"/>
   <hasThing rdf:resource="#warm"/>
+  <hasThing rdf:resource="#cool"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hasDistanceValue>
 </Distance>
 
@@ -479,15 +479,15 @@
 
 <Distance rdf:about="#distance(neutralTemperature,cool)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cool"/>
   <hasThing rdf:resource="#neutralTemperature"/>
+  <hasThing rdf:resource="#cool"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(neutralTemperature,cold)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cold"/>
   <hasThing rdf:resource="#neutralTemperature"/>
+  <hasThing rdf:resource="#cold"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hasDistanceValue>
 </Distance>
 

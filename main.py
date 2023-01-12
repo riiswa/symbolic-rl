@@ -5,6 +5,7 @@ import numpy as np
 import yamlpyowl as ypo
 from owlready2 import *
 import random
+from Agent import Agent
 
 
 def flatten(lst):
@@ -19,25 +20,12 @@ WHERE {
 }
 """
 
-def encounter():
-    onto: Ontology = ypo.OntologyManager("ontology.yaml").onto
-    instances = list(onto.Organism.instances())
-    max_iter = 100
-    i = 0
-    while (i < max_iter):
-        print(i)
-        chosen_instance = random.choice(instances)
-        #print(chosen_instance)
-        print(chosen_instance.name)
-        #print(dir(chosen_instance))
-        #print(chosen_instance.is_a)
-        #print(chosen_instance.is_instance_of)
-        #print(chosen_instance.ancestors)
-        i += 1
-    return
-
-def chose_action():
-    return
+def encounter(agent, instance):
+    print("Encountering :")
+    print(instance.name)
+    chosen_action = agent.get_random_action()
+    print("Chosen action :")
+    print(chosen_action.name)
 
 if __name__ == "__main__":
     onto: Ontology = ypo.OntologyManager("ontology.yaml").onto
@@ -93,8 +81,15 @@ WHERE {
             distance_matrix[j, i] = tree_distance
 
     #print(distance_matrix)
+    agent = Agent(onto, 0.1, 0.9, 1)
 
+    instances = list(onto.Entity.instances())
+    max_iter = 10
+    i = 0
 
-    encounter()
+    while (i < max_iter):
+        chosen_instance = random.choice(instances)
+        encounter(agent, chosen_instance)
+        i = i+1
 
     onto.save("ontology.owl")

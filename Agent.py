@@ -1,20 +1,20 @@
 import numpy as np
 from matplotlib import pyplot as plt 
+from owlready2 import *
+import random
 
 
 class Agent():
-    def __init__(self, states, actions, senses, senses_names, lr, gamma, p, epsilon_parameters):
-        self.states = states
-        self.actions = actions 
-        self.Q_table = np.zeros(states, actions)
-        self.senses = senses
-        self.senses_names = senses_names
+    def __init__(self, ontology, lr, gamma, p, epsilon_parameters = (0.5, 0.5, 0.1, 10)):
+        self.states = ontology.Entity.instances()
+        self.actions = ontology.Action.instances()
+        self.Q_table = np.zeros((len(self.states), len(self.actions)))
+        self.senses = ontology.InternalSense.instances()
         # Hyperparameters : 
         self.lr = lr 
         self.gamma = gamma 
         self.p = p # paramètre pour calculer la distance d'édition
         self.esp_param = epsilon_parameters 
-
     
     # Fonctions pour mettre à jour la Q-table avec la méthode classique / symbolique 
     def update_Q_values(self, current_s, action, reward, next_s, done): 
@@ -51,6 +51,8 @@ class Agent():
         plt.ylabel('States')
         plt.show()
         
+    def get_random_action(self):
+        return random.choice(self.actions)
 
 
         
