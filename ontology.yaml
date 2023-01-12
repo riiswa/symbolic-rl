@@ -498,8 +498,8 @@
 - owl_multiple_individuals:
       names:
           - eat
-          - eat_cooked
-          - eat_pressed
+          - eatCooked
+          - eatPressed
       types:
           - AbstractEat
 
@@ -536,6 +536,34 @@
       Characteristics:
         - Functional
 
+- owl_multiple_individuals:
+    names:
+        - consequence(eat,medicinalHerb)
+        - consequence(eatCooked,medicinalHerb)
+        - consequence(eatPressed,medicinalHerb)
+        - consequence(doNothing,medicinalHerb)
+
+        - consequence(eat,cactus)
+        - consequence(eatCooked,cactus)
+        - consequence(eatPressed,cactus)
+        - consequence(doNothing,cactus)
+
+        - consequence(eat,rose)
+        - consequence(eatCooked,rose)
+        - consequence(eatPressed,rose)
+        - consequence(doNothing,rose)
+
+        - consequence(eat,deadCap)
+        - consequence(eatCooked,deadCap)
+        - consequence(eatPressed,deadCap)
+        - consequence(doNothing,deadCap)
+
+        - consequence(eat,apple)
+        - consequence(eatCooked,apple)
+        - consequence(eatPressed,apple)
+        - consequence(doNothing,apple)
+    types:
+        - Consequence
 
 #- different_individuals:
 #    - __all__
