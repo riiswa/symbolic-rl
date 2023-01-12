@@ -26,6 +26,8 @@ def encounter(agent, instance):
     chosen_action = agent.get_random_action()
     print("Chosen action :")
     print(chosen_action.name)
+    #Requete Sparql pour récupérer la conséquence associée
+    #Update l'état de l'agent selon les effets de la conséquence
 
 if __name__ == "__main__":
     onto: Ontology = ypo.OntologyManager("ontology.yaml").onto

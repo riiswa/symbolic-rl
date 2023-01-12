@@ -509,6 +509,39 @@
       types:
           - DoNothing
 
+- owl_class:
+      Effect:
+          SubClassOf: "owl:Thing"
+
+- owl_object_property:
+    gives:
+      Domain: Effect
+      Range: InternalSense
+
+- owl_data_property:
+    hasEffectValue:
+      Domain: Effect
+      Range: int
+      Characteristics:
+        - Functional
+
+- owl_multiple_individuals:
+    names:
+        - effect(health,1)
+        - effect(energy,1)
+        - effect(joy,1)
+        - effect(anger,1)
+        - effect(sadness,1)
+        - effect(fear,1)
+
+        - effect(health,-1)
+        - effect(energy,-1)
+        - effect(joy,-1)
+        - effect(anger,-1)
+        - effect(sadness,-1)
+        - effect(fear,-1)
+    types:
+        - Effect
 
 - owl_class:
       Consequence:
@@ -520,33 +553,25 @@
       Range: Action
 
 - owl_object_property:
-    gives:
-      Domain: Consequence
-      Range: InternalSense
-
-- owl_object_property:
     hasConsequenceEntity:
       Domain: Consequence
       Range: Entity
 
-- owl_data_property:
-    hasConsequenceValue:
+- owl_object_property:
+    hasConsequenceEffect:
       Domain: Consequence
-      Range: int
-      Characteristics:
-        - Functional
+      Range: Effect
+
 
 - owl_multiple_individuals:
     names:
         - consequence(eat,medicinalHerb)
         - consequence(eatCooked,medicinalHerb)
         - consequence(eatPressed,medicinalHerb)
-        - consequence(doNothing,medicinalHerb)
 
         - consequence(eat,cactus)
         - consequence(eatCooked,cactus)
         - consequence(eatPressed,cactus)
-        - consequence(doNothing,cactus)
 
         - consequence(eat,rose)
         - consequence(eatCooked,rose)
@@ -564,6 +589,29 @@
         - consequence(doNothing,apple)
     types:
         - Consequence
+
+- property_facts:
+    hasConsequenceEffect:
+      Facts:
+        - consequence(eat,medicinalHerb): effect(health,1)
+        - consequence(eatCooked,medicinalHerb): effect(health,1)
+        - consequence(eatPressed,medicinalHerb): effect(health,1)
+
+        - consequence(eat,cactus): effect(health,-1)
+        - consequence(eatCooked,cactus): effect(health,-1)
+        - consequence(eatPressed,cactus): effect(health,-1)
+
+        - consequence(eat,rose): effect(health,-1)
+        - consequence(eatCooked,rose): effect(health,-1)
+        - consequence(eatPressed,rose): effect(energy,1)
+
+        - consequence(eat,deadCap): effect(health,-1)
+        - consequence(eatCooked,deadCap): effect(energy,1)
+        - consequence(eatPressed,deadCap): effect(health,-1)
+
+        - consequence(eat,apple): effect(energy,1)
+        - consequence(eatCooked,apple): effect(energy,1)
+        - consequence(eatPressed,apple): effect(energy,1)
 
 #- different_individuals:
 #    - __all__
