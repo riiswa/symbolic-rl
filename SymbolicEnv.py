@@ -106,6 +106,15 @@ class SymbolicEnv(gym.Env):
         }
     """
 
+    _GET_CONSEQUENCE = """
+            SELECT ?consequence
+            WHERE {
+                ?consequence a/rdfs:subClassOf* ??1 .
+                ?consequence ??4 ??2 .
+                ?consequence ??5 ??3 .
+            }
+        """
+
     def __init__(self, ontology_file: str = "ontology.yaml"):
         self.onto: Ontology = ypo.OntologyManager(ontology_file).onto
         self._create_distances_relations()
@@ -168,6 +177,20 @@ class SymbolicEnv(gym.Env):
                 default_world.sparql(self._MAX_DISTANCE_VALUE, [_class, self.onto.hasThing, self.onto.hasDistanceValue])
             )[0]
         return result[0] if result else 1
+
+    def _get_consequence(self, action, _entity):
+        result = \
+            list(
+                default_world.sparql(self._GET_CONSEQUENCE, [
+                    self.onto.Consequence,
+                    action,
+                    _entity,
+                    self.onto.hasConsequenceAction,
+                    self.onto.hasConsequenceEntity
+                ])
+            )[0]
+
+        return result[0] if result else None
 
     def _ancestors(self, x: EntityClass):
         return flatten(default_world.sparql(self._ALL_ANCESTORS, [x]))
@@ -245,6 +268,7 @@ if __name__ == "__main__":
     env = SymbolicEnv()
     print(env.individuals)
     print(env.distances)
+    print(env._get_consequence(env.onto.eat, env.onto.medicinalHerb).hasConsequenceEffect)
     env.save()
 
     #plot_distance_matrix(env.distances, env.individuals)
