@@ -34,16 +34,18 @@ class Stat:
 
 
 class Stats:
-    def __init__(self, onto: Ontology):
-        self.onto = onto
+    def __init__(self):
         # TODO: This is hard-coded, we should change this in the
         self._energy = Stat(0, 100, 100)
         self._health = Stat(0, 100, 100)
-        self._joy = Stat(0, 50, 50)
+        self._joy = Stat(0, 100, 100)
         self._anger = Stat(0, 50, 0)
         self._fear = Stat(0, 50, 0)
         self._sadness = Stat(0, 50, 0)
+        self.observation_matrix = [(i,j,k) for k in range(2) for j in range(2) for i in range(2)]
 
+    def get_space(self):
+        return len(self.observation_matrix)
     def energy(self):
         return self._energy.value
 
@@ -56,8 +58,21 @@ class Stats:
     def update(self, effect):
         getattr(self, "_" + effect.gives.name).update(effect.hasEffectValue)
 
-    def _get_obs(self):
-        pass
+    def get_obs(self):
+        def f(b: bool) -> int:
+            return 1 if b else 0
+
+        return self.observation_matrix.index((f(self.energy() > 25), f(self.health() > 25), f(self.mood() >25)))
+
+    def reset(self):
+        self._energy.value = 100
+        self._health.value = 100
+        self._joy.value = 100
+        self._fear.value = 0
+        self._anger.value = 0
+        self._sadness.value = 0
+
+
 
 
 def flatten(lst):
@@ -105,11 +120,12 @@ class SymbolicEnv(gym.Env):
         for i, _individual in enumerate(self.individuals):
             _individual.id = i
             _individual.ancestors = self._ancestors(_individual)
-        self.observation_space = spaces.Discrete(len(self.individuals))
-        self.action_space = spaces.Discrete(len(self.actions))
 
         self.distances = self._compute_distances()
         self.current_thing: Optional[EntityClass] = None
+        self.stats = Stats()
+        self.observation_space = spaces.MultiDiscrete([self.stats.get_space(), len(self.individuals)])
+        self.action_space = spaces.Discrete(len(self.actions))
 
     def _create_distances_relations(self):
         pattern = r"\((.*?)\)"
@@ -189,14 +205,17 @@ class SymbolicEnv(gym.Env):
         pass
 
     def step(self, action: ActType) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
-        pass
+        action = self.actions[action]
+        self.current_thing
 
     def _get_obs(self):
-        random.choice(self.individuals)
-        pass
+        return np.array([self.stats.get_obs(), self.individuals.index(self.current_thing)])
 
     def reset(self, seed=None):
+        random.seed(seed)
+        self.stats.reset()
         self.current_thing = random.choice(self.individuals)
+
 
 
 def plot_distance_matrix(matrix, labels):
