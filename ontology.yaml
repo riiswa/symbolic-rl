@@ -82,6 +82,13 @@
       Characteristics:
         - Functional
 
+- owl_data_property:
+    hasMaxDistance:
+      Domain: "owl:Thing"
+      Range: float
+      Characteristics:
+        - Functional
+
 - owl_inverse_property:
     hasDistance:
         Inverse: hasThing
@@ -111,38 +118,38 @@
 
 - owl_multiple_individuals:
     names:
-        - distance(hot,warm)
-        - distance(hot,neutralTemperature)
-        - distance(hot,cool)
-        - distance(hot,cold)
+        - distance(hot,warm,1)
+        - distance(hot,neutralTemperature,2)
+        - distance(hot,cool,3)
+        - distance(hot,cold,4)
 
-        - distance(warm,neutralTemperature)
-        - distance(warm,cool)
-        - distance(warm,cold)
+        - distance(warm,neutralTemperature,1)
+        - distance(warm,cool,2)
+        - distance(warm,cold,3)
 
-        - distance(neutralTemperature,cool)
-        - distance(neutralTemperature,cold)
+        - distance(neutralTemperature,cool,1)
+        - distance(neutralTemperature,cold,2)
 
-        - distance(cool,cold)
+        - distance(cool,cold,1)
     types:
         - Distance
 
-- property_facts:
-    hasDistanceValue:
-      Facts:
-        - distance(hot,warm): 1
-        - distance(hot,neutralTemperature): 2
-        - distance(hot,cool): 3
-        - distance(hot,cold): 4
-
-        - distance(warm,neutralTemperature): 1
-        - distance(warm,cool): 2
-        - distance(warm,cold): 3
-
-        - distance(neutralTemperature,cool): 1
-        - distance(neutralTemperature,cold): 2
-
-        - distance(cool,cold): 1
+#- property_facts:
+#    hasDistanceValue:
+#      Facts:
+#        - distance(hot,warm): 1
+#        - distance(hot,neutralTemperature): 2
+#        - distance(hot,cool): 3
+#        - distance(hot,cold): 4
+#
+#        - distance(warm,neutralTemperature): 1
+#        - distance(warm,cool): 2
+#        - distance(warm,cold): 3
+#
+#        - distance(neutralTemperature,cool): 1
+#        - distance(neutralTemperature,cold): 2
+#
+#        - distance(cool,cold): 1
 
 
 - owl_object_property:
@@ -171,6 +178,101 @@
       types:
           - Texture
 
+- owl_multiple_individuals:
+    names:
+      - distance(soft,furry,2)
+      - distance(soft,fuzzy,2)
+      - distance(soft,scratchy,3)
+      - distance(soft,rough,3)
+      - distance(soft,sticky,3)
+      - distance(soft,smooth,1)
+      - distance(soft,waxy,2)
+      - distance(soft,spiky,4)
+
+      - distance(furry,fuzzy,1)
+      - distance(furry,scratchy,4)
+      - distance(furry,rough,2)
+      - distance(furry,sticky,3)
+      - distance(furry,smooth,2)
+      - distance(furry,waxy,3)
+      - distance(furry,spiky,4)
+
+      - distance(fuzzy,scratchy,4)
+      - distance(fuzzy,rough,2)
+      - distance(fuzzy,sticky,3)
+      - distance(fuzzy,smooth,3)
+      - distance(fuzzy,waxy,3)
+      - distance(fuzzy,spiky,4)
+
+      - distance(scratchy,rough,1)
+      - distance(scratchy,sticky,2)
+      - distance(scratchy,smooth,4)
+      - distance(scratchy,waxy,4)
+      - distance(scratchy,spiky,3)
+
+      - distance(rough,sticky,1)
+      - distance(rough,smooth,4)
+      - distance(rough,waxy,4)
+      - distance(rough,spiky,1)
+
+      - distance(sticky,smooth,3)
+      - distance(sticky,waxy,3)
+      - distance(sticky,spiky,3)
+
+      - distance(smooth,waxy,2)
+      - distance(smooth,spiky,4)
+
+      - distance(waxy,spiky,3)
+    types:
+        - Distance
+
+#- property_facts:
+#    hasDistanceValue:
+#      Facts:
+#        - distance(soft,furry): 2
+#        - distance(soft,fuzzy): 2
+#        - distance(soft,scratchy): 3
+#        - distance(soft,rough): 3
+#        - distance(soft,sticky): 3
+#        - distance(soft,smooth): 1
+#        - distance(soft,waxy): 2
+#        - distance(soft,spiky): 4
+#
+#        - distance(furry,fuzzy): 1
+#        - distance(furry,scratchy): 4
+#        - distance(furry,rough): 2
+#        - distance(furry,sticky): 3
+#        - distance(furry,smooth): 2
+#        - distance(furry,waxy): 3
+#        - distance(furry,spiky): 4
+#
+#        - distance(fuzzy,scratchy): 4
+#        - distance(fuzzy,rough): 2
+#        - distance(fuzzy,sticky): 3
+#        - distance(fuzzy,smooth): 3
+#        - distance(fuzzy,waxy): 3
+#        - distance(fuzzy,spiky): 4
+#
+#        - distance(scratchy,rough): 1
+#        - distance(scratchy,sticky): 2
+#        - distance(scratchy,smooth): 4
+#        - distance(scratchy,waxy): 4
+#        - distance(scratchy,spiky): 3
+#
+#        - distance(rough,sticky): 1
+#        - distance(rough,smooth): 4
+#        - distance(rough,waxy): 4
+#        - distance(rough,spiky): 1
+#
+#        - distance(sticky,smooth): 3
+#        - distance(sticky,waxy): 3
+#        - distance(sticky,spiky):  3
+#
+#        - distance(smooth,waxy): 2
+#        - distance(smooth,spiky): 4
+#
+#        - distance(waxy,spiky): 3
+
 - owl_object_property:
     hasTexture:
         Characteristics:
@@ -191,6 +293,21 @@
       types:
           - Pressure
 
+- owl_multiple_individuals:
+    names:
+      - distance(heavy,light,2)
+      - distance(heavy,neutralWeight,1)
+      - distance(light,neutralWeight,1)
+    types:
+      - Distance
+
+#- property_facts:
+#    hasDistanceValue:
+#      Facts:
+#        - distance(heavy,light): 2
+#        - distance(heavy,neutralWeight): 1
+#        - distance(light,neutralWeight): 1
+
 - owl_object_property:
     hasPressure:
         Characteristics:
@@ -210,6 +327,21 @@
           - wet
       types:
           - Wetness
+
+- owl_multiple_individuals:
+    names:
+      - distance(dry,neutralWetness,1)
+      - distance(dry,wet,2)
+      - distance(neutralWetness,wet,1)
+    types:
+      - Distance
+
+#- property_facts:
+#    hasDistanceValue:
+#      Facts:
+#        - distance(dry,neutralWetness): 1
+#        - distance(dry,wet): 2
+#        - distance(neutralWetness,wet): 1
 
 - owl_object_property:
     hasWetness:
@@ -249,6 +381,130 @@
       types:
           - Color
 
+#import math
+#
+#colors = {"red": [255, 0, 0], "orange": [255, 165, 0], "yellow": [255, 255, 0], "green": [0, 128, 0], "blue": [0, 0, 255], "purple": [128, 0, 128], "pink": [255, 192, 203], "brown": [165, 42, 42], "black": [0, 0, 0], "white": [255, 255, 255], "gray": [128, 128, 128], "silver": [192, 192, 192], "gold": [255, 215, 0]}
+#
+#keys = list(colors.keys())
+#
+#from math import sqrt, pow
+#
+#def rgb_to_lab(rgb):
+#    R, G, B = rgb
+#    R, G, B = R / 255, G / 255, B / 255
+#    X, Y, Z = (0.412453*R + 0.357580*G + 0.180423*B), (0.212671*R + 0.715160*G + 0.072169*B), (0.019334*R + 0.119193*G + 0.950227*B)
+#    X, Y, Z = pow(X, (1/3)), pow(Y, (1/3)), pow(Z, (1/3))
+#    L, a, b = (116*Y) - 16, 500*(X-Y), 200*(Y-Z)
+#    return [L, a, b]
+#
+#def cie76(rgb1, rgb2):
+#    lab1 = rgb_to_lab(rgb1)
+#    lab2 = rgb_to_lab(rgb2)
+#    L1, a1, b1 = lab1
+#    L2, a2, b2 = lab2
+#    dE = sqrt(pow(L1 - L2, 2) + pow(a1 - a2, 2) + pow(b1 - b2, 2))
+#    return dE
+#
+#for i in range(len(colors)):
+#    print(" ")
+#    for j in range(i+1, len(colors)):
+#        print(f"- distance({keys[i]},{keys[j]},{round(cie76(colors[keys[i]], colors[keys[j]]) / cie76(colors['yellow'], colors['blue'])*4)})")
+
+- owl_multiple_individuals:
+      names:
+        - distance(red,orange,1)
+        - distance(red,yellow,2)
+        - distance(red,green,2)
+        - distance(red,blue,3)
+        - distance(red,purple,2)
+        - distance(red,pink,2)
+        - distance(red,brown,1)
+        - distance(red,black,2)
+        - distance(red,white,2)
+        - distance(red,gray,2)
+        - distance(red,silver,2)
+        - distance(red,gold,2)
+
+        - distance(orange,yellow,1)
+        - distance(orange,green,1)
+        - distance(orange,blue,4)
+        - distance(orange,purple,3)
+        - distance(orange,pink,1)
+        - distance(orange,brown,1)
+        - distance(orange,black,2)
+        - distance(orange,white,2)
+        - distance(orange,gray,1)
+        - distance(orange,silver,1)
+        - distance(orange,gold,1)
+
+        - distance(yellow,green,1)
+        - distance(yellow,blue,4)
+        - distance(yellow,purple,3)
+        - distance(yellow,pink,2)
+        - distance(yellow,brown,2)
+        - distance(yellow,black,2)
+        - distance(yellow,white,2)
+        - distance(yellow,gray,2)
+        - distance(yellow,silver,2)
+        - distance(yellow,gold,1)
+
+        - distance(green,blue,4)
+        - distance(green,purple,3)
+        - distance(green,pink,2)
+        - distance(green,brown,2)
+        - distance(green,black,2)
+        - distance(green,white,2)
+        - distance(green,gray,2)
+        - distance(green,silver,2)
+        - distance(green,gold,1)
+
+        - distance(blue,purple,1)
+        - distance(blue,pink,2)
+        - distance(blue,brown,2)
+        - distance(blue,black,2)
+        - distance(blue,white,3)
+        - distance(blue,gray,2)
+        - distance(blue,silver,2)
+        - distance(blue,gold,4)
+
+        - distance(purple,pink,2)
+        - distance(purple,brown,1)
+        - distance(purple,black,2)
+        - distance(purple,white,2)
+        - distance(purple,gray,2)
+        - distance(purple,silver,2)
+        - distance(purple,gold,3)
+
+        - distance(pink,brown,1)
+        - distance(pink,black,2)
+        - distance(pink,white,1)
+        - distance(pink,gray,1)
+        - distance(pink,silver,1)
+        - distance(pink,gold,2)
+
+        - distance(brown,black,1)
+        - distance(brown,white,1)
+        - distance(brown,gray,1)
+        - distance(brown,silver,1)
+        - distance(brown,gold,2)
+
+        - distance(black,white,2)
+        - distance(black,gray,2)
+        - distance(black,silver,2)
+        - distance(black,gold,2)
+
+        - distance(white,gray,1)
+        - distance(white,silver,1)
+        - distance(white,gold,2)
+
+        - distance(gray,silver,1)
+        - distance(gray,gold,2)
+
+        - distance(silver,gold,2)
+      types:
+          - Distance
+
+
 - owl_object_property:
     hasColor:
         Characteristics:
@@ -278,6 +534,45 @@
       types:
           - Shape
 
+- owl_multiple_individuals:
+      names:
+        - distance(cube,sphere,3)
+        - distance(cube,cylinder,3)
+        - distance(cube,pyramid,2)
+        - distance(cube,square,2)
+        - distance(cube,circle,4)
+        - distance(cube,triangle,3)
+        - distance(cube,complexShape,4)
+
+        - distance(sphere,cylinder,2)
+        - distance(sphere,pyramid,3)
+        - distance(sphere,square,4)
+        - distance(sphere,circle,2)
+        - distance(sphere,triangle,4)
+        - distance(sphere,complexShape,4)
+
+        - distance(cylinder,pyramid,3)
+        - distance(cylinder,square,4)
+        - distance(cylinder,circle,2)
+        - distance(cylinder,triangle,4)
+        - distance(cylinder,complexShape,4)
+
+        - distance(pyramid,square,3)
+        - distance(pyramid,circle,4)
+        - distance(pyramid,triangle,2)
+        - distance(pyramid,complexShape,4)
+
+        - distance(square,circle,3)
+        - distance(square,triangle,2)
+        - distance(square,complexShape,4)
+
+        - distance(circle,triangle,3)
+        - distance(circle,complexShape,4)
+
+        - distance(triangle,complexShape,4)
+      types:
+        - Distance
+
 - owl_object_property:
     hasShape:
         Characteristics:
@@ -299,8 +594,13 @@
         - noLight
         - lighted
       types:
-          - Lighting
+        - Lighting
 
+- owl_multiple_individuals:
+      names:
+        - distance(noLight,lighted,1)
+      types:
+        - Distance
 
 - owl_object_property:
     hasLight:
@@ -327,6 +627,19 @@
       types:
           - HearingSense
 
+- owl_multiple_individuals:
+      names:
+        - distance(soundless,quietSound,1)
+        - distance(soundless,loud,2)
+        - distance(soundless,painfulSound,3)
+
+        - distance(quietSound,loud,1)
+        - distance(quietSound,painfulSound,2)
+
+        - distance(loud,painfulSound,1)
+      types:
+          - Distance
+
 - owl_object_property:
     hasSound:
         Characteristics:
@@ -350,7 +663,20 @@
         - odorless
         - badSmell
       types:
-          - SmellSense
+        - SmellSense
+
+- owl_multiple_individuals:
+      names:
+        - distance(goodSmell,neutralSmell,1)
+        - distance(goodSmell,odorless,2)
+        - distance(goodSmell,badSmell,3)
+
+        - distance(neutralSmell,odorless,1)
+        - distance(neutralSmell,badSmell,2)
+
+        - distance(odorless,badSmell,2)
+      types:
+        - Distance
 
 - owl_object_property:
     hasSmell:
@@ -376,7 +702,25 @@
         - bitter
         - umami
       types:
-          - TasteSense
+        - TasteSense
+
+- owl_multiple_individuals:
+      names:
+        - distance(sweet,sour,2)
+        - distance(sweet,salty,3)
+        - distance(sweet,bitter,3)
+        - distance(sweet,umami,2)
+
+        - distance(sour,salty,2)
+        - distance(sour,bitter,3)
+        - distance(sour,umami,3)
+
+        - distance(salty,bitter,2)
+        - distance(salty,umami,2)
+
+        - distance(bitter,umami,3)
+      types:
+        - Distance
 
 - owl_object_property:
     hasTaste:
@@ -462,9 +806,21 @@
           - Nut: neutralSmell
           - truffle: goodSmell
           - deadCap: neutralSmell
-#      hasTaste:
-#        Facts:
-#          - Japanese: Parliaments
+      hasTaste:
+        Facts:
+          - cactus: sour
+          - medicinalHerb: bitter
+          - grass: bitter
+          - rose: sweet
+          - sunflower: bitter
+          - apple: sweet
+          - banana: sweet
+          - citrus: sour
+          - rottenApple: bitter
+          - almond: sweet
+          - peanut: umami
+          - truffle: umami
+          - deadCap: umami
 
 - owl_class:
       Mood:
