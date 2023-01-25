@@ -468,8 +468,8 @@
 
 <Distance rdf:about="#distance(hot,neutralTemperature,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#neutralTemperature"/>
   <hasThing rdf:resource="#hot"/>
+  <hasThing rdf:resource="#neutralTemperature"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -482,22 +482,22 @@
 
 <Distance rdf:about="#distance(hot,cold,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cold"/>
   <hasThing rdf:resource="#hot"/>
+  <hasThing rdf:resource="#cold"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(warm,neutralTemperature,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#neutralTemperature"/>
   <hasThing rdf:resource="#warm"/>
+  <hasThing rdf:resource="#neutralTemperature"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(warm,cool,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#warm"/>
   <hasThing rdf:resource="#cool"/>
+  <hasThing rdf:resource="#warm"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -510,8 +510,8 @@
 
 <Distance rdf:about="#distance(neutralTemperature,cool,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#neutralTemperature"/>
   <hasThing rdf:resource="#cool"/>
+  <hasThing rdf:resource="#neutralTemperature"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -629,8 +629,8 @@
 
 <Distance rdf:about="#distance(soft,waxy,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#waxy"/>
   <hasThing rdf:resource="#soft"/>
+  <hasThing rdf:resource="#waxy"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -643,8 +643,8 @@
 
 <Distance rdf:about="#distance(furry,fuzzy,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#furry"/>
   <hasThing rdf:resource="#fuzzy"/>
+  <hasThing rdf:resource="#furry"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -657,15 +657,15 @@
 
 <Distance rdf:about="#distance(furry,rough,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#furry"/>
   <hasThing rdf:resource="#rough"/>
+  <hasThing rdf:resource="#furry"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(furry,sticky,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#sticky"/>
   <hasThing rdf:resource="#furry"/>
+  <hasThing rdf:resource="#sticky"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -685,8 +685,8 @@
 
 <Distance rdf:about="#distance(furry,spiky,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#furry"/>
   <hasThing rdf:resource="#spiky"/>
+  <hasThing rdf:resource="#furry"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
@@ -706,8 +706,8 @@
 
 <Distance rdf:about="#distance(fuzzy,sticky,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#sticky"/>
   <hasThing rdf:resource="#fuzzy"/>
+  <hasThing rdf:resource="#sticky"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -727,8 +727,8 @@
 
 <Distance rdf:about="#distance(fuzzy,spiky,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#fuzzy"/>
   <hasThing rdf:resource="#spiky"/>
+  <hasThing rdf:resource="#fuzzy"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
@@ -741,8 +741,8 @@
 
 <Distance rdf:about="#distance(scratchy,sticky,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#sticky"/>
   <hasThing rdf:resource="#scratchy"/>
+  <hasThing rdf:resource="#sticky"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -762,15 +762,15 @@
 
 <Distance rdf:about="#distance(scratchy,spiky,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#scratchy"/>
   <hasThing rdf:resource="#spiky"/>
+  <hasThing rdf:resource="#scratchy"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(rough,sticky,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#sticky"/>
   <hasThing rdf:resource="#rough"/>
+  <hasThing rdf:resource="#sticky"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -811,15 +811,15 @@
 
 <Distance rdf:about="#distance(sticky,spiky,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#sticky"/>
   <hasThing rdf:resource="#spiky"/>
+  <hasThing rdf:resource="#sticky"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(smooth,waxy,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#waxy"/>
   <hasThing rdf:resource="#smooth"/>
+  <hasThing rdf:resource="#waxy"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -832,8 +832,8 @@
 
 <Distance rdf:about="#distance(waxy,spiky,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#waxy"/>
   <hasThing rdf:resource="#spiky"/>
+  <hasThing rdf:resource="#waxy"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -875,8 +875,8 @@
 
 <Distance rdf:about="#distance(light,neutralWeight,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#light"/>
   <hasThing rdf:resource="#neutralWeight"/>
+  <hasThing rdf:resource="#light"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -931,15 +931,15 @@
 
 <Distance rdf:about="#distance(dry,wet,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#wet"/>
   <hasThing rdf:resource="#dry"/>
+  <hasThing rdf:resource="#wet"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(neutralWetness,wet,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#wet"/>
   <hasThing rdf:resource="#neutralWetness"/>
+  <hasThing rdf:resource="#wet"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1014,8 +1014,8 @@
 
 <Distance rdf:about="#distance(red,yellow,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#red"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1063,8 +1063,8 @@
 
 <Distance rdf:about="#distance(red,white,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#white"/>
   <hasThing rdf:resource="#red"/>
+  <hasThing rdf:resource="#white"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1091,8 +1091,8 @@
 
 <Distance rdf:about="#distance(orange,yellow,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#orange"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1112,15 +1112,15 @@
 
 <Distance rdf:about="#distance(orange,purple,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#orange"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#orange"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(orange,pink,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#pink"/>
   <hasThing rdf:resource="#orange"/>
+  <hasThing rdf:resource="#pink"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1168,8 +1168,8 @@
 
 <Distance rdf:about="#distance(yellow,green,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#green"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1182,15 +1182,15 @@
 
 <Distance rdf:about="#distance(yellow,purple,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(yellow,pink,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#pink"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1210,15 +1210,15 @@
 
 <Distance rdf:about="#distance(yellow,white,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#white"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(yellow,gray,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#gray"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1231,43 +1231,43 @@
 
 <Distance rdf:about="#distance(yellow,gold,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#yellow"/>
   <hasThing rdf:resource="#gold"/>
+  <hasThing rdf:resource="#yellow"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(green,blue,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#blue"/>
   <hasThing rdf:resource="#green"/>
+  <hasThing rdf:resource="#blue"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(green,purple,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#green"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#green"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(green,pink,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#pink"/>
   <hasThing rdf:resource="#green"/>
+  <hasThing rdf:resource="#pink"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(green,brown,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#brown"/>
   <hasThing rdf:resource="#green"/>
+  <hasThing rdf:resource="#brown"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(green,black,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#black"/>
   <hasThing rdf:resource="#green"/>
+  <hasThing rdf:resource="#black"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1280,15 +1280,15 @@
 
 <Distance rdf:about="#distance(green,gray,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#gray"/>
   <hasThing rdf:resource="#green"/>
+  <hasThing rdf:resource="#gray"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(green,silver,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#silver"/>
   <hasThing rdf:resource="#green"/>
+  <hasThing rdf:resource="#silver"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1301,8 +1301,8 @@
 
 <Distance rdf:about="#distance(blue,purple,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#blue"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#blue"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1315,15 +1315,15 @@
 
 <Distance rdf:about="#distance(blue,brown,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#brown"/>
   <hasThing rdf:resource="#blue"/>
+  <hasThing rdf:resource="#brown"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(blue,black,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#black"/>
   <hasThing rdf:resource="#blue"/>
+  <hasThing rdf:resource="#black"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1357,22 +1357,22 @@
 
 <Distance rdf:about="#distance(purple,pink,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#pink"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#pink"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(purple,brown,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#brown"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#brown"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(purple,black,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#black"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#black"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1385,22 +1385,22 @@
 
 <Distance rdf:about="#distance(purple,gray,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#gray"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#gray"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(purple,silver,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#silver"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#silver"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(purple,gold,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#gold"/>
   <hasThing rdf:resource="#purple"/>
+  <hasThing rdf:resource="#gold"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -1427,8 +1427,8 @@
 
 <Distance rdf:about="#distance(pink,gray,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#pink"/>
   <hasThing rdf:resource="#gray"/>
+  <hasThing rdf:resource="#pink"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1441,8 +1441,8 @@
 
 <Distance rdf:about="#distance(pink,gold,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#pink"/>
   <hasThing rdf:resource="#gold"/>
+  <hasThing rdf:resource="#pink"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1490,15 +1490,15 @@
 
 <Distance rdf:about="#distance(black,gray,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#black"/>
   <hasThing rdf:resource="#gray"/>
+  <hasThing rdf:resource="#black"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(black,silver,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#black"/>
   <hasThing rdf:resource="#silver"/>
+  <hasThing rdf:resource="#black"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1532,8 +1532,8 @@
 
 <Distance rdf:about="#distance(gray,silver,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#silver"/>
   <hasThing rdf:resource="#gray"/>
+  <hasThing rdf:resource="#silver"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1615,15 +1615,15 @@
 
 <Distance rdf:about="#distance(cube,sphere,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cube"/>
   <hasThing rdf:resource="#sphere"/>
+  <hasThing rdf:resource="#cube"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(cube,cylinder,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cube"/>
   <hasThing rdf:resource="#cylinder"/>
+  <hasThing rdf:resource="#cube"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -1636,15 +1636,15 @@
 
 <Distance rdf:about="#distance(cube,square,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cube"/>
   <hasThing rdf:resource="#square"/>
+  <hasThing rdf:resource="#cube"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(cube,circle,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cube"/>
   <hasThing rdf:resource="#circle"/>
+  <hasThing rdf:resource="#cube"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
@@ -1657,15 +1657,15 @@
 
 <Distance rdf:about="#distance(cube,complexShape,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cube"/>
   <hasThing rdf:resource="#complexShape"/>
+  <hasThing rdf:resource="#cube"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(sphere,cylinder,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#cylinder"/>
   <hasThing rdf:resource="#sphere"/>
+  <hasThing rdf:resource="#cylinder"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1685,8 +1685,8 @@
 
 <Distance rdf:about="#distance(sphere,circle,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#circle"/>
   <hasThing rdf:resource="#sphere"/>
+  <hasThing rdf:resource="#circle"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1699,8 +1699,8 @@
 
 <Distance rdf:about="#distance(sphere,complexShape,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#complexShape"/>
   <hasThing rdf:resource="#sphere"/>
+  <hasThing rdf:resource="#complexShape"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
@@ -1720,8 +1720,8 @@
 
 <Distance rdf:about="#distance(cylinder,circle,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#circle"/>
   <hasThing rdf:resource="#cylinder"/>
+  <hasThing rdf:resource="#circle"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1741,8 +1741,8 @@
 
 <Distance rdf:about="#distance(pyramid,square,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#pyramid"/>
   <hasThing rdf:resource="#square"/>
+  <hasThing rdf:resource="#pyramid"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -1769,8 +1769,8 @@
 
 <Distance rdf:about="#distance(square,circle,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#circle"/>
   <hasThing rdf:resource="#square"/>
+  <hasThing rdf:resource="#circle"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -1797,8 +1797,8 @@
 
 <Distance rdf:about="#distance(circle,complexShape,4)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#circle"/>
   <hasThing rdf:resource="#complexShape"/>
+  <hasThing rdf:resource="#circle"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.0</hasDistanceValue>
 </Distance>
 
@@ -1829,8 +1829,8 @@
 
 <Distance rdf:about="#distance(noLight,lighted,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#lighted"/>
   <hasThing rdf:resource="#noLight"/>
+  <hasThing rdf:resource="#lighted"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1862,15 +1862,15 @@
 
 <Distance rdf:about="#distance(soundless,quietSound,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#quietSound"/>
   <hasThing rdf:resource="#soundless"/>
+  <hasThing rdf:resource="#quietSound"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(soundless,loud,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#loud"/>
   <hasThing rdf:resource="#soundless"/>
+  <hasThing rdf:resource="#loud"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1883,8 +1883,8 @@
 
 <Distance rdf:about="#distance(quietSound,loud,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#loud"/>
   <hasThing rdf:resource="#quietSound"/>
+  <hasThing rdf:resource="#loud"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1897,8 +1897,8 @@
 
 <Distance rdf:about="#distance(loud,painfulSound,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#loud"/>
   <hasThing rdf:resource="#painfulSound"/>
+  <hasThing rdf:resource="#loud"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
@@ -1930,15 +1930,15 @@
 
 <Distance rdf:about="#distance(goodSmell,neutralSmell,1)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#goodSmell"/>
   <hasThing rdf:resource="#neutralSmell"/>
+  <hasThing rdf:resource="#goodSmell"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(goodSmell,odorless,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#goodSmell"/>
   <hasThing rdf:resource="#odorless"/>
+  <hasThing rdf:resource="#goodSmell"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -1992,8 +1992,8 @@
 
 <Distance rdf:about="#distance(sweet,sour,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#sweet"/>
   <hasThing rdf:resource="#sour"/>
+  <hasThing rdf:resource="#sweet"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
@@ -2006,8 +2006,8 @@
 
 <Distance rdf:about="#distance(sweet,bitter,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#bitter"/>
   <hasThing rdf:resource="#sweet"/>
+  <hasThing rdf:resource="#bitter"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -2020,22 +2020,22 @@
 
 <Distance rdf:about="#distance(sour,salty,2)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#salty"/>
   <hasThing rdf:resource="#sour"/>
+  <hasThing rdf:resource="#salty"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">2.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(sour,bitter,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#bitter"/>
   <hasThing rdf:resource="#sour"/>
+  <hasThing rdf:resource="#bitter"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
 <Distance rdf:about="#distance(sour,umami,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#umami"/>
   <hasThing rdf:resource="#sour"/>
+  <hasThing rdf:resource="#umami"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 
@@ -2055,8 +2055,8 @@
 
 <Distance rdf:about="#distance(bitter,umami,3)">
   <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  <hasThing rdf:resource="#bitter"/>
   <hasThing rdf:resource="#umami"/>
+  <hasThing rdf:resource="#bitter"/>
   <hasDistanceValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3.0</hasDistanceValue>
 </Distance>
 

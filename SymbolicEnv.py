@@ -1,3 +1,4 @@
+import math
 import random
 from dataclasses import dataclass
 from typing import SupportsFloat, Any, Optional
@@ -65,6 +66,9 @@ class Stats:
 
         return self.observation_matrix.index((f(self.energy() > 25), f(self.health() > 25), f(self.mood() > 25)))
 
+    def is_terminated(self):
+        return self.health() == 0 or self.energy() == 0 or self.mood() == 0
+
     def reset(self):
         self._energy.value = 100
         self._health.value = 100
@@ -72,6 +76,13 @@ class Stats:
         self._fear.value = 0
         self._anger.value = 0
         self._sadness.value = 0
+
+    def get_reward(self):
+        def f(x: int) -> float:
+            return math.sqrt(x) if x <= 25 else x
+
+        return f(self.energy()) + f(self.health()) + f(self.mood())
+
 
 
 def flatten(lst):
@@ -189,7 +200,7 @@ class SymbolicEnv(gym.Env):
                 ])
             )[0]
 
-        return result[0] if result else None
+        return result[0] if result else self.onto['effect(sadness,1)']
 
     def _ancestors(self, x: EntityClass):
         return flatten(default_world.sparql(self._ALL_ANCESTORS, [x]))
@@ -228,7 +239,10 @@ class SymbolicEnv(gym.Env):
 
     def step(self, action: ActType) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         action = self.actions[action]
-        self.current_thing
+        effect = self._get_consequence(action, self.current_thing).hasConsequenceEffect
+        self.stats.update(effect)
+        self.current_thing = random.choice(self.individuals)
+        return self._get_obs(), self.stats.get_reward(), self.stats.is_terminated(), False, {}
 
     def _get_obs(self):
         return np.array([self.stats.get_obs(), self.individuals.index(self.current_thing)])
@@ -237,6 +251,7 @@ class SymbolicEnv(gym.Env):
         random.seed(seed)
         self.stats.reset()
         self.current_thing = random.choice(self.individuals)
+        return self._get_obs(), {}
 
 
 def plot_distance_matrix(matrix, labels):
@@ -264,9 +279,13 @@ def plot_distance_matrix(matrix, labels):
 
 if __name__ == "__main__":
     env = SymbolicEnv()
-    print(env.individuals)
-    print(env.distances)
-    print(env._get_consequence(env.onto.eat, env.onto.medicinalHerb).hasConsequenceEffect)
-    env.save()
+    observation, info = env.reset(seed=42)
+    for _ in range(1000):
+        action = env.action_space.sample()  # this is where you would insert your policy
+        observation, reward, terminated, truncated, info = env.step(action)
+
+        if terminated or truncated:
+            observation, info = env.reset()
+    env.close()
 
     # plot_distance_matrix(env.distances, env.individuals)
