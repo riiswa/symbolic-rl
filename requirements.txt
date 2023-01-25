@@ -1,2 +1,6 @@
 yamlpyowl~=0.2.1
 Owlready2~=0.39
+numpy~=1.24.1
+PyYAML~=6.0
+gymnasium~=0.27.0
+matplotlib~=3.6.3

@@ -29,5 +29,5 @@ Q[i, s, a_t] += \alpha e^{-d((i, s), (i_t, s_t))} (r_{t+1} + \gamma \text{max}_a
 $$
 with
 $$
-d((i_1, s_1), (i_2, s_2)) = \frac{|i_1 \cap i_2|}{|I|}  + d(s_1, s_2)
+d((i_1, s_1), (i_2, s_2)) = 1- \frac{|i_1 \cap i_2|}{|I|}  + d(s_1, s_2)
 $$
