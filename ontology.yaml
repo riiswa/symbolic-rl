@@ -909,11 +909,15 @@
     hasConsequenceAction:
       Domain: Consequence
       Range: Action
+      Characteristics:
+        - Functional
 
 - owl_object_property:
     hasConsequenceEntity:
       Domain: Consequence
       Range: Entity
+      Characteristics:
+        - Functional
 
 - owl_object_property:
     hasConsequenceEffect:
