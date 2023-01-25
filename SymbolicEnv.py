@@ -20,7 +20,8 @@ def remove_common_ancestors(ancestor1, ancestor2):
         return ancestor1, ancestor2
 
 
-#class Stats:
+class Stats:
+    pass
 
 
 
@@ -58,6 +59,7 @@ class SymbolicEnv(gym.Env):
     def __init__(self, ontology_file: str = "ontology.yaml"):
         self.onto: Ontology = ypo.OntologyManager(ontology_file).onto
         self._create_distances_relations()
+        self._create_effect_relations()
 
         sync_reasoner()
 
@@ -69,8 +71,6 @@ class SymbolicEnv(gym.Env):
             _individual.ancestors = self._ancestors(_individual)
         self.observation_space = spaces.Discrete(len(self.individuals))
         self.action_space = spaces.Discrete(len(self.actions))
-
-        print(self.onto.InternalSense.instances())
 
         self.distances = self._compute_distances()
         self.current_thing: Optional[EntityClass] = None
@@ -84,6 +84,15 @@ class SymbolicEnv(gym.Env):
 
                 distance.hasThing = [self.onto[arg] for arg in args[:-1]]
                 distance.hasDistanceValue = float(args[-1])
+
+    def _create_effect_relations(self):
+        pattern = r"\((.*?)\)"
+        for effect in self.onto.Effect.instances():
+            match = re.search(pattern, effect.name)
+            if match:
+                args = match.group(1).split(',')
+                effect.gives = self.onto[args[0]]
+                effect.hasEffectValue = int(args[1])
 
     def _distance(self, x: EntityClass, y: EntityClass):
         if x == y:
@@ -172,5 +181,6 @@ if __name__ == "__main__":
     env = SymbolicEnv()
     print(env.individuals)
     print(env.distances)
+    env.save()
 
     #plot_distance_matrix(env.distances, env.individuals)

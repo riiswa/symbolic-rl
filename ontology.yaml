@@ -873,6 +873,8 @@
     gives:
       Domain: Effect
       Range: InternalSense
+      Characteristics:
+        - Functional
 
 - owl_data_property:
     hasEffectValue:
