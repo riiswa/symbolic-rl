@@ -42,10 +42,11 @@ class Stats:
         self._anger = Stat(0, 50, 0)
         self._fear = Stat(0, 50, 0)
         self._sadness = Stat(0, 50, 0)
-        self.observation_matrix = [(i,j,k) for k in range(2) for j in range(2) for i in range(2)]
+        self.observation_matrix = [(i, j, k) for k in range(2) for j in range(2) for i in range(2)]
 
     def get_space(self):
         return len(self.observation_matrix)
+
     def energy(self):
         return self._energy.value
 
@@ -62,7 +63,7 @@ class Stats:
         def f(b: bool) -> int:
             return 1 if b else 0
 
-        return self.observation_matrix.index((f(self.energy() > 25), f(self.health() > 25), f(self.mood() >25)))
+        return self.observation_matrix.index((f(self.energy() > 25), f(self.health() > 25), f(self.mood() > 25)))
 
     def reset(self):
         self._energy.value = 100
@@ -71,8 +72,6 @@ class Stats:
         self._fear.value = 0
         self._anger.value = 0
         self._sadness.value = 0
-
-
 
 
 def flatten(lst):
@@ -160,7 +159,7 @@ class SymbolicEnv(gym.Env):
         for consequence in self.onto.Consequence.instances():
             match = re.search(pattern, consequence.name)
             if match:
-                args=match.group(1).split(',')
+                args = match.group(1).split(',')
                 consequence.hasConsequenceAction = self.onto[args[0]]
                 consequence.hasConsequenceEntity = self.onto[args[1]]
 
@@ -240,7 +239,6 @@ class SymbolicEnv(gym.Env):
         self.current_thing = random.choice(self.individuals)
 
 
-
 def plot_distance_matrix(matrix, labels):
     # Create the figure and axes
     fig, ax = plt.subplots()
@@ -271,4 +269,4 @@ if __name__ == "__main__":
     print(env._get_consequence(env.onto.eat, env.onto.medicinalHerb).hasConsequenceEffect)
     env.save()
 
-    #plot_distance_matrix(env.distances, env.individuals)
+    # plot_distance_matrix(env.distances, env.individuals)
