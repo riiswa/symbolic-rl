@@ -3,14 +3,21 @@ from matplotlib import pyplot as plt
 from owlready2 import *
 import random
 
-
+""" 
+A changer pour plus tard : On veut pas charger l'ontologies pour l'agent
+On veut juste charger les actions et les états qui seront donnés par l'environnement gym
+"""
 class Agent():
-    def __init__(self, ontology, lr, gamma, p, epsilon_parameters = (0.5, 0.5, 0.1, 10)):
+    def __init__(self, states, actions, lr = 0.01, gamma = 0.9, p = 1, epsilon_parameters = (0.5, 0.1, 0.1, 10)):
+        """
         self.states = ontology.Entity.instances()
         self.actions = ontology.Action.instances()
-        self.Q_table = np.zeros((len(self.states), len(self.actions)))
         self.senses = ontology.InternalSense.instances()
-        # Hyperparameters : 
+        """
+        self.states = states
+        self.actions = actions
+        self.Q_table = np.zeros((len(self.states), len(self.actions)))
+        #Hyperparameters :
         self.lr = lr 
         self.gamma = gamma 
         self.p = p # paramètre pour calculer la distance d'édition
@@ -36,26 +43,40 @@ class Agent():
         epsilon=1-(1/cosh+(time*self.esp_param[2]/nb_episodes))
         return self.esp_param[3]*epsilon 
 
-    def print_espilon_function(self) :
+    # Afficher la fonction epsilon utilisée pour l'exploration/exploitation
+    def print_espilon_function(self):
         times =list(range(0,100))
-        epsilon_values=[self.epsilon(time, self.esp_param, 100) for time in times]
+        epsilon_values=[self.epsilon(time, 100) for time in times]
         plt.plot(times, epsilon_values)
         plt.ylabel('Epsilon (Exploration %)')
         plt.xlabel('Time')
         plt.title('Epsilon function used')
+        plt.show()
 
     # Afficher de manière plus visuelle la Q_table 
     def print_heatmap_Q_table(self):
         plt.imshow(self.Q_table, cmap='hot', interpolation='nearest')
         plt.xlabel('Actions')
         plt.ylabel('States')
+        plt.title('Q-Table HeatMap')
         plt.show()
-        
-    def get_random_action(self):
-        return random.choice(self.actions)
+
+    # Choisir action (Exploration/Exploitation)
+    def chose_action(self, state, eps):
+        if np.random.uniform(0, 1.1) > eps:
+            return np.argmax(self.Q_table[state])
+        else:
+            return random.choice(self.actions)
+
+states = [0,1,2,3,4,5]
+actions = [0,1,2,3,4,5]
+agent = Agent(states, actions)
+
+print(f"Agent Q-Table : {agent.Q_table}")
+agent.print_heatmap_Q_table()
+agent.print_espilon_function()
 
 
-        
 
 
 

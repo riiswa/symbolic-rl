@@ -95,6 +95,7 @@ class SymbolicEnv(gym.Env):
         self.onto: Ontology = ypo.OntologyManager(ontology_file).onto
         self._create_distances_relations()
         self._create_effect_relations()
+        self._create_consequence_relations()
 
         sync_reasoner()
 
@@ -128,6 +129,15 @@ class SymbolicEnv(gym.Env):
                 args = match.group(1).split(',')
                 effect.gives = self.onto[args[0]]
                 effect.hasEffectValue = int(args[1])
+
+    def _create_consequence_relations(self):
+        pattern = r"\((.*?)\)"
+        for consequence in self.onto.Consequence.instances():
+            match = re.search(pattern, consequence.name)
+            if match:
+                args=match.group(1).split(',')
+                consequence.hasConsequenceAction = self.onto[args[0]]
+                consequence.hasConsequenceEntity = self.onto[args[1]]
 
     def _distance(self, x: EntityClass, y: EntityClass):
         if x == y:
