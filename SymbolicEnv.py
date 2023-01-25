@@ -1,4 +1,5 @@
 import random
+from dataclasses import dataclass
 from typing import SupportsFloat, Any, Optional
 
 import gymnasium as gym
@@ -20,9 +21,43 @@ def remove_common_ancestors(ancestor1, ancestor2):
         return ancestor1, ancestor2
 
 
-class Stats:
-    pass
+@dataclass
+class Stat:
+    min: int
+    max: int
+    value: int
 
+    def update(self, i):
+        self.value += i
+        self.value = min(self.value, self.max)
+        self.value = max(self.value, self.min)
+
+
+class Stats:
+    def __init__(self, onto: Ontology):
+        self.onto = onto
+        # TODO: This is hard-coded, we should change this in the
+        self._energy = Stat(0, 100, 100)
+        self._health = Stat(0, 100, 100)
+        self._joy = Stat(0, 50, 50)
+        self._anger = Stat(0, 50, 0)
+        self._fear = Stat(0, 50, 0)
+        self._sadness = Stat(0, 50, 0)
+
+    def energy(self):
+        return self._energy.value
+
+    def health(self):
+        return self._health.value
+
+    def mood(self):
+        return min(self._joy.value - self._anger.value - self._fear.value - self._sadness.value, 0)
+
+    def update(self, effect):
+        getattr(self, "_" + effect.gives.name).update(effect.hasEffectValue)
+
+    def _get_obs(self):
+        pass
 
 
 def flatten(lst):
