@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import yamlpyowl as ypo
 from gymnasium.core import ActType, ObsType, RenderFrame
 from owlready2 import *
-
+from Agent import Agent
 
 def remove_common_ancestors(ancestor1, ancestor2):
     if not ancestor1 or not ancestor2:
@@ -76,6 +76,14 @@ class Stats:
         self._fear.value = 0
         self._anger.value = 0
         self._sadness.value = 0
+
+    def get_stats_values(self):
+        return [self._energy.value,
+                self._health.value,
+                self._joy.value,
+                self._fear.value,
+                self._anger.value,
+                self._sadness.value]
 
     def get_reward(self):
         def f(x: int) -> float:
@@ -243,16 +251,16 @@ class SymbolicEnv(gym.Env):
         for effect in effects:
             self.stats.update(effect)
         self.current_thing = random.choice(self.individuals)
-        return self._get_obs(), self.stats.get_reward(), self.stats.is_terminated(), False, {}
+        return self.get_obs(), self.stats.get_reward(), self.stats.is_terminated(), False, {}
 
-    def _get_obs(self):
+    def get_obs(self):
         return np.array([self.stats.get_obs(), self.individuals.index(self.current_thing)])
 
     def reset(self, seed=None):
         random.seed(seed)
         self.stats.reset()
         self.current_thing = random.choice(self.individuals)
-        return self._get_obs(), {}
+        return self.get_obs(), {}
 
 
 def plot_distance_matrix(matrix, labels):
@@ -277,16 +285,58 @@ def plot_distance_matrix(matrix, labels):
     # Show the plot
     plt.show()
 
+def plot_rewards(rewards_list):
+    x = np.linspace(0, len(rewards_list), len(rewards_list))
+    plt.figure(figsize=(12,8))
+    plt.plot(x, rewards_list)
+    plt.xlabel('Iterations')
+    plt.ylabel('Reward')
+    plt.title('Evolution of reward through time')
+    plt.show()
+def plot_statistics(_stats_list):
+    # TODO: This is hard-coded, we should change this
+    stats_names = ['energy', 'health', 'joy', 'anger', 'fear', 'sadness']
+    new_stats_lists = np.zeros((len(_stats_list[0]),len(_stats_list)))
+    for i in range(len(_stats_list)):
+        for j in range(len(stats_list[0])):
+            new_stats_lists[j][i] = _stats_list[i][j]
+    x = np.linspace(0, new_stats_lists.shape[1], new_stats_lists.shape[1])
+    plt.figure(figsize=(12, 8))
+    # A verifier
+    for idx, stat in enumerate(new_stats_lists):
+        plt.plot(x, stat, label = f'{stats_names[idx]}')
+    plt.xlabel('Iterations')
+    plt.ylabel('Stats values')
+    plt.title('Evolution of statistics through time')
+    plt.legend()
+    plt.show()
 
 if __name__ == "__main__":
+    nb_episodes = 150
+
     env = SymbolicEnv()
+    print(env.action_space.n)
+    agent = Agent(states=env.individuals, actions=env.action_space)
+    rewards_list = []
+    stats_list = []
+    time = 0
     observation, info = env.reset(seed=42)
-    for _ in range(1000):
-        action = env.action_space.sample()  # this is where you would insert your policy
-        observation, reward, terminated, truncated, info = env.step(action)
+    for _ in range(nb_episodes):
+        #action = env.action_space.sample()  # this is where you would insert your policy
+        observation = env.get_obs()
+        action = agent.chose_action(observation, agent.epsilon(time, nb_episodes))
+        new_observation, reward, terminated, truncated, info = env.step(action)
+        agent.update_Q_values(observation,action,reward,new_observation,terminated)
+        rewards_list.append(reward)
+        stats_list.append(env.stats.get_stats_values())
+        time += 1
 
         if terminated or truncated:
             observation, info = env.reset()
     env.close()
 
     # plot_distance_matrix(env.distances, env.individuals)
+    plot_statistics(stats_list)
+    plot_rewards(rewards_list)
+    agent.print_heatmap_Q_table()
+    agent.print_espilon_function(nb_episodes)
