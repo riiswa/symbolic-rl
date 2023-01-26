@@ -188,19 +188,18 @@ class SymbolicEnv(gym.Env):
             )[0]
         return result[0] if result else 1
 
-    def _get_consequence(self, action, _entity):
-        result = \
-            list(
+    def _get_consequence(self, _action, _entity):
+        result = list(
                 default_world.sparql(self._GET_CONSEQUENCE, [
                     self.onto.Consequence,
-                    action,
+                    _action,
                     _entity,
                     self.onto.hasConsequenceAction,
                     self.onto.hasConsequenceEntity
                 ])
-            )[0]
-
-        return result[0] if result else self.onto['effect(sadness,1)']
+            )
+        result = flatten(result)
+        return result[0] if result else None
 
     def _ancestors(self, x: EntityClass):
         return flatten(default_world.sparql(self._ALL_ANCESTORS, [x]))
@@ -239,8 +238,10 @@ class SymbolicEnv(gym.Env):
 
     def step(self, action: ActType) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         action = self.actions[action]
-        effect = self._get_consequence(action, self.current_thing).hasConsequenceEffect
-        self.stats.update(effect)
+        consequence = self._get_consequence(action, self.current_thing)
+        effects = consequence.hasConsequenceEffect if consequence else [self.onto["effect(sadness,1)"]]
+        for effect in effects:
+            self.stats.update(effect)
         self.current_thing = random.choice(self.individuals)
         return self._get_obs(), self.stats.get_reward(), self.stats.is_terminated(), False, {}
 
