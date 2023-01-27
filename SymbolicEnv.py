@@ -13,6 +13,7 @@ from gymnasium.core import ActType, ObsType, RenderFrame
 from owlready2 import *
 from Agent import Agent
 
+
 def remove_common_ancestors(ancestor1, ancestor2):
     if not ancestor1 or not ancestor2:
         return ancestor1, ancestor2
@@ -27,6 +28,8 @@ class Stat:
     min: int
     max: int
     value: int
+    natural_increase: int
+    natural_increase_step: int
 
     def update(self, i):
         self.value += i
@@ -37,16 +40,21 @@ class Stat:
 class Stats:
     def __init__(self):
         # TODO: This is hard-coded, we should change this in the
-        self._energy = Stat(0, 100, 100)
-        self._health = Stat(0, 100, 100)
-        self._joy = Stat(0, 100, 100)
-        self._anger = Stat(0, 50, 0)
-        self._fear = Stat(0, 50, 0)
-        self._sadness = Stat(0, 50, 0)
+        self._energy = Stat(0, 100, 100, -1, 3)
+        self._health = Stat(0, 100, 100, 1, 5)
+        self._joy = Stat(0, 100, 100, 1, 10)
+        self._anger = Stat(0, 50, 0, -1, 5)
+        self._fear = Stat(0, 50, 0, -1, 5)
+        self._sadness = Stat(0, 50, 0, -1, 5)
+        self._stats = [self._energy, self._health, self._joy, self._anger, self._fear, self._sadness]
         self.observation_matrix = [(i, j, k) for k in range(2) for j in range(2) for i in range(2)]
 
-    def get_space(self):
-        return len(self.observation_matrix)
+    def compute_distance(self, i, j):
+        mat = np.array(self.observation_matrix)
+        return np.count_nonzero(mat[i] == mat[j])
+
+    def __len__(self):
+        return len(self._stats)
 
     def energy(self):
         return self._energy.value
@@ -55,7 +63,7 @@ class Stats:
         return self._health.value
 
     def mood(self):
-        return min(self._joy.value - self._anger.value - self._fear.value - self._sadness.value, 0)
+        return max(self._joy.value - self._anger.value - self._fear.value - self._sadness.value, 0)
 
     def update(self, effect):
         getattr(self, "_" + effect.gives.name).update(effect.hasEffectValue)
@@ -91,6 +99,12 @@ class Stats:
 
         return f(self.energy()) + f(self.health()) + f(self.mood())
 
+    def natural_increase_stats(self, epoch):
+        for stat in self._stats:
+            #print(epoch)
+            #print( epoch % stat.natural_increase_step == 0)
+            if epoch % stat.natural_increase_step == 0:
+                stat.update(stat.natural_increase)
 
 
 def flatten(lst):
@@ -151,8 +165,10 @@ class SymbolicEnv(gym.Env):
         self.distances = self._compute_distances()
         self.current_thing: Optional[EntityClass] = None
         self.stats = Stats()
-        self.observation_space = spaces.MultiDiscrete([self.stats.get_space(), len(self.individuals)])
+        self.observation_space = spaces.MultiDiscrete([len(self.stats), len(self.individuals)])
         self.action_space = spaces.Discrete(len(self.actions))
+
+        self.step_counter = 0
 
     def _create_distances_relations(self):
         pattern = r"\((.*?)\)"
@@ -198,14 +214,14 @@ class SymbolicEnv(gym.Env):
 
     def _get_consequence(self, _action, _entity):
         result = list(
-                default_world.sparql(self._GET_CONSEQUENCE, [
-                    self.onto.Consequence,
-                    _action,
-                    _entity,
-                    self.onto.hasConsequenceAction,
-                    self.onto.hasConsequenceEntity
-                ])
-            )
+            default_world.sparql(self._GET_CONSEQUENCE, [
+                self.onto.Consequence,
+                _action,
+                _entity,
+                self.onto.hasConsequenceAction,
+                self.onto.hasConsequenceEntity
+            ])
+        )
         result = flatten(result)
         return result[0] if result else None
 
@@ -251,14 +267,22 @@ class SymbolicEnv(gym.Env):
         for effect in effects:
             self.stats.update(effect)
         self.current_thing = random.choice(self.individuals)
+        self.stats.natural_increase_stats(self.step_counter)
+        self.step_counter += 1
         return self.get_obs(), self.stats.get_reward(), self.stats.is_terminated(), False, {}
 
     def get_obs(self):
         return np.array([self.stats.get_obs(), self.individuals.index(self.current_thing)])
 
-    def reset(self, seed=None):
+    def reset(
+        self,
+        *,
+        seed: int | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> tuple[ObsType, dict[str, Any]]:
         random.seed(seed)
         self.stats.reset()
+        self.step_counter = 0
         self.current_thing = random.choice(self.individuals)
         return self.get_obs(), {}
 
@@ -285,18 +309,21 @@ def plot_distance_matrix(matrix, labels):
     # Show the plot
     plt.show()
 
+
 def plot_rewards(rewards_list):
     x = np.linspace(0, len(rewards_list), len(rewards_list))
-    plt.figure(figsize=(12,8))
+    plt.figure(figsize=(12, 8))
     plt.plot(x, rewards_list)
     plt.xlabel('Iterations')
     plt.ylabel('Reward')
     plt.title('Evolution of reward through time')
     plt.show()
+
+
 def plot_statistics(_stats_list):
     # TODO: This is hard-coded, we should change this
     stats_names = ['energy', 'health', 'joy', 'anger', 'fear', 'sadness']
-    new_stats_lists = np.zeros((len(_stats_list[0]),len(_stats_list)))
+    new_stats_lists = np.zeros((len(_stats_list[0]), len(_stats_list)))
     for i in range(len(_stats_list)):
         for j in range(len(stats_list[0])):
             new_stats_lists[j][i] = _stats_list[i][j]
@@ -304,12 +331,13 @@ def plot_statistics(_stats_list):
     plt.figure(figsize=(12, 8))
     # A verifier
     for idx, stat in enumerate(new_stats_lists):
-        plt.plot(x, stat, label = f'{stats_names[idx]}')
+        plt.plot(x, stat, label=f'{stats_names[idx]}')
     plt.xlabel('Iterations')
     plt.ylabel('Stats values')
     plt.title('Evolution of statistics through time')
     plt.legend()
     plt.show()
+
 
 if __name__ == "__main__":
     nb_episodes = 150
@@ -322,17 +350,20 @@ if __name__ == "__main__":
     time = 0
     observation, info = env.reset(seed=42)
     for _ in range(nb_episodes):
-        #action = env.action_space.sample()  # this is where you would insert your policy
+        # action = env.action_space.sample()  # this is where you would insert your policy
+
+        # action = env.action_space.sample()  # this is where you would insert your policy
         observation = env.get_obs()
         action = agent.chose_action(observation, agent.epsilon(time, nb_episodes))
         new_observation, reward, terminated, truncated, info = env.step(action)
-        agent.update_Q_values(observation,action,reward,new_observation,terminated)
+        agent.update_Q_values(observation, action, reward, new_observation, terminated)
         rewards_list.append(reward)
         stats_list.append(env.stats.get_stats_values())
         time += 1
 
         if terminated or truncated:
             observation, info = env.reset()
+
     env.close()
 
     # plot_distance_matrix(env.distances, env.individuals)
