@@ -1,17 +1,16 @@
 import math
 import random
 from dataclasses import dataclass
-from typing import SupportsFloat, Any, Optional
+from typing import Any, Optional
 
-import gymnasium as gym
+import gym
 import numpy as np
-from gymnasium import spaces
+from gym import spaces
 import matplotlib.pyplot as plt
 
 import yamlpyowl as ypo
-from gymnasium.core import ActType, ObsType, RenderFrame
 from owlready2 import *
-from Agent import Agent
+from stable_baselines3.common.env_checker import check_env
 
 
 def remove_common_ancestors(ancestor1, ancestor2):
@@ -49,12 +48,13 @@ class Stats:
         self._stats = [self._energy, self._health, self._joy, self._anger, self._fear, self._sadness]
         self.observation_matrix = [(i, j, k) for k in range(2) for j in range(2) for i in range(2)]
 
+    @lru_cache(maxsize=None)
     def compute_distance(self, i, j):
         mat = np.array(self.observation_matrix)
-        return np.count_nonzero(mat[i] == mat[j])
+        return 1 - np.count_nonzero(mat[i] == mat[j]) / 3
 
     def __len__(self):
-        return len(self._stats)
+        return len(self.observation_matrix)
 
     def energy(self):
         return self._energy.value
@@ -77,13 +77,14 @@ class Stats:
     def is_terminated(self):
         return self.health() == 0 or self.energy() == 0 or self.mood() == 0
 
-    def reset(self):
-        self._energy.value = 100
-        self._health.value = 100
-        self._joy.value = 100
-        self._fear.value = 0
-        self._anger.value = 0
-        self._sadness.value = 0
+    def reset(self, seed = None):
+        random.seed(seed)
+        self._energy.value = random.randint(5, 95)
+        self._health.value = random.randint(5, 95)
+        self._joy.value = random.randint(75, 95)
+        self._fear.value = random.randint(0, 25)
+        self._anger.value = random.randint(0, 25)
+        self._sadness.value = random.randint(0, 25)
 
     def get_stats_values(self):
         return [self._energy.value,
@@ -97,12 +98,10 @@ class Stats:
         def f(x: int) -> float:
             return math.sqrt(x) if x <= 25 else x
 
-        return f(self.energy()) + f(self.health()) + f(self.mood())
+        return (f(self.energy()) + f(self.health()) + f(self.mood())) / 300
 
     def natural_increase_stats(self, epoch):
         for stat in self._stats:
-            #print(epoch)
-            #print( epoch % stat.natural_increase_step == 0)
             if epoch % stat.natural_increase_step == 0:
                 stat.update(stat.natural_increase)
 
@@ -254,13 +253,18 @@ class SymbolicEnv(gym.Env):
 
         return distances
 
+    @lru_cache(maxsize=None)
+    def dist(self, observation1, observation2):
+        return (self.stats.compute_distance(observation1[0], observation2[0]) * 4) + \
+               self.distances[observation1[1], observation2[1]]
+
     def save(self, file_name: str = "ontology.owl"):
         self.onto.save(file_name)
 
-    def render(self) -> RenderFrame | list[RenderFrame] | None:
+    def render(self):
         pass
 
-    def step(self, action: ActType) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+    def step(self, action):
         action = self.actions[action]
         consequence = self._get_consequence(action, self.current_thing)
         effects = consequence.hasConsequenceEffect if consequence else [self.onto["effect(sadness,1)"]]
@@ -269,7 +273,7 @@ class SymbolicEnv(gym.Env):
         self.current_thing = random.choice(self.individuals)
         self.stats.natural_increase_stats(self.step_counter)
         self.step_counter += 1
-        return self.get_obs(), self.stats.get_reward(), self.stats.is_terminated(), False, {}
+        return self.get_obs(), self.stats.get_reward(), self.stats.is_terminated(), {}
 
     def get_obs(self):
         return np.array([self.stats.get_obs(), self.individuals.index(self.current_thing)])
@@ -279,12 +283,12 @@ class SymbolicEnv(gym.Env):
         *,
         seed: int | None = None,
         options: dict[str, Any] | None = None,
-    ) -> tuple[ObsType, dict[str, Any]]:
+    ):
         random.seed(seed)
-        self.stats.reset()
+        self.stats.reset(seed)
         self.step_counter = 0
         self.current_thing = random.choice(self.individuals)
-        return self.get_obs(), {}
+        return self.get_obs()
 
 
 def plot_distance_matrix(matrix, labels):
@@ -340,34 +344,20 @@ def plot_statistics(_stats_list):
 
 
 if __name__ == "__main__":
-    nb_episodes = 150
+    from stable_baselines3 import PPO
 
     env = SymbolicEnv()
-    print(env.action_space.n)
-    agent = Agent(states=env.individuals, actions=env.action_space)
-    rewards_list = []
-    stats_list = []
-    time = 0
-    observation, info = env.reset(seed=42)
-    for _ in range(nb_episodes):
-        # action = env.action_space.sample()  # this is where you would insert your policy
+    check_env(env)
 
-        # action = env.action_space.sample()  # this is where you would insert your policy
-        observation = env.get_obs()
-        action = agent.chose_action(observation, agent.epsilon(time, nb_episodes))
-        new_observation, reward, terminated, truncated, info = env.step(action)
-        agent.update_Q_values(observation, action, reward, new_observation, terminated)
-        rewards_list.append(reward)
-        stats_list.append(env.stats.get_stats_values())
-        time += 1
+    model = PPO("MlpPolicy", env, verbose=1)
+    model.learn(total_timesteps=10000)
 
-        if terminated or truncated:
-            observation, info = env.reset()
+    observation = env.reset(seed=42)
 
+    for _ in range(1000):
+        action, _states = model.predict(observation)
+        observation, reward, terminated, info = env.step(action)
+
+        if terminated:
+            observation = env.reset()
     env.close()
-
-    # plot_distance_matrix(env.distances, env.individuals)
-    plot_statistics(stats_list)
-    plot_rewards(rewards_list)
-    agent.print_heatmap_Q_table()
-    agent.print_espilon_function(nb_episodes)
