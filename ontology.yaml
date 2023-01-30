@@ -11,7 +11,13 @@
       SubClassOf: Organism
   - Fruit:
       SubClassOf: Flora
+  - Cereal:
+      SubClassOf: Flora
+  - Tuber:
+      SubClassOf: Flora
   - Nut:
+      SubClassOf: Fruit
+  - Berry:
       SubClassOf: Fruit
   - Plant:
       SubClassOf: Flora
@@ -20,43 +26,49 @@
   - Fungus:
       SubClassOf: Flora
 
-- owl_multiple_individuals:
-      names:
-        - cactus
-        - medicinalHerb
-        - grass
-      types:
-          - Plant
+- multiple_owl_classes:
+  - NonOrganism:
+      SubClassOf: Entity
+  - Mineral:
+      SubClassOf: NonOrganism
 
-- owl_multiple_individuals:
-      names:
-          - rose
-          - sunflower
-      types:
-          - FloweringPlant
-
-- owl_multiple_individuals:
-      names:
-          - apple
-          - banana
-          - citrus
-          - rottenApple
-      types:
-          - Fruit
-
-- owl_multiple_individuals:
-      names:
-          - almond
-          - peanut
-      types:
-          - Nut
-
-- owl_multiple_individuals:
-      names:
-          - truffle
-          - deadCap
-      types:
-          - Fungus
+#- owl_multiple_individuals:
+#      names:
+#        - cactus
+#        - medicinalHerb
+#        - grass
+#      types:
+#          - Plant
+#
+#- owl_multiple_individuals:
+#      names:
+#          - rose
+#          - sunflower
+#      types:
+#          - FloweringPlant
+#
+#- owl_multiple_individuals:
+#      names:
+#          - apple
+#          - banana
+#          - citrus
+#          - rottenApple
+#      types:
+#          - Fruit
+#
+#- owl_multiple_individuals:
+#      names:
+#          - almond
+#          - peanut
+#      types:
+#          - Nut
+#
+#- owl_multiple_individuals:
+#      names:
+#          - truffle
+#          - deadCap
+#      types:
+#          - Fungus
 
 - multiple_owl_classes:
   - Sense:
@@ -134,24 +146,6 @@
     types:
         - Distance
 
-#- property_facts:
-#    hasDistanceValue:
-#      Facts:
-#        - distance(hot,warm): 1
-#        - distance(hot,neutralTemperature): 2
-#        - distance(hot,cool): 3
-#        - distance(hot,cold): 4
-#
-#        - distance(warm,neutralTemperature): 1
-#        - distance(warm,cool): 2
-#        - distance(warm,cold): 3
-#
-#        - distance(neutralTemperature,cool): 1
-#        - distance(neutralTemperature,cold): 2
-#
-#        - distance(cool,cold): 1
-
-
 - owl_object_property:
     hasTemperature:
         Characteristics:
@@ -226,53 +220,6 @@
     types:
         - Distance
 
-#- property_facts:
-#    hasDistanceValue:
-#      Facts:
-#        - distance(soft,furry): 2
-#        - distance(soft,fuzzy): 2
-#        - distance(soft,scratchy): 3
-#        - distance(soft,rough): 3
-#        - distance(soft,sticky): 3
-#        - distance(soft,smooth): 1
-#        - distance(soft,waxy): 2
-#        - distance(soft,spiky): 4
-#
-#        - distance(furry,fuzzy): 1
-#        - distance(furry,scratchy): 4
-#        - distance(furry,rough): 2
-#        - distance(furry,sticky): 3
-#        - distance(furry,smooth): 2
-#        - distance(furry,waxy): 3
-#        - distance(furry,spiky): 4
-#
-#        - distance(fuzzy,scratchy): 4
-#        - distance(fuzzy,rough): 2
-#        - distance(fuzzy,sticky): 3
-#        - distance(fuzzy,smooth): 3
-#        - distance(fuzzy,waxy): 3
-#        - distance(fuzzy,spiky): 4
-#
-#        - distance(scratchy,rough): 1
-#        - distance(scratchy,sticky): 2
-#        - distance(scratchy,smooth): 4
-#        - distance(scratchy,waxy): 4
-#        - distance(scratchy,spiky): 3
-#
-#        - distance(rough,sticky): 1
-#        - distance(rough,smooth): 4
-#        - distance(rough,waxy): 4
-#        - distance(rough,spiky): 1
-#
-#        - distance(sticky,smooth): 3
-#        - distance(sticky,waxy): 3
-#        - distance(sticky,spiky):  3
-#
-#        - distance(smooth,waxy): 2
-#        - distance(smooth,spiky): 4
-#
-#        - distance(waxy,spiky): 3
-
 - owl_object_property:
     hasTexture:
         Characteristics:
@@ -300,13 +247,6 @@
       - distance(light,neutralWeight,1)
     types:
       - Distance
-
-#- property_facts:
-#    hasDistanceValue:
-#      Facts:
-#        - distance(heavy,light): 2
-#        - distance(heavy,neutralWeight): 1
-#        - distance(light,neutralWeight): 1
 
 - owl_object_property:
     hasPressure:
@@ -380,35 +320,6 @@
         - gold
       types:
           - Color
-
-#import math
-#
-#colors = {"red": [255, 0, 0], "orange": [255, 165, 0], "yellow": [255, 255, 0], "green": [0, 128, 0], "blue": [0, 0, 255], "purple": [128, 0, 128], "pink": [255, 192, 203], "brown": [165, 42, 42], "black": [0, 0, 0], "white": [255, 255, 255], "gray": [128, 128, 128], "silver": [192, 192, 192], "gold": [255, 215, 0]}
-#
-#keys = list(colors.keys())
-#
-#from math import sqrt, pow
-#
-#def rgb_to_lab(rgb):
-#    R, G, B = rgb
-#    R, G, B = R / 255, G / 255, B / 255
-#    X, Y, Z = (0.412453*R + 0.357580*G + 0.180423*B), (0.212671*R + 0.715160*G + 0.072169*B), (0.019334*R + 0.119193*G + 0.950227*B)
-#    X, Y, Z = pow(X, (1/3)), pow(Y, (1/3)), pow(Z, (1/3))
-#    L, a, b = (116*Y) - 16, 500*(X-Y), 200*(Y-Z)
-#    return [L, a, b]
-#
-#def cie76(rgb1, rgb2):
-#    lab1 = rgb_to_lab(rgb1)
-#    lab2 = rgb_to_lab(rgb2)
-#    L1, a1, b1 = lab1
-#    L2, a2, b2 = lab2
-#    dE = sqrt(pow(L1 - L2, 2) + pow(a1 - a2, 2) + pow(b1 - b2, 2))
-#    return dE
-#
-#for i in range(len(colors)):
-#    print(" ")
-#    for j in range(i+1, len(colors)):
-#        print(f"- distance({keys[i]},{keys[j]},{round(cie76(colors[keys[i]], colors[keys[j]]) / cie76(colors['yellow'], colors['blue'])*4)})")
 
 - owl_multiple_individuals:
       names:
@@ -734,93 +645,93 @@
         Range:
             - TasteSense
 
-- property_facts:
-      hasTemperature:
-        Facts:
-          - Flora: neutralTemperature
-      hasTexture:
-        Facts:
-          - cactus: spiky
-          - medicinalHerb: soft
-          - grass: soft
-          - rose: spiky
-          - sunflower: soft
-          - apple: smooth
-          - banana: waxy
-          - citrus: waxy
-          - rottenApple: soft
-          - Nut: rough
-          - Fungus: soft
-      hasPressure:
-        Facts:
-          - Flora: light
-      hasWetness:
-        Facts:
-          - Plant: neutralWetness
-          - apple: neutralWetness
-          - banana: neutralWetness
-          - citrus: neutralWetness
-          - rottenApple: wet
-          - Nut: dry
-          - Fungus: neutralWetness
-      hasColor:
-        Facts:
-          - cactus: green
-          - medicinalHerb: green
-          - grass: green
-          - rose: red
-          - sunflower: yellow
-          - apple: green
-          - banana: yellow
-          - citrus: yellow
-          - rottenApple: green
-          - Nut: brown
-          - truffle: black
-          - deadCap: white
-      hasShape:
-        Facts:
-          - Plant: complexShape
-          - apple: sphere
-          - banana: cylinder
-          - citrus: sphere
-          - rottenApple: sphere
-          - Nut: sphere
-          - Fungus: complexShape
-      hasLight:
-        Facts:
-          - Flora: noLight
-      hasSound:
-        Facts:
-          - Flora: soundless
-      hasSmell:
-        Facts:
-          - cactus: neutralSmell
-          - medicinalHerb: badSmell
-          - grass: neutralSmell
-          - rose: goodSmell
-          - sunflower: neutralSmell
-          - apple: neutralSmell
-          - banana: neutralSmell
-          - citrus: neutralSmell
-          - rottenApple: badSmell
-          - Nut: neutralSmell
-          - truffle: goodSmell
-          - deadCap: neutralSmell
-      hasTaste:
-        Facts:
-          - cactus: sour
-          - medicinalHerb: bitter
-          - grass: bitter
-          - rose: sweet
-          - sunflower: bitter
-          - apple: sweet
-          - banana: sweet
-          - citrus: sour
-          - rottenApple: bitter
-          - almond: sweet
-          - peanut: umami
-          - truffle: umami
-          - deadCap: umami
+#- property_facts:
+#      hasTemperature:
+#        Facts:
+#          - Flora: neutralTemperature
+#      hasTexture:
+#        Facts:
+#          - cactus: spiky
+#          - medicinalHerb: soft
+#          - grass: soft
+#          - rose: spiky
+#          - sunflower: soft
+#          - apple: smooth
+#          - banana: waxy
+#          - citrus: waxy
+#          - rottenApple: soft
+#          - Nut: rough
+#          - Fungus: soft
+#      hasPressure:
+#        Facts:
+#          - Flora: light
+#      hasWetness:
+#        Facts:
+#          - Plant: neutralWetness
+#          - apple: neutralWetness
+#          - banana: neutralWetness
+#          - citrus: neutralWetness
+#          - rottenApple: wet
+#          - Nut: dry
+#          - Fungus: neutralWetness
+#      hasColor:
+#        Facts:
+#          - cactus: green
+#          - medicinalHerb: green
+#          - grass: green
+#          - rose: red
+#          - sunflower: yellow
+#          - apple: green
+#          - banana: yellow
+#          - citrus: yellow
+#          - rottenApple: green
+#          - Nut: brown
+#          - truffle: black
+#          - deadCap: white
+#      hasShape:
+#        Facts:
+#          - Plant: complexShape
+#          - apple: sphere
+#          - banana: cylinder
+#          - citrus: sphere
+#          - rottenApple: sphere
+#          - Nut: sphere
+#          - Fungus: complexShape
+#      hasLight:
+#        Facts:
+#          - Flora: noLight
+#      hasSound:
+#        Facts:
+#          - Flora: soundless
+#      hasSmell:
+#        Facts:
+#          - cactus: neutralSmell
+#          - medicinalHerb: badSmell
+#          - grass: neutralSmell
+#          - rose: goodSmell
+#          - sunflower: neutralSmell
+#          - apple: neutralSmell
+#          - banana: neutralSmell
+#          - citrus: neutralSmell
+#          - rottenApple: badSmell
+#          - Nut: neutralSmell
+#          - truffle: goodSmell
+#          - deadCap: neutralSmell
+#      hasTaste:
+#        Facts:
+#          - cactus: sour
+#          - medicinalHerb: bitter
+#          - grass: bitter
+#          - rose: sweet
+#          - sunflower: bitter
+#          - apple: sweet
+#          - banana: sweet
+#          - citrus: sour
+#          - rottenApple: bitter
+#          - almond: sweet
+#          - peanut: umami
+#          - truffle: umami
+#          - deadCap: umami
 
 - owl_class:
       Mood:
@@ -846,24 +757,20 @@
 - multiple_owl_classes:
   - Action:
       SubClassOf: "owl:Thing"
-  - AbstractEat:
-      SubClassOf: Action
-  - DoNothing:
-      SubClassOf: Action
 
 - owl_multiple_individuals:
       names:
           - eat
-          - eatCooked
-          - eatPressed
+          - cookAndEat
+          - peelAndEat
+          - build
+          - attackAndEat
+          - attack
+          - runAway
+          - collect
+          - doNothing
       types:
-          - AbstractEat
-
-- owl_multiple_individuals:
-      names:
-          - do_nothing
-      types:
-          - DoNothing
+          - Action
 
 - owl_class:
       Effect:
@@ -885,21 +792,27 @@
 
 - owl_multiple_individuals:
     names:
-        - effect(health,1)
-        - effect(energy,1)
-        - effect(joy,1)
-        - effect(anger,1)
-        - effect(sadness,1)
-        - effect(fear,1)
-
-        - effect(health,-1)
-        - effect(energy,-1)
-        - effect(joy,-1)
-        - effect(anger,-1)
-        - effect(sadness,-1)
-        - effect(fear,-1)
+      - effect(sadness,1)
     types:
-        - Effect
+      - Effect
+
+#- owl_multiple_individuals:
+#    names:
+#        - effect(health,1)
+#        - effect(energy,1)
+#        - effect(joy,1)
+#        - effect(anger,1)
+#        - effect(sadness,1)
+#        - effect(fear,1)
+#
+#        - effect(health,-1)
+#        - effect(energy,-1)
+#        - effect(joy,-1)
+#        - effect(anger,-1)
+#        - effect(sadness,-1)
+#        - effect(fear,-1)
+#    types:
+#        - Effect
 
 - owl_class:
       Consequence:
@@ -924,56 +837,56 @@
       Domain: Consequence
       Range: Effect
 
+#
+#- owl_multiple_individuals:
+#    names:
+#        - consequence(eat,medicinalHerb)
+#        - consequence(eatCooked,medicinalHerb)
+#        - consequence(eatPressed,medicinalHerb)
+#
+#        - consequence(eat,cactus)
+#        - consequence(eatCooked,cactus)
+#        - consequence(eatPressed,cactus)
+#
+#        - consequence(eat,rose)
+#        - consequence(eatCooked,rose)
+#        - consequence(eatPressed,rose)
+#        - consequence(doNothing,rose)
+#
+#        - consequence(eat,deadCap)
+#        - consequence(eatCooked,deadCap)
+#        - consequence(eatPressed,deadCap)
+#        - consequence(doNothing,deadCap)
+#
+#        - consequence(eat,apple)
+#        - consequence(eatCooked,apple)
+#        - consequence(eatPressed,apple)
+#        - consequence(doNothing,apple)
+#    types:
+#        - Consequence
 
-- owl_multiple_individuals:
-    names:
-        - consequence(eat,medicinalHerb)
-        - consequence(eatCooked,medicinalHerb)
-        - consequence(eatPressed,medicinalHerb)
-
-        - consequence(eat,cactus)
-        - consequence(eatCooked,cactus)
-        - consequence(eatPressed,cactus)
-
-        - consequence(eat,rose)
-        - consequence(eatCooked,rose)
-        - consequence(eatPressed,rose)
-        - consequence(doNothing,rose)
-
-        - consequence(eat,deadCap)
-        - consequence(eatCooked,deadCap)
-        - consequence(eatPressed,deadCap)
-        - consequence(doNothing,deadCap)
-
-        - consequence(eat,apple)
-        - consequence(eatCooked,apple)
-        - consequence(eatPressed,apple)
-        - consequence(doNothing,apple)
-    types:
-        - Consequence
-
-- property_facts:
-    hasConsequenceEffect:
-      Facts:
-        - consequence(eat,medicinalHerb): effect(health,1)
-        - consequence(eatCooked,medicinalHerb): effect(health,1)
-        - consequence(eatPressed,medicinalHerb): effect(health,1)
-
-        - consequence(eat,cactus): effect(health,-1)
-        - consequence(eatCooked,cactus): effect(health,-1)
-        - consequence(eatPressed,cactus): effect(health,-1)
-
-        - consequence(eat,rose): effect(health,-1)
-        - consequence(eatCooked,rose): effect(health,-1)
-        - consequence(eatPressed,rose): effect(energy,1)
-
-        - consequence(eat,deadCap): effect(health,-1)
-        - consequence(eatCooked,deadCap): effect(energy,1)
-        - consequence(eatPressed,deadCap): effect(health,-1)
-
-        - consequence(eat,apple): effect(energy,1)
-        - consequence(eatCooked,apple): effect(energy,1)
-        - consequence(eatPressed,apple): effect(energy,1)
+#- property_facts:
+#    hasConsequenceEffect:
+#      Facts:
+#        - consequence(eat,medicinalHerb): effect(health,1)
+#        - consequence(eatCooked,medicinalHerb): effect(health,1)
+#        - consequence(eatPressed,medicinalHerb): effect(health,1)
+#
+#        - consequence(eat,cactus): effect(health,-1)
+#        - consequence(eatCooked,cactus): effect(health,-1)
+#        - consequence(eatPressed,cactus): effect(health,-1)
+#
+#        - consequence(eat,rose): effect(health,-1)
+#        - consequence(eatCooked,rose): effect(health,-1)
+#        - consequence(eatPressed,rose): effect(energy,1)
+#
+#        - consequence(eat,deadCap): effect(health,-1)
+#        - consequence(eatCooked,deadCap): effect(energy,1)
+#        - consequence(eatPressed,deadCap): effect(health,-1)
+#
+#        - consequence(eat,apple): effect(energy,1)
+#        - consequence(eatCooked,apple): effect(energy,1)
+#        - consequence(eatPressed,apple): effect(energy,1)
 
 #- different_individuals:
 #    - __all__

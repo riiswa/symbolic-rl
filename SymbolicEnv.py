@@ -1,7 +1,7 @@
-import math
 import random
 from dataclasses import dataclass
 from typing import Any, Optional
+import yaml
 
 import gym
 import numpy as np
@@ -35,70 +35,86 @@ class Stat:
         self.value = min(self.value, self.max)
         self.value = max(self.value, self.min)
 
+    def discretize(self):
+        if self.value < self.max // 4:
+            return 0
+        elif self.value < self.max // 2:
+            return 1
+        elif self.value < 3 * self.max // 4:
+            return 2
+        else:
+            return 3
+
 
 class Stats:
     def __init__(self):
         # TODO: This is hard-coded, we should change this in the
-        self._energy = Stat(0, 100, 100, -1, 3)
-        self._health = Stat(0, 100, 100, 1, 5)
-        self._joy = Stat(0, 100, 100, 1, 10)
-        self._anger = Stat(0, 50, 0, -1, 5)
-        self._fear = Stat(0, 50, 0, -1, 5)
-        self._sadness = Stat(0, 50, 0, -1, 5)
+        self._energy = Stat(0, 20, 20, -1, 2)
+        self._health = Stat(0, 20, 20, 1, 5)
+        self._joy = Stat(0, 20, 20, 1, 10)
+        self._anger = Stat(0, 10, 0, -1, 3)
+        self._fear = Stat(0, 10, 0, -1, 3)
+        self._sadness = Stat(0, 10, 0, -1, 3)
         self._stats = [self._energy, self._health, self._joy, self._anger, self._fear, self._sadness]
-        self.observation_matrix = [(i, j, k) for k in range(2) for j in range(2) for i in range(2)]
+
+    @lru_cache(maxsize=None)
+    def vector_to_id(self, vector):
+        id = 0
+        for i in range(4):
+            id += vector[i] * 4 ** i
+        return id
+
+    @lru_cache(maxsize=None)
+    def id_to_vector(self, id):
+        vector = []
+        for i in range(4):
+            vector.append(id % 4)
+            id = id // 4
+        return np.array(vector[::-1])
 
     @lru_cache(maxsize=None)
     def compute_distance(self, i, j):
-        mat = np.array(self.observation_matrix)
-        return 1 - np.count_nonzero(mat[i] == mat[j]) / 3
+        return np.linalg.norm(self.id_to_vector(i) - self.id_to_vector(j))
 
     def __len__(self):
-        return len(self.observation_matrix)
+        return 256 # 4**4
 
     def energy(self):
-        return self._energy.value
+        return self._energy.value * self._energy.discretize()
 
     def health(self):
-        return self._health.value
+        return self._health.value * self._health.discretize()
 
     def mood(self):
-        return max(self._joy.value - self._anger.value - self._fear.value - self._sadness.value, 0)
+        return max(
+            self._joy.value * self._joy.discretize() -
+            self._anger.value * self._anger.discretize() -
+            self._fear.value * self._fear.discretize() -
+            self._sadness.value * self._sadness.discretize(),
+            0
+        )
 
     def update(self, effect):
         getattr(self, "_" + effect.gives.name).update(effect.hasEffectValue)
 
     def get_obs(self):
-        def f(b: bool) -> int:
-            return 1 if b else 0
-
-        return self.observation_matrix.index((f(self.energy() > 25), f(self.health() > 25), f(self.mood() > 25)))
+        obs = [s.discretize() for s in self._stats]
+        return self.vector_to_id((obs[0], obs[1], obs[2], int(round((obs[3] + obs[4] + obs[5])/3))))
 
     def is_terminated(self):
-        return self.health() == 0 or self.energy() == 0 or self.mood() == 0
+        return self._health.value == 0 or self._energy.value == 0
 
-    def reset(self, seed = None):
+    def reset(self, seed=None):
         random.seed(seed)
-        self._energy.value = random.randint(5, 95)
-        self._health.value = random.randint(5, 95)
-        self._joy.value = random.randint(75, 95)
-        self._fear.value = random.randint(0, 25)
-        self._anger.value = random.randint(0, 25)
-        self._sadness.value = random.randint(0, 25)
-
-    def get_stats_values(self):
-        return [self._energy.value,
-                self._health.value,
-                self._joy.value,
-                self._fear.value,
-                self._anger.value,
-                self._sadness.value]
+        self._energy.value = random.randint(5, 20)
+        self._health.value = random.randint(5, 20)
+        self._joy.value = random.randint(5, 20)
+        self._fear.value = random.randint(0, 10)
+        self._anger.value = random.randint(0, 10)
+        self._sadness.value = random.randint(0, 10)
 
     def get_reward(self):
-        def f(x: int) -> float:
-            return math.sqrt(x) if x <= 25 else x
-
-        return (f(self.energy()) + f(self.health()) + f(self.mood())) / 300
+        return (self.energy() + self.health() + self.mood()) / 240
 
     def natural_increase_stats(self, epoch):
         for stat in self._stats:
@@ -146,8 +162,10 @@ class SymbolicEnv(gym.Env):
             }
         """
 
-    def __init__(self, ontology_file: str = "ontology.yaml"):
+    def __init__(self, ontology_file: str = "ontology.yaml", individuals_file: Optional[str] = "individuals.yaml"):
         self.onto: Ontology = ypo.OntologyManager(ontology_file).onto
+        if individuals_file:
+            self._load_individuals(individuals_file)
         self._create_distances_relations()
         self._create_effect_relations()
         self._create_consequence_relations()
@@ -168,6 +186,25 @@ class SymbolicEnv(gym.Env):
         self.action_space = spaces.Discrete(len(self.actions))
 
         self.step_counter = 0
+
+    def _load_individuals(self, file="individuals.yaml"):
+        with open(file, "r") as stream:
+            data = yaml.safe_load(stream)
+        for k, v in data.items():
+            entity = self.onto[v["type"]](k) if "type" in v else self.onto[k]
+            if "attrs" in v:
+                for property, property_value in v["attrs"].items():
+                    if getattr(entity, "INDIRECT_" + property, None):
+                        raise RuntimeError(f"The property {property} is already defined for {k}")
+                    setattr(entity, property, self.onto[property_value])
+            if "consequences" in v:
+                for actions, effects in v["consequences"].items():
+                    for action in actions.split(","):
+                        action = self.onto[action]
+                        consequence = self.onto.Consequence(f"consequence({action.name},{entity.name})")
+                        for effect in effects:
+                            effect = self.onto.Effect(effect)
+                            consequence.hasConsequenceEffect.append(effect)
 
     def _create_distances_relations(self):
         pattern = r"\((.*?)\)"
@@ -243,19 +280,28 @@ class SymbolicEnv(gym.Env):
                 properties_distance = 0
                 for p in properties_intersect:
                     attr = "INDIRECT_" + p
+                    attr_i = getattr(self.individuals[i], attr)
+                    attr_j = getattr(self.individuals[j], attr)
+                    if attr_i is None:
+                        raise RuntimeError(f"Property {p} is not defined for {self.individuals[i]}")
+                    if attr_j is None:
+                        raise RuntimeError(f"Property {p} is not defined for {self.individuals[j]}")
                     properties_distance += \
-                        self._distance(getattr(self.individuals[i], attr), getattr(self.individuals[j], attr)) / \
+                        self._distance(attr_i, attr_j) / \
                         self._max_distance(getattr(self.individuals[i], attr).is_a[0])
                 properties_distance += len(properties_symmetric_difference)
 
                 distances[i, j] = tree_distance + properties_distance
                 distances[j, i] = tree_distance + properties_distance
 
+        #distances = distanes**2
+        distances = distances / distances.max()
+
         return distances
 
     @lru_cache(maxsize=None)
     def dist(self, observation1, observation2):
-        return (self.stats.compute_distance(observation1[0], observation2[0]) * 4) + \
+        return (self.stats.compute_distance(observation1[0], observation2[0])) + \
                self.distances[observation1[1], observation2[1]]
 
     def save(self, file_name: str = "ontology.owl"):
@@ -279,10 +325,10 @@ class SymbolicEnv(gym.Env):
         return np.array([self.stats.get_obs(), self.individuals.index(self.current_thing)])
 
     def reset(
-        self,
-        *,
-        seed: int | None = None,
-        options: dict[str, Any] | None = None,
+            self,
+            *,
+            seed: int | None = None,
+            options: dict[str, Any] | None = None,
     ):
         random.seed(seed)
         self.stats.reset(seed)
@@ -344,20 +390,18 @@ def plot_statistics(_stats_list):
 
 
 if __name__ == "__main__":
-    from stable_baselines3 import PPO
 
     env = SymbolicEnv()
+    print(len(env.individuals))
+    #plot_distance_matrix(env.distances, [i.name for i in env.individuals])
     check_env(env)
 
-    model = PPO("MlpPolicy", env, verbose=1)
-    model.learn(total_timesteps=10000)
+    observation = env.reset()
 
-    observation = env.reset(seed=42)
-
-    for _ in range(1000):
-        action, _states = model.predict(observation)
-        observation, reward, terminated, info = env.step(action)
+    for i in range(1000):
+        observation, reward, terminated, info = env.step(env.action_space.sample())
+        print(i, [s.value for s in env.stats._stats], reward)
 
         if terminated:
-            observation = env.reset()
+            break
     env.close()

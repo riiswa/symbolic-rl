@@ -1,0 +1,478 @@
+rose:
+  type: FloweringPlant
+  attrs:
+    hasColor: red
+    hasTemperature: neutralTemperature
+    hasTexture: spiky
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: sweet
+    hasSmell: goodSmell
+    hasShape: complexShape
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,cookAndEat,attackAndEat:
+      - effect(health,-1)
+      - effect(fear,1)
+    collect,peelAndEat:
+      - effect(joy,1)
+
+cacao:
+  type: Nut
+  attrs:
+    hasColor: brown
+    hasTemperature: neutralTemperature
+    hasTexture: rough
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: bitter
+    hasSmell: goodSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat:
+      - effect(health,-1)
+      - effect(energy,1)
+    peelAndEat:
+      - effect(energy,1)
+    cookAndEat:
+      - effect(energy,1)
+      - effect(joy,2)
+
+coconut:
+  type: Nut
+  attrs:
+    hasColor: brown
+    hasTemperature: neutralTemperature
+    hasTexture: rough
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: sweet
+    hasSmell: neutralSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,cookAndEat:
+      - effect(health,-1)
+      - effect(energy,2)
+    peelAndEat:
+      - effect(energy,2)
+
+banana:
+  type: Fruit
+  attrs:
+    hasColor: yellow
+    hasTemperature: neutralTemperature
+    hasTexture: waxy
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: sweet
+    hasSmell: goodSmell
+    hasShape: cylinder
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat:
+      - effect(energy,1)
+      - effect(anger,1)
+    peelAndEat,cookAndEat:
+      - effect(energy,1)
+
+cotton:
+  type: Plant
+  attrs:
+    hasColor: white
+    hasTemperature: neutralTemperature
+    hasTexture: soft
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: bitter
+    hasSmell: neutralSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(anger,1)
+    build,collect:
+      - effect(joy,1)
+
+
+deadCap:
+  type: Fungus
+  attrs:
+    hasColor: white
+    hasTemperature: neutralTemperature
+    hasTexture: soft
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: umami
+    hasSmell: neutralSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat:
+      - effect(health,-10)
+      - effect(fear,5)
+    cookAndEat:
+      - effect(energy,1)
+
+truffle:
+  type: Fungus
+  attrs:
+    hasColor: black
+    hasTemperature: neutralTemperature
+    hasTexture: rough
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: umami
+    hasSmell: goodSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat:
+      - effect(energy,1)
+      - effect(joy,3)
+    cookAndEat:
+      - effect(energy,1)
+      - effect(joy,5)
+    collect:
+      - effect(joy,2)
+
+grass:
+  type: Plant
+  attrs:
+    hasColor: green
+    hasTemperature: neutralTemperature
+    hasTexture: soft
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: bitter
+    hasSmell: neutralSmell
+    hasShape: complexShape
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(anger,1)
+
+healRoot:
+  type: Plant
+  attrs:
+    hasColor: green
+    hasTemperature: neutralTemperature
+    hasTexture: soft
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: bitter
+    hasSmell: badSmell
+    hasShape: complexShape
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat:
+      - effect(health,3)
+      - effect(anger,1)
+    cookAndEat:
+      - effect(health,5)
+
+carnivorousPlant:
+  type: Plant
+  attrs:
+    hasColor: green
+    hasTemperature: neutralTemperature
+    hasTexture: soft
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: bitter
+    hasSmell: badSmell
+    hasShape: complexShape
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    attackAndEat:
+      - effect(energy,1)
+      - effect(fear,1)
+    eat,cookAndEat,peelAndEat,build,collect,doNothing:
+      - effect(fear,1)
+      - effect(health,-1)
+    attack:
+      - effect(fear,1)
+
+potato:
+  type: Tuber
+  attrs:
+    hasColor: yellow
+    hasTemperature: neutralTemperature
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: umami
+    hasSmell: neutralSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat:
+      - effect(energy,1)
+      - effect(health,-1)
+    cookAndEat:
+      - effect(energy,2)
+
+rice:
+  type: Cereal
+  attrs:
+    hasColor: white
+    hasTemperature: neutralTemperature
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: umami
+    hasSmell: neutralSmell
+    hasShape: cylinder
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat:
+      - effect(energy,1)
+      - effect(anger,1)
+    cookAndEat:
+      - effect(energy,2)
+
+strawberry:
+  type: Berry
+  attrs:
+    hasColor: red
+    hasTemperature: neutralTemperature
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: sweet
+    hasSmell: neutralSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(energy,1)
+      - effect(joy,1)
+
+toxicBerry:
+  type: Berry
+  attrs:
+    hasColor: red
+    hasTemperature: neutralTemperature
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: sour
+    hasSmell: badSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(health,-1)
+      - effect(fear,2)
+
+cactus:
+  type: FloweringPlant
+  attrs:
+    hasColor: green
+    hasTemperature: neutralTemperature
+    hasTexture: spiky
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: salty
+    hasSmell: goodSmell
+    hasShape: complexShape
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,cookAndEat,attackAndEat:
+      - effect(health,-2)
+      - effect(fear,1)
+      - effect(energy,1)
+    peelAndEat:
+      - effect(energy,1)
+
+rafflesia:
+  type: FloweringPlant
+  attrs:
+    hasColor: red
+    hasTemperature: warm
+    hasTexture: waxy
+    hasPressure: heavy
+    hasWetness: neutralWetness
+    hasTaste: bitter
+    hasSmell: badSmell
+    hasShape: complexShape
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,cookAndEat,attackAndEat,peelAndEat,collect,peelAndEat:
+      - effect(health,-3)
+      - effect(fear,3)
+    runAway:
+      - effect(joy,1)
+
+greenApple:
+  type: Fruit
+  attrs:
+    hasColor:  green
+    hasTemperature: neutralTemperature
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: sweet
+    hasSmell: neutralSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(energy,1)
+
+redApple:
+  type: Fruit
+  attrs:
+    hasColor:  red
+    hasTemperature: neutralTemperature
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: sweet
+    hasSmell: neutralSmell
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(energy,1)
+
+stone:
+  type: Mineral
+  attrs:
+    hasColor: gray
+    hasTemperature: cold
+    hasTexture: rough
+    hasPressure: light
+    hasWetness: dry
+    hasTaste: salty
+    hasSmell: odorless
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(health,-2)
+      - effect(fear,2)
+    build:
+      - effect(joy,1)
+
+goldNugget:
+  type: Mineral
+  attrs:
+    hasColor: gold
+    hasTemperature: cold
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: dry
+    hasTaste: salty
+    hasSmell: odorless
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(health,-2)
+      - effect(fear,2)
+      - effect(anger,2)
+    collect:
+      - effect(joy,10)
+    build:
+      - effect(joy,5)
+
+silverNugget:
+  type: Mineral
+  attrs:
+    hasColor: silver
+    hasTemperature: cold
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: dry
+    hasTaste: salty
+    hasSmell: odorless
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(health,-2)
+      - effect(fear,2)
+      - effect(anger,2)
+    collect:
+      - effect(joy,5)
+    build:
+      - effect(joy,2)
+
+jade:
+  type: Mineral
+  attrs:
+    hasColor: green
+    hasTemperature: cold
+    hasTexture: smooth
+    hasPressure: light
+    hasWetness: dry
+    hasTaste: salty
+    hasSmell: odorless
+    hasShape: sphere
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(health,-2)
+      - effect(fear,2)
+      - effect(anger,2)
+    collect:
+      - effect(joy,5)
+    build:
+      - effect(joy,4)
+
+wood:
+  type: NonOrganism
+  attrs:
+    hasColor: brown
+    hasTemperature: neutralTemperature
+    hasTexture: rough
+    hasPressure: light
+    hasWetness: neutralWetness
+    hasTaste: bitter
+    hasSmell: neutralSmell
+    hasShape: cylinder
+    hasSound: soundless
+    hasLight: noLight
+  consequences:
+    eat,attackAndEat,peelAndEat,cookAndEat:
+      - effect(health,-1)
+      - effect(anger,1)
+    build:
+      - effect(joy,2)
+
+#- Fox
+#- Wolf
+#- Hare
+#- Rat
+#- Bear
+#- Spider
+#- Worm
+#- Chicken
+#- Cobra
+#- Duck
+#- Ostrich
+#- Deer

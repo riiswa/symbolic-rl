@@ -1,5 +1,6 @@
 import random
 from functools import lru_cache
+from tqdm import tqdm
 
 import gym
 import torch
@@ -73,7 +74,7 @@ class QLearning(BaseAlgorithm):
         epsilon_start = 1.0
         epsilon_end = 0.1
         observation = self.env.reset()
-        for step in range(total_timesteps):
+        for step in tqdm(range(total_timesteps)):
             epsilon = epsilon_start - (epsilon_start - epsilon_end) * (step / total_timesteps)
             if random.random() < epsilon:
                 action = torch.tensor(self.env.action_space.sample(), requires_grad=False)
@@ -132,16 +133,17 @@ if __name__ == "__main__":
     check_env(env)
 
     model = SymbolicQLearning(env, env.dist)
-    model.learn(total_timesteps=10000, learning_rate=0.5, discount_factor=0.5, radius=1)
+    model.learn(total_timesteps=1000, learning_rate=0.5, discount_factor=0.5, radius=1)
 
     print(model.policy.qtable)
 
     observation = env.reset()
 
-    for _ in range(1000):
+    for i in range(1000):
         action, _states = model.predict(observation)
         observation, reward, terminated, info = env.step(action)
+        print(i, [s.value for s in env.stats._stats], reward)
 
         if terminated:
-            observation = env.reset()
+            break
     env.close()
