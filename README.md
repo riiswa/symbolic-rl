@@ -1,33 +1,46 @@
-## Stats:
+# Symbolic Q-Learning
 
-- Health [0, 100]
-- Energy [0, 100]
-- Mood [0, 100] = Joy - Fear - Sadness - Anger
-  - Joy [0, 100]
-  - Fear [0, 50]
-  - Sadness: [0, 50]
-  - Anger: [0, 50]
+A reinforcement learning algorithm that implements Symbolic Q-Learning as presented in the paper:
 
- $r = f(h) + f(e) + f(m)$ with $f(x) = \sqrt{x}^{(2 - p)}$ with $p \in [0,2[$. When the value of a stat $s > 25$, $p = 0$ otherwise is a given parameter. 
+Chloé Mercier, Frédéric Alexandre, Thierry Viéville. Reinforcement Symbolic Learning. ICANN 2021
+- 30th International Conference on Artificial Neural Networks, Sep 2021, Bratislava / Virtual, Slovakia.
+ffhal-03327706f
+https://hal.inria.fr/hal-03327706/document.
 
-We have this combinations of stats, that can be considered as an internal State $I$:
+## Algorithm
 
+The SymbolicQLearning algorithm extends the QLearning algorithm by including a distance function in the update rule. The distance function is used to weight the contribution of the observed transition to the Q-value update, based on how close the new state is to the previous state. The closer the new state is, the higher the weight given to the transition, which allows the algorithm to adjust its state-action values more quickly.
+
+## Installation
+
+Requires Python 3.10 and installation of the dependencies with `pip install -r requirements.txt`.
+
+## Symbolic Environment
+
+The symbolic environment contains a Gym environment that is connected to an ontology, and contains manually defined distances between each state. 
+
+```python
+env = SymbolicEnv()
+
+observation = env.reset()
+
+for i in range(1000):
+    observation, reward, terminated, info = env.step(env.action_space.sample())
+
+    if terminated:
+        break
+env.close()
 ```
-['Unhealthy', 'Bad Mood', 'Tired']
-['Unhealthy', 'Bad Mood', 'Fit']
-['Unhealthy', 'Good Mood', 'Tired']
-['Unhealthy', 'Good Mood', 'Fit']
-['Heatlhy', 'Bad Mood', 'Tired']
-['Heatlhy', 'Bad Mood', 'Fit']
-['Heatlhy', 'Good Mood', 'Tired']
-['Heatlhy', 'Good Mood', 'Fit']]
+
+
+## Symbolic Agent
+
+The symbolic agent implements the paper formula in an efficient way (using vector operation and cache). To use it, you need to give it a function that takes two states of an environment and returns a distance (or similarity). During training you will need to define a radius. The agent is totally independent of the symbolic environment (defined just for testing). The agent uses Tensorboard to monitor the evolution of the reward at each iteration.
+
+```python
+env = SymbolicEnv()
+
+model = SymbolicQLearning(env, env.dist)
+model.learn(total_timesteps=10000, learning_rate=0.1, discount_factor=0.5, radius=0.001, log_name=f"runs/symbolic-ql-{r}")
 ```
 
-The size of Q-Table will be : $|I| \times |S| \times |A|$. We now have the following updating rule of the Q-Table:
-$$
-Q[i, s, a_t] += \alpha e^{-d((i, s), (i_t, s_t))} (r_{t+1} + \gamma \text{max}_aQ(i_{t+1}, s_{t+1}, a) - Q[i, s, a_t])
-$$
-with
-$$
-d((i_1, s_1), (i_2, s_2)) = 1- \frac{|i_1 \cap i_2|}{|I|}  + d(s_1, s_2)
-$$
