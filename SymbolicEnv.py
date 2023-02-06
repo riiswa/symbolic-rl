@@ -12,8 +12,29 @@ import yamlpyowl as ypo
 from owlready2 import *
 from stable_baselines3.common.env_checker import check_env
 
+from stats import Stats
+
 
 def remove_common_ancestors(ancestor1, ancestor2):
+    """
+    Remove common ancestors from two lists.
+
+    Given two lists `ancestor1` and `ancestor2`,
+    this function removes any common elements at the beginning of both lists.
+
+    Args:
+    ancestor1 (list): The first list of ancestors
+    ancestor2 (list): The second list of ancestors
+
+    Returns:
+    tuple: A tuple containing two lists of ancestors with common elements removed.
+
+    Example:
+    >>> remove_common_ancestors([1, 2, 3], [1, 2, 4])
+    ([3], [4])
+    >>> remove_common_ancestors([1, 2, 3], [1, 2])
+    ([3], [])
+    """
     if not ancestor1 or not ancestor2:
         return ancestor1, ancestor2
     if ancestor1[0] == ancestor2[0]:
@@ -22,111 +43,36 @@ def remove_common_ancestors(ancestor1, ancestor2):
         return ancestor1, ancestor2
 
 
-@dataclass
-class Stat:
-    min: int
-    max: int
-    value: int
-    natural_increase: int
-    natural_increase_step: int
-
-    def update(self, i):
-        self.value += i
-        self.value = min(self.value, self.max)
-        self.value = max(self.value, self.min)
-
-    def discretize(self):
-        if self.value < self.max // 4:
-            return 0
-        elif self.value < self.max // 2:
-            return 1
-        elif self.value < 3 * self.max // 4:
-            return 2
-        else:
-            return 3
-
-
-class Stats:
-    def __init__(self):
-        # TODO: This is hard-coded, we should change this in the
-        self._energy = Stat(0, 20, 20, -1, 2)
-        self._health = Stat(0, 20, 20, 1, 5)
-        self._joy = Stat(0, 20, 20, 1, 10)
-        self._anger = Stat(0, 10, 0, -1, 3)
-        self._fear = Stat(0, 10, 0, -1, 3)
-        self._sadness = Stat(0, 10, 0, -1, 3)
-        self._stats = [self._energy, self._health, self._joy, self._anger, self._fear, self._sadness]
-
-    @lru_cache(maxsize=None)
-    def vector_to_id(self, vector):
-        id = 0
-        for i in range(4):
-            id += vector[i] * 4 ** i
-        return id
-
-    @lru_cache(maxsize=None)
-    def id_to_vector(self, id):
-        vector = []
-        for i in range(4):
-            vector.append(id % 4)
-            id = id // 4
-        return np.array(vector[::-1])
-
-    @lru_cache(maxsize=None)
-    def compute_distance(self, i, j):
-        return np.linalg.norm(self.id_to_vector(i) - self.id_to_vector(j))
-
-    def __len__(self):
-        return 256 # 4**4
-
-    def energy(self):
-        return self._energy.value * self._energy.discretize()
-
-    def health(self):
-        return self._health.value * self._health.discretize()
-
-    def mood(self):
-        return max(
-            self._joy.value * self._joy.discretize() -
-            self._anger.value * self._anger.discretize() -
-            self._fear.value * self._fear.discretize() -
-            self._sadness.value * self._sadness.discretize(),
-            0
-        )
-
-    def update(self, effect):
-        getattr(self, "_" + effect.gives.name).update(effect.hasEffectValue)
-
-    def get_obs(self):
-        obs = [s.discretize() for s in self._stats]
-        return self.vector_to_id((obs[0], obs[1], obs[2], int(round((obs[3] + obs[4] + obs[5])/3))))
-
-    def is_terminated(self):
-        return self._health.value == 0 or self._energy.value == 0
-
-    def reset(self, seed=None):
-        random.seed(seed)
-        self._energy.value = random.randint(5, 20)
-        self._health.value = random.randint(5, 20)
-        self._joy.value = random.randint(5, 20)
-        self._fear.value = random.randint(0, 10)
-        self._anger.value = random.randint(0, 10)
-        self._sadness.value = random.randint(0, 10)
-
-    def get_reward(self):
-        return (self.energy() + self.health() + self.mood()) / 240
-
-    def natural_increase_stats(self, epoch):
-        for stat in self._stats:
-            if epoch % stat.natural_increase_step == 0:
-                stat.update(stat.natural_increase)
-
-
 def flatten(lst):
+    """
+    Flatten a list of lists into a single list.
+
+    Given a list of lists `lst`, this function returns a single list with all elements from the sublists.
+
+    Args:
+    lst (list): The list of lists to be flattened.
+
+    Returns:
+    list: A single list with all elements from the sublists.
+
+    Example:
+    >>> flatten([[1, 2], [3, 4], [5, 6]])
+    [1, 2, 3, 4, 5, 6]
+    >>> flatten([[1], [2, 3], []])
+    [1, 2, 3]
+    """
     return list(chain.from_iterable(lst))
 
 
 class SymbolicEnv(gym.Env):
+    """
+    A symbolic environment for reinforcement learning.
+
+    This class is a custom implementation of OpenAI Gym's `gym.Env` class. It creates an environment for reinforcement
+    learning problems that require symbolic reasoning. The class can be extended to implement specific environments by
+    defining the methods `reset`, `step`, and `render`.
+    """
+
     _DISTANCE_QUERY = """
     SELECT ?distanceValue
     WHERE {
@@ -188,6 +134,23 @@ class SymbolicEnv(gym.Env):
         self.step_counter = 0
 
     def _load_individuals(self, file="individuals.yaml"):
+        """
+            Load individuals from a YAML file and add them to the environment's ontology.
+
+            Given a YAML file `file`, this function loads individuals and their attributes and consequences.
+            The function adds the loaded individuals to the environment's ontology.
+
+            If an individual has the "type" property, it creates an instance of the specified type.
+            If an individual has the "attrs" property, it adds the attributes to the individual.
+            If an individual has the "consequences" property, it creates consequences for the individual and adds the
+            effects to the consequences.
+
+            Args:
+            file (str): The name of the YAML file to be loaded (default is "individuals.yaml").
+
+            Raises:
+            RuntimeError: If an attempt is made to add a property that is already defined for an individual.
+            """
         with open(file, "r") as stream:
             data = yaml.safe_load(stream)
         for k, v in data.items():
@@ -207,6 +170,17 @@ class SymbolicEnv(gym.Env):
                             consequence.hasConsequenceEffect.append(effect)
 
     def _create_distances_relations(self):
+        """
+        Create relationships between instances of Distance and Thing.
+
+        This function creates relationships between instances of the `Distance` and `Thing` classes.
+        The function uses a regular expression pattern to extract the names of the things involved in the distance
+        relationship and the value of the distance from the name of the Distance instance.
+
+        The extracted names are used to create a list of Thing instances, which are then set as the `hasThing`
+        attribute of the Distance instance. The extracted distance value is set as the `hasDistanceValue` attribute of
+        the Distance instance.
+        """
         pattern = r"\((.*?)\)"
         for distance in self.onto.Distance.instances():
             match = re.search(pattern, distance.name)
@@ -217,6 +191,16 @@ class SymbolicEnv(gym.Env):
                 distance.hasDistanceValue = float(args[-1])
 
     def _create_effect_relations(self):
+        """
+            Create relationships between instances of Effect and Thing.
+
+            This function creates relationships between instances of the `Effect` and `Thing` classes. The function uses
+            a regular expression pattern to extract the names of the things involved in the effect relationship and the
+            value of the effect from the name of the Effect instance.
+
+            The extracted name is used to create a Thing instance, which is then set as the `gives` attribute of the
+            Effect instance. The extracted effect value is set as the `hasEffectValue` attribute of the Effect instance.
+            """
         pattern = r"\((.*?)\)"
         for effect in self.onto.Effect.instances():
             match = re.search(pattern, effect.name)
@@ -226,6 +210,16 @@ class SymbolicEnv(gym.Env):
                 effect.hasEffectValue = int(args[1])
 
     def _create_consequence_relations(self):
+        """
+        Create relationships between instances of Consequence, Action, and Entity.
+
+        This function creates relationships between instances of the `Consequence`, `Action`, and `Entity` classes.
+        The function uses a regular expression pattern to extract the names of the actions and entities involved in the
+        consequence relationship from the name of the Consequence instance.
+
+        The extracted names are used to create instances of the Action and Entity classes, which are then set as the
+        `hasConsequenceAction` and `hasConsequenceEntity` attributes of the Consequence instance, respectively.
+        """
         pattern = r"\((.*?)\)"
         for consequence in self.onto.Consequence.instances():
             match = re.search(pattern, consequence.name)
@@ -235,6 +229,21 @@ class SymbolicEnv(gym.Env):
                 consequence.hasConsequenceEntity = self.onto[args[1]]
 
     def _distance(self, x: EntityClass, y: EntityClass):
+        """
+        Calculate the distance between two Entity instances.
+
+        This function calculates the distance between two `Entity` instances using a SPARQL query.
+        If the two instances are the same, the distance is 0.
+        Otherwise, the function executes a SPARQL query to retrieve the distance between the instances.
+        If the query returns no results, the distance is set to 1.
+
+        Args:
+        x (EntityClass): The first Entity instance.
+        y (EntityClass): The second Entity instance.
+
+        Returns:
+        int: The distance between the two Entity instances.
+        """
         if x == y:
             return 0
         result = \
@@ -242,6 +251,19 @@ class SymbolicEnv(gym.Env):
         return result[0] if result else 1
 
     def _max_distance(self, _class: ThingClass):
+        """
+            Calculate the maximum distance for a class of Things.
+
+            This function calculates the maximum distance for a class of Things using a SPARQL query.
+            The function executes a SPARQL query to retrieve the maximum distance for the specified class of Things.
+            If the query returns no results, the maximum distance is set to 1.
+
+            Args:
+            _class (ThingClass): The class of Things to calculate the maximum distance for.
+
+            Returns:
+            int: The maximum distance for the specified class of Things.
+            """
         result = \
             list(
                 default_world.sparql(self._MAX_DISTANCE_VALUE, [_class, self.onto.hasThing, self.onto.hasDistanceValue])
@@ -249,6 +271,16 @@ class SymbolicEnv(gym.Env):
         return result[0] if result else 1
 
     def _get_consequence(self, _action, _entity):
+        """
+        This method returns the consequence of a specific action on a specific entity.
+
+        Args:
+        _action (ActionClass): The action to be performed.
+        _entity (EntityClass): The entity on which the action will be performed.
+
+        Returns:
+        ConsequenceClass: The consequence of the action on the entity. If no consequence exists, returns None.
+        """
         result = list(
             default_world.sparql(self._GET_CONSEQUENCE, [
                 self.onto.Consequence,
@@ -262,9 +294,28 @@ class SymbolicEnv(gym.Env):
         return result[0] if result else None
 
     def _ancestors(self, x: EntityClass):
+        """
+        Given an instance of the EntityClass, return its ancestors in the class hierarchy of the ontology.
+
+        Args:
+        x (EntityClass): Instance of the EntityClass to find its ancestors.
+
+        Returns:
+        list: List of all the ancestors of the instance x in the class hierarchy of the ontology.
+        """
         return flatten(default_world.sparql(self._ALL_ANCESTORS, [x]))
 
     def _compute_distances(self):
+        """
+        This method computes the distances between all instances of the individuals in the ontology.
+        It uses a combination of tree distance and properties distance to calculate the distances.
+        Tree distance is the sum of the length of the ancestors of each individual.
+        Properties distance is the sum of the distances between the properties of each individual.
+        The distances are normalized by the maximum distance value.
+
+        Returns:
+            numpy.ndarray: A 2D array representing the distances between all individuals.
+        """
         distances = np.zeros((len(self.individuals), len(self.individuals)))
 
         for i in range(len(self.individuals)):
@@ -294,23 +345,58 @@ class SymbolicEnv(gym.Env):
                 distances[i, j] = tree_distance + properties_distance
                 distances[j, i] = tree_distance + properties_distance
 
-        #distances = distanes**2
         distances = distances / distances.max()
 
         return distances
 
     @lru_cache(maxsize=None)
     def dist(self, observation1, observation2):
-        return (self.stats.compute_distance(observation1[0], observation2[0])) + \
-               self.distances[observation1[1], observation2[1]]
+        """
+        Calculate the distance between two observations.
+
+        Parameters
+        ----------
+        observation1 : tuple
+            A tuple of the form (stats, individual) representing the first observation.
+        observation2 : tuple
+            A tuple of the form (stats, individual) representing the second observation.
+
+        Returns
+        -------
+        float
+            The distance between the two observations, calculated as the average of the
+            distances between their stats and their individuals.
+
+        """
+        return (self.stats.dist(observation1[0], observation2[0]) + self.distances[
+            observation1[1], observation2[1]]) / 2
 
     def save(self, file_name: str = "ontology.owl"):
+        """
+        Saves the ontology to a file.
+
+        Args:
+         file_name (str, optional): The name of the file to save the ontology to. Defaults to "ontology.owl".
+        """
         self.onto.save(file_name)
 
     def render(self):
-        pass
+        pass  # TODO
 
     def step(self, action):
+        """
+        Steps the environment based on the given action.
+
+        Parameters:
+        action (int): index of the selected action.
+
+        Returns:
+        tuple: a tuple of (observation, reward, done, info)
+            observation (tuple): a tuple of observation data.
+            reward (float): the reward obtained by taking the action.
+            done (bool): whether the episode has terminated.
+            info (dict): additional information (not used).
+        """
         action = self.actions[action]
         consequence = self._get_consequence(action, self.current_thing)
         effects = consequence.hasConsequenceEffect if consequence else [self.onto["effect(sadness,1)"]]
@@ -322,6 +408,13 @@ class SymbolicEnv(gym.Env):
         return self.get_obs(), self.stats.get_reward(), self.stats.is_terminated(), {}
 
     def get_obs(self):
+        """
+        The get_obs method returns the observation for the current state of the environment.
+
+        Returns:
+        numpy.ndarray: An array of two elements: the first element is the observation of the current stats and the
+        second element is the index of the current individual.
+        """
         return np.array([self.stats.get_obs(), self.individuals.index(self.current_thing)])
 
     def reset(
@@ -330,6 +423,21 @@ class SymbolicEnv(gym.Env):
             seed: int | None = None,
             options: dict[str, Any] | None = None,
     ):
+        """
+        Resets the environment.
+
+        Parameters
+        ----------
+        seed : int, optional
+            Random seed for environment randomness, by default None
+        options : dict[str, Any], optional
+            Dictionary of options to reset the environment with, by default None
+
+        Returns
+        -------
+        np.array
+            Observation of the environment
+        """
         random.seed(seed)
         self.stats.reset(seed)
         self.step_counter = 0
@@ -338,6 +446,13 @@ class SymbolicEnv(gym.Env):
 
 
 def plot_distance_matrix(matrix, labels):
+    """
+    Plot the distance matrix using a heatmap.
+
+    Parameters:
+    - matrix (numpy array): The distance matrix to be plotted.
+    - labels (list): A list of strings to use as labels for the rows and columns of the matrix.
+    """
     # Create the figure and axes
     fig, ax = plt.subplots()
 
@@ -360,42 +475,11 @@ def plot_distance_matrix(matrix, labels):
     plt.show()
 
 
-def plot_rewards(rewards_list):
-    x = np.linspace(0, len(rewards_list), len(rewards_list))
-    plt.figure(figsize=(12, 8))
-    plt.plot(x, rewards_list)
-    plt.xlabel('Iterations')
-    plt.ylabel('Reward')
-    plt.title('Evolution of reward through time')
-    plt.show()
-
-
-def plot_statistics(_stats_list):
-    # TODO: This is hard-coded, we should change this
-    stats_names = ['energy', 'health', 'joy', 'anger', 'fear', 'sadness']
-    new_stats_lists = np.zeros((len(_stats_list[0]), len(_stats_list)))
-    for i in range(len(_stats_list)):
-        for j in range(len(stats_list[0])):
-            new_stats_lists[j][i] = _stats_list[i][j]
-    x = np.linspace(0, new_stats_lists.shape[1], new_stats_lists.shape[1])
-    plt.figure(figsize=(12, 8))
-    # A verifier
-    for idx, stat in enumerate(new_stats_lists):
-        plt.plot(x, stat, label=f'{stats_names[idx]}')
-    plt.xlabel('Iterations')
-    plt.ylabel('Stats values')
-    plt.title('Evolution of statistics through time')
-    plt.legend()
-    plt.show()
-
-
 if __name__ == "__main__":
-
     env = SymbolicEnv()
+    env.save()
     print(len(env.individuals))
-    #plot_distance_matrix(env.distances, [i.name for i in env.individuals])
     check_env(env)
-
     observation = env.reset()
 
     for i in range(1000):

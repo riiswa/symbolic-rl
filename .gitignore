@@ -4,3 +4,4 @@ lib/
 .idea/
 __pycache__/
 *.pyc
+*.owl
