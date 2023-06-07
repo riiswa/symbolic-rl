@@ -15,6 +15,15 @@ The SymbolicQLearning algorithm extends the QLearning algorithm by including a d
 
 Requires Python 3.10 and installation of the dependencies with `pip install -r requirements.txt`.
 
+```
+python -m virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+python agents.py \\ Run agents
+python SymbolicEnv \\ Run random agents
+```
+
 ## Symbolic Environment
 
 The symbolic environment contains a Gym environment that is connected to an ontology, and contains manually defined distances between each state. 
