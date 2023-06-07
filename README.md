@@ -22,6 +22,8 @@ pip install -r requirements.txt
 
 python agents.py \\ Run agents
 python SymbolicEnv.py \\ Run random agents
+
+tensorboard --logdir=runs/ //localhost:6006
 ```
 
 ## Symbolic Environment
