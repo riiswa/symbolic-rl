@@ -21,7 +21,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 python agents.py \\ Run agents
-python SymbolicEnv \\ Run random agents
+python SymbolicEnv.py \\ Run random agents
 ```
 
 ## Symbolic Environment
